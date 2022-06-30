@@ -593,4 +593,15 @@ end
 client.connect_signal("focus", border_adjust)
 client.connect_signal("property::maximized", border_adjust)
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
+
+collectgarbage("setpause", 110)
+collectgarbage("setstepmul", 1000)
+gears.timer({
+        timeout = 5,
+        autostart = true,
+        call_now = true,
+        callback = function()
+                collectgarbage("collect")
+        end
+})
 -- }}}
