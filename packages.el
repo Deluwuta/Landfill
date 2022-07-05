@@ -49,6 +49,6 @@
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;(unpin! t)
 
-;; Aqui comienzan los packages que yo quiera meter
+;; Comenzamos a poner packages lol
 ;; syntax: (package! name-of-plugin)
 (package! evil-tutor)
