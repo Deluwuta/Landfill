@@ -29,9 +29,10 @@ end
 
 -- Autostart apps
 awful.spawn.with_shell("picom")
-awful.spawn.with_shell("nitrogen --restore")
+awful.spawn.with_shell("nitrogen --random --restore")
 awful.spawn.with_shell("/usr/bin/emacs --daemon &")
 awful.spawn.with_shell("xfce4-power-manager")
+awful.spawn.with_shell("picom -b --config /home/delta/.config/leftwm/themes/current/picom.conf")
 
 -- Add gaps to awesome :D
 -- beautiful.gap_single_client = true
@@ -62,6 +63,7 @@ beautiful.init(theme_path)
 terminal = "alacritty -e fish"
 editor = os.getenv("EDITOR") or "vim"
 editor_cmd = terminal .. " -e " .. editor
+emacs = "emacsclient -c -a 'emacs' "
 
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
@@ -290,30 +292,35 @@ globalkeys = gears.table.join(
 
     -- Restart awesome
     awful.key({ modkey, "Control" }, "r", awesome.restart,
-              {description = "reload awesome", group = "awesome"}),
+        {description = "reload awesome", group = "awesome"}),
+
     -- Quit awesome
     awful.key({ modkey, "Shift" }, "q", awesome.quit,
-              {description = "quit awesome", group = "awesome"}),
+        {description = "quit awesome", group = "awesome"}),
 
     -- Launch Terminal
     awful.key({ modkey }, "Return", function () awful.spawn(terminal) end,
-              {description = "open a terminal", group = "launcher"}),
+        {description = "open a terminal", group = "launcher"}),
 
     -- Prompt
     awful.key({ modkey }, "d", function () awful.util.spawn("rofi -show run") end,
-              {description = "run prompt", group = "launcher"}),
+        {description = "run prompt", group = "launcher"}),
 
     -- Brave
     awful.key({ modkey }, "b", function () awful.util.spawn("brave") end,
-              {description = "launch brave browser", group = "launcher"}),
+        {description = "launch brave browser", group = "launcher"}),
+
+    -- Thunar
+    awful.key({ modkey }, "f", function () awful.util.spawn("thunar") end,
+        {description = "launch thunar file manager", group = "launcher"}),
 
     -- Doom Emacs
-    awful.key({ modkey, "Shift" }, "e", function () awful.util.spawn("emacsclient -c -a 'emacs'") end,
-              {description = "launch doom emacs", group = "launcher"}),
+    awful.key({ modkey, "Shift" }, "e", function () awful.util.spawn(emacs) end,
+        {description = "launch doom emacs", group = "launcher"}),
 
     -- Launch VTerm buffer
-    awful.key({ modkey, "Shift" }, "Return", function () awful.util.spawn("emacsclient -c -a 'emacs' --eval '(+vterm/here nil)'") end,
-              {description = "launch vterm buffer", group = "launcher"}),
+    awful.key({ modkey, "Control" }, "e", function () awful.util.spawn(emacs .. "--eval '(+vterm/here nil)'") end,
+        {description = "launch vterm buffer", group = "launcher"}),
 
     awful.key({ modkey }, "x",
               function ()
