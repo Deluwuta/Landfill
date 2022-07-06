@@ -33,15 +33,10 @@
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
 (setq doom-theme 'doom-tokyo-night)
-(setq doom-font (font-spec :size 18))
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type t)
-
-;; If you use `org' and don't want your org files in the default location below,
-;; change `org-directory'. It must be set before org loads!
-(setq org-directory "~/org/")
 
 
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
@@ -80,6 +75,40 @@
 ;; they are implemented.
 
 ;; *** My own shit *** ;;
+
+;; Font settings (Big size cuz Im blind)
+(setq doom-font (font-spec :family "SauceCodePro Nerd Font Mono" :size 18))
+(setq doom-variable-pitch-font (font-spec :family "Ubuntu" :size 16)
+      doom-big-font (font-spec :family "SauceCodePro Nerd Font Mono" :size 26))
+
+;; Set bold and italic font on
+(after! doom-themes
+  (setq doom-themes-enable-bold t       ;; *word*
+        doom-themes-enable-italic t))   ;; /word/
+
 ;; Opening a terminal with fish
 (setq shell-file-name "/bin/fish"
       vterm-max-scrollback 5000)
+
+;; I prefer tabs over spaces '-'
+(setq-default indent-tabs-mode nil) ;; nil = spaces, t = tabs
+
+;; Change default tab sizes
+(setq default-tab-width 4)
+
+;; Org mode zone :^) ;;
+
+;; If you use `org' and don't want your org files in the default location below,
+;; change `org-directory'. It must be set before org loads!
+(setq org-directory "~/org/")
+
+;; Hide emphasis markers (* for bold, / for italic)
+(after! org
+  (setq org-hide-emphasis-markers t))
+
+;; Programing stuff :^) ;;
+
+;; Emphasis shit
+(custom-set-faces!
+  ;;'(font-lock-comment-face :slant italic)     ;; To change comments style
+  '(font-lock-keyword-face :slant bold))        ;; To change keywords style
