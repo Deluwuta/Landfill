@@ -52,3 +52,7 @@
 ;; Comenzamos a poner packages lol
 ;; syntax: (package! name-of-plugin)
 (package! evil-tutor)
+(package! rainbow-mode)
+(package! beacon)
+(package! haskell-mode)
+(package! lsp-haskell)

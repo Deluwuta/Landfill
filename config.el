@@ -1,4 +1,6 @@
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
+;; Never lose you cursor again!
+(beacon-mode 1)
 
 ;; Place your private configuration here! Remember, you do not need to run 'doom
 ;; sync' after modifying this file!
@@ -8,6 +10,16 @@
 ;; clients, file templates and snippets. It is optional.
 (setq user-full-name "John Doe"
       user-mail-address "john@doe.com")
+
+;; Org mode zone :^) ;;
+
+;; If you use `org' and don't want your org files in the default location below,
+;; change `org-directory'. It must be set before org loads!
+(setq org-directory "~/org/")
+
+;; Hide emphasis markers (* for bold, / for italic)
+(after! org
+  (setq org-hide-emphasis-markers t))
 
 ;; Doom exposes five (optional) variables for controlling fonts in Doom:
 ;;
@@ -91,24 +103,18 @@
       vterm-max-scrollback 5000)
 
 ;; I prefer tabs over spaces '-'
-(setq-default indent-tabs-mode nil) ;; nil = spaces, t = tabs
+(setq-default indent-tabs-mode t) ;; nil = spaces, t = tabs
 
 ;; Change default tab sizes
 (setq default-tab-width 4)
 
-;; Org mode zone :^) ;;
-
-;; If you use `org' and don't want your org files in the default location below,
-;; change `org-directory'. It must be set before org loads!
-(setq org-directory "~/org/")
-
-;; Hide emphasis markers (* for bold, / for italic)
-(after! org
-  (setq org-hide-emphasis-markers t))
+(add-hook! 'haskell-mode-hook #'lsp)
+(add-hook! 'haskell-literate-mode-hook #'lsp)
+;;(setq lsp-haskell-server-path "/usr/bin/haskell-language-server")
 
 ;; Programing stuff :^) ;;
 
 ;; Emphasis shit
 (custom-set-faces!
   ;;'(font-lock-comment-face :slant italic)     ;; To change comments style
-  '(font-lock-keyword-face :slant bold))        ;; To change keywords style
+  '(font-lock-keyword-face :slant italic))        ;; To change keywords style
