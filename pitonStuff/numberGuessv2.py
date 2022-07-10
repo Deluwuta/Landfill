@@ -4,45 +4,61 @@ import random
 
 def otorgarPista(rand, x):
     if rand > x:
-        print("El valor introducido es *menor* :^)")
+        print("El valor que tú has introducido es *menor* :^)")
     else:
-        print("El valor introducido es *mayor* :^)")
+        print("El valor que tú has introducido es *mayor* :^)")
 
 
-# Modulo principal del jueguito (Si esto fueran clases seria una encapsulacion de la ostia ngl)
-def juegarRealKEK(suelo, techo, intentos, dificultad, name):
-    print("Dificultad elegida: " + dificultad + ".\nTienes " + str(intentos) + " intentos para elegir un numero entre " + str(suelo) + " y " + str(techo) + ".\nSi llegan a 0, pierdes. Facil no?")
+# Módulo principal del juegiño (Si esto fueran clases sería una encapsulacion de la hostia, ngl)
+def juegarReal(suelo, techo, intentos, dificultad, name):
+    print("Dificultad elegida: " + dificultad + ".\nTienes " + str(intentos) + " intentos para elegir un número entre " + str(suelo) + " y " + str(techo) + ".\nSi llegan a 0, pierdes. Fácil, ¿no?")
     rand = random.randint(suelo, techo)
     win = False
-    # print(rand) # Pa pruebas
+    # print(rand) # Pa' pruebas
 
     while intentos != 0 and not win:
-        eleccion = input("Pruebe suerte: ")
-        eleccion = int(eleccion)
-        if rand == eleccion:
-            print("Su respuesta es CORRECTA. Enhorabuena " + str(name) + ", le sobraron " + str(intentos) + " intentos.")
-            win = True
-        else:
+        eleccion = input("\nPruebe suerte: ")
+        # Comprobamos que el input ha sido un número y no cualquier otra cosa
+        try:
+            eleccion = int(eleccion)
+        except:
             intentos -= 1
-            if intentos == 0:
-                print("No le quedan mas intentos. Ya me joderia ser tan putisimo inutil.")
-            else:
-                print("Su respuesta es INCORRECTA. Le quedan " + str(intentos) + " intentos. Pruebe de nuevo.")
-                otorgarPista(rand, eleccion)
+            print("Mete un número ni que sea no? '-'. Por especial te quito un intento. Te quedan " + str(intentos))
+            continue
+
+        # Confirmamos que es un número
+        intentos -= 1
+        # uwu
+        if rand == eleccion:
+            print("Tu respuesta es CORRECTA. Enhorabuena " + str(name) + ", sobraron " + str(intentos) + " intento(s).")
+            win = True
+        elif intentos == 0:
+            print("No te quedan más intentos. Ya me jodería ser tan putísimo inútil.")
+        else:
+            print("Tu respuesta es INCORRECTA. Te quedan " + str(intentos) + " intentos. Prueba de nuevo.")
+            otorgarPista(rand, eleccion)
 
 
 # Para ajustar la dificultad del juego.
-def juegar(modo, name): # Esta escrito a posta.
-    match modo:
-        case 1:
-            juegarRealKEK(0, 5, 5, "Easy", name)
-        case 2:
-            juegarRealKEK(0, 10, 8, "Normal", name)
-        case 3:
-            juegarRealKEK(0, 50, 10, "Hard", name)
+def juegar(modo, name): # Esta escrito aposta.
+    if modo == 1:
+      juegarReal(0, 5, 5, "Easy", name)
+    elif modo == 2:
+      juegarReal(0, 9, 7, "Normal", name)
+    else: # Seguro es 3 si llega aquí
+      juegarReal(0, 49, 10, "Hard", name) 
 
 
-def elegirDificultad(): # Para comprobar que el numero introducido no se sale del rango establecido
+# Para ajustar la dificultad del juego but cooler.
+def juegar2(modo):
+  return {
+    1 : [0, 5, 5, "Easy"],
+    2 : [0, 9, 7, "Normal"],
+    3 : [0, 49, 10, "Hard"],
+  }.get(modo, [])
+
+
+def elegirDificultad(): # Para comprobar que el número introducido no se sale del rango establecido
     print("Introduzca la dificultad del juego.\n1. Easy\n2. Normal\n3. Hard")
     valido = False;
     while not valido:
@@ -50,11 +66,11 @@ def elegirDificultad(): # Para comprobar que el numero introducido no se sale de
             dificultad = input()
             dificultad = int(dificultad)
             if dificultad > 3 or dificultad <= 0:
-                print("Valor no permitido. Introduzcalo de nuevo.")
+                print("Valor no permitido. Introdúzcalo de nuevo.")
             else:
                 valido = True
         except:
-            print("Valor no valido. Introduzcalo de nuevo.")
+            print("Valor no válido. Introdúzcalo de nuevo.")
     return dificultad
 
 
@@ -67,7 +83,9 @@ def introduccion():
 def main():
     jugador = introduccion()
     modo = elegirDificultad()
-    juegar(modo, jugador)
+    #juegar(modo, jugador) # Como lo hacen las personas normales
+    tupla = juegar2(modo) # Como lo hacen los auténticos psicópatas
+    juegarReal(tupla[0], tupla[1], tupla[2], tupla[3], jugador)
 
 
 if __name__ == "__main__":
