@@ -1,48 +1,31 @@
-dwm - dynamic window manager
-============================
-dwm is an extremely fast, small, and dynamic window manager for X.
+Dwm ta guapo
 
+Pa usalo tu (aka yo) (esto es como creo que seria mas "safe")
 
-Requirements
-------------
-In order to build dwm you need the Xlib header files.
-
-
-Installation
-------------
-Edit config.mk to match your local setup (dwm is installed into
-the /usr/local namespace by default).
-
-Afterwards enter the following command to build and install dwm (if
-necessary as root):
-
-    make clean install
-
-
-Running dwm
------------
-Add the following line to your .xinitrc to start dwm using startx:
-
-    exec dwm
-
-In order to connect dwm to a specific display, make sure that
-the DISPLAY environment variable is set correctly, e.g.:
-
-    DISPLAY=foo.bar:1 exec dwm
-
-(This will start dwm on display :1 of the host foo.bar.)
-
-In order to display status info in the bar, you can do something
-like this in your .xinitrc:
-
-    while xsetroot -name "`date` `uptime | sed 's/.*,//'`"
-    do
-    	sleep 1
-    done &
-    exec dwm
-
-
-Configuration
--------------
-The configuration of dwm is done by creating a custom config.h
-and (re)compiling the source code.
+    - Instalar dwm normal, sin nada
+        Para ello, descargar la build
+        git clone https://git.suckless.org/dwm
+        git clone https://git.suckless.org/st
+        dmenu ya lo tenemos
+        Tras eso meterse en la carpeta de st y hacer: sudo make clean install
+        Hacemos lo mismo en la de dwm
+        Antes de reiniciar, creamos un dwm.desktop en /usr/share/xsessions/
+        dwm.desktop tiene:
+            [Desktop Entry]
+            Encoding=UTF-8
+            Name=Dwm
+            Comment=Dynamic window manager
+            Exec=/usr/local/bin/dwm
+            Icon=dwm
+            Type=XSession
+        Y ya se podria loggear en dwm
+        
+Desde dentro de dwm ya meter los archivos de este git, reemplazar todo y rezar por que funcione
+Si eso no funciona (cosa que puede pasar)
+    - Archivos a modificar (con ctrl c ctrl v)
+        - config.h
+        - dwm.c
+        - drw.c
+Y ya creo.
+Tambien son pasados los .diff aqui, no son necesarios si con suerte el copiar todo tira. 
+GLHF
