@@ -1,0 +1,14 @@
+--- config.def.h
++++ config.def.h
+@@ -95,9 +98,9 @@ static Key keys[] = {
+ 	TAGKEYS(                        XK_5,                      4)
+ 	TAGKEYS(                        XK_6,                      5)
+ 	TAGKEYS(                        XK_7,                      6)
+-	TAGKEYS(                        XK_8,                      7)
++	 TAGKEYS(                        XK_8,                      7)
+ 	TAGKEYS(                        XK_9,                      8)
+-	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
++	{1, {{MODKEY|ShiftMask, XK_q}},					quit,           {0} },
+ };
+ 
+ /* button definitions */
