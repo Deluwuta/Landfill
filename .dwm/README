@@ -26,6 +26,8 @@ Si eso no funciona (cosa que puede pasar)
         - config.h
         - dwm.c
         - drw.c
+Dependencias:
+    yay -S noto-fonts-emoji
 Y ya creo.
 Tambien son pasados los .diff aqui, no son necesarios si con suerte el copiar todo tira. 
 GLHF
