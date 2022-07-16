@@ -20,7 +20,7 @@ static const char *colors[][3]      = {
 };
 
 /* tagging */
-static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+static const char *tags[] = { "α", "β", "γ", "Δ", "Θ", "λ", "χ", "ψ", "Ω" };
 
 static const Rule rules[] = {
 	/* xprop(1):
@@ -41,8 +41,11 @@ static const int lockfullscreen = 1; /* 1 will force focus on the fullscreen win
 static const Layout layouts[] = {
 	/* symbol     arrange function */
 	{ "[]=",      tile },    /* first entry is default */
+    { "|M|",      centeredmaster },
 	{ "><>",      NULL },    /* no layout function means floating behavior */
 	{ "[M]",      monocle },
+    //{ ">M>",      centeredfloatingmaster },
+    { NULL, NULL }, // cyclelayouts dependency
 };
 
 /* key definitions */
@@ -61,7 +64,6 @@ static const Layout layouts[] = {
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
 static const char *termcmd[]  = { "st", NULL };
-static const char *emacs[]  = { "emacs", NULL };
 
 static Keychord keychords[] = {
 	/* Keys        function        argument */
@@ -69,31 +71,45 @@ static Keychord keychords[] = {
 	{2, {{MODKEY, XK_e}, {MODKEY, XK_e}},			spawn,          {.v = termcmd } },
 
     /* My own keybindings */
-    {1, {{MODKEY, XK_Return}},      spawn,       SHCMD("alacritty -e fish")},
-    {1, {{MODKEY, XK_e}}, spawn, SHCMD("emacsclient -c -a 'emacs'")},
- 
-	{1, {{MODKEY, XK_b}},							togglebar,      {0} },
+    {1, {{MODKEY, XK_Return}},      spawn,       SHCMD("termite -e fish")},
+    {2, {{MODKEY, XK_e}, {0, XK_e}}, spawn, SHCMD("emacsclient -c -a 'emacs'")},
+    {1, {{MODKEY, XK_b}}, spawn, SHCMD("brave")},
+    {1, {{MODKEY, XK_f}}, spawn, SHCMD("thunar")},
+
+	// Your blade sir... It will KEEL
+	{1, {{MODKEY|ShiftMask, XK_c}},					killclient,     {0} },
+
+	/*** Keychords SUPER + z followed by key ***/
+	{2, {{MODKEY, XK_z}, {0, XK_b}}, togglebar, {0} }, // Hide/Show bar
+	{2, {{MODKEY, XK_z}, {0, XK_t}}, setlayout, {.v = &layouts[0]}}, // Tiled
+	{2, {{MODKEY, XK_z}, {0, XK_f}}, setlayout, {.v = &layouts[1]}}, // Floating
+	{2, {{MODKEY, XK_z}, {0, XK_m}}, setlayout, {.v = &layouts[2]}}, // Monocle
+    {2, {{MODKEY, XK_z}, {0, XK_u}}, setlayout, {.v = &layouts[3]}}, // CenteredMaster
+    {2, {{MODKEY, XK_z}, {0, XK_o}}, setlayout, {.v = &layouts[4]}}, // CenteredFloating
+
+	/*** Layout manipulation ***/
 	{1, {{MODKEY, XK_j}},							focusstack,     {.i = +1 } },
 	{1, {{MODKEY, XK_k}},							focusstack,     {.i = -1 } },
-	{1, {{MODKEY, XK_i}},							incnmaster,     {.i = +1 } },
-	{1, {{MODKEY, XK_d}},							incnmaster,     {.i = -1 } },
+	//{1, {{MODKEY, XK_i}},							incnmaster,     {.i = +1 } },
+	//{1, {{MODKEY, XK_d}},							incnmaster,     {.i = -1 } },
 	{1, {{MODKEY, XK_h}},							setmfact,       {.f = -0.05} },
 	{1, {{MODKEY, XK_l}},							setmfact,       {.f = +0.05} },
-	{1, {{MODKEY|ShiftMask, XK_Return}},			zoom,           {0} },
-	{1, {{MODKEY, XK_Tab}},							view,           {0} },
-	{1, {{MODKEY|ShiftMask, XK_c}},					killclient,     {0} },
-	{1, {{MODKEY, XK_t}},							setlayout,      {.v = &layouts[0]} },
-	{1, {{MODKEY, XK_f}},							setlayout,      {.v = &layouts[1]} },
-	{1, {{MODKEY, XK_m}},							setlayout,      {.v = &layouts[2]} },
-	{1, {{MODKEY, XK_space}},						setlayout,      {0} },
-	{1, {{MODKEY|ShiftMask, XK_space}},				togglefloating, {0} },
+	{1, {{MODKEY|ShiftMask, XK_Return}},			zoom,           {0} }, // Makes the focused window the master
+	{1, {{MODKEY, XK_Tab}},							view,           {0} }, // Rotate between the last 2 used workspaces
+	{1, {{MODKEY, XK_space}},						cyclelayout,    {.i = +1} }, // Rotates between layouts
+	{1, {{MODKEY|ShiftMask, XK_space}},				cyclelayout,    {.i = -1} },
+																		   
+	//{1, {{MODKEY|ShiftMask, XK_space}},				togglefloating, {0} },
 	{1, {{MODKEY, XK_0}},							view,           {.ui = ~0 } },
 	{1, {{MODKEY|ShiftMask, XK_0}},					tag,            {.ui = ~0 } },
-	{1, {{MODKEY, XK_comma}},						focusmon,       {.i = -1 } },
-	{1, {{MODKEY, XK_period}},						focusmon,       {.i = +1 } },
-	{1, {{MODKEY|ShiftMask, XK_comma}},				tagmon,         {.i = -1 } },
-	{1, {{MODKEY|ShiftMask, XK_period}},			tagmon,         {.i = +1 } },
 
+	// Switching between monitors (Not used in my case)
+	//{1, {{MODKEY, XK_comma}},						focusmon,       {.i = -1 } },
+	//{1, {{MODKEY, XK_period}},						focusmon,       {.i = +1 } },
+	//{1, {{MODKEY|ShiftMask, XK_comma}},				tagmon,         {.i = -1 } },
+	//{1, {{MODKEY|ShiftMask, XK_period}},			tagmon,         {.i = +1 } },
+
+	// Workspaces
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)
@@ -104,6 +120,7 @@ static Keychord keychords[] = {
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
 
+	// Quit and reload, in that order '-'
 	{1, {{MODKEY|ShiftMask, XK_q}},      quit,           {0} },
 	{1, {{MODKEY|ShiftMask, XK_r}},      quit,           {1} }, 
 };
