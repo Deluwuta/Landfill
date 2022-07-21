@@ -4,7 +4,6 @@
 
 ;; I need some colors in my life
 (rainbow-mode 1)
-
 ;; Place your private configuration here! Remember, you do not need to run 'doom
 ;; sync' after modifying this file!
 
@@ -97,6 +96,10 @@
 (setq doom-font (font-spec :family "SauceCodePro Nerd Font Mono" :size 18))
 (setq doom-variable-pitch-font (font-spec :family "Ubuntu" :size 16)
       doom-big-font (font-spec :family "SauceCodePro Nerd Font Mono" :size 26))
+
+;; Trucate lines
+(setq global-visual-line-mode 0)
+(add-hook 'prog-mode-hook (lambda () (toggle-truncate-lines 0)))
 
 ;; Set bold and italic font on
 (after! doom-themes
