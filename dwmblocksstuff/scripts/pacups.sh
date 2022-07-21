@@ -1,4 +1,6 @@
 #!/bin/sh
 
+. ~/.config/suckless/dwmblocks/scripts/colors
+
 cupd=$(checkupdates | wc -l)
-echo "$cupd updates"
+echo "^c$pacmancol^ $cupd updates"

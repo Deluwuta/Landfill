@@ -1,5 +1,7 @@
-#! /bin/bash 
+#!/bin/sh
 
-dte="$(date +"%d/%m/%Y %k:%m")"
-echo -e "$dte"
+. ~/.config/suckless/dwmblocks/scripts/colors
 
+#dte="$(date +"%d/%m/%Y %I:%M%p ")"
+dte="$(date +"%A %d, %k:%M%p ")"
+echo -e "^c$datecol^ $dte"
