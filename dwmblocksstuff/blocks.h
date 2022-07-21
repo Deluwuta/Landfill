@@ -5,7 +5,7 @@ static const Block blocks[] = {
     {" ", "~/.config/suckless/dwmblocks/scripts/kernel.sh", 0, 1},
     {" ", "~/.config/suckless/dwmblocks/scripts/diskSpace.sh", 900, 3},
     {" ", "~/.config/suckless/dwmblocks/scripts/pacups.sh", 300, 2},
-	{" ", "~/lewifi.sh", 120, 5},
+	{" ", "~/.config/suckless/dwmblocks/scripts/lewifi.sh", 120, 5},
 	{" ", "~/.config/suckless/dwmblocks/scripts/clock.sh", 30, 0},
 };
 
