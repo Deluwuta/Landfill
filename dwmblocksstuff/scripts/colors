@@ -1,45 +1,66 @@
 #!/bin/sh
 
+# Actual themes
+#Gold #F4C815
+#Antique White #F9CAD7
+#Rosy Brown #A57283
+#Light Steel Blue #C1D5DE
+#Light Steel Blue #DEEDE6
+
 # colors
 # bg / fg
-bgcol=#201e23
-
+#bgcol=#201e23
 
 # reds
-red=#bf616a
-red1=#d92d26
-red2=#A60300
+#red=#bf616a
+#red1=#d92d26
+#red2=#A60300
+#red3=#c54b6c
 
 # pinks
+#pink=#ff007f
+#pink1=#eb96aa
 
 # purples
-purple=#7681c5
+#purple=#7681c5
 
 # blues
-blue=#00d3eb
-blue1=#72e6cb
+#blue=#00d3eb
+#blue1=#72e6cb
 
 # greens
-green=#94af7d
-green1=#9fcb8d
+#green=#94af7d
+#green1=#9fcb8d
+#green2=#00ff28
+#green3=#00a31a
+#green4=#a2ffae
 
 # yellows
-yellow=#d2c661
+#yellow=#d2c661
+#yellow1=#fedd00
 
 # oranges
-orange=#f27c00
-orange1=#efa514
+#orange=#f27c00
+#orange1=#efa514
 
 # Whites/Blacks/Grays
-gray=#81a1c1
-black=#191919
+#gray=#81a1c1
+#black=#191919
 
 # Bar icons
 kernelcol=#72e6cb
-pacmancol=#94af7d
-wificol=#7681c5
+pacmancol=#eb96aa
+wificol=#C1D5DE
 diskcol=#81a1c1
 memcol=#bf616a
-datecol=#d2c661
-volcol=#9fcb8d
-brightcol=#efa514
+datecol=#F4C815
+volcol=#A57283
+brightcol=#F9CAD7
+
+batfull=#a2ffae
+bathigh=#00ff28
+bathalf=#00a31a
+batlow=#efa514
+batdanger=#d92d26
+batchar=#fedd00
+
