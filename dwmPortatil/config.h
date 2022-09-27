@@ -188,8 +188,8 @@ static Key keys[] = {
 	/*** (Dmenu scripts commands) Keychords SUPER + d followed by key ***/
 
 	/*** Volumen, Monitor backlight and keyboard backlight ***/
-	{0, XF86XK_AudioRaiseVolume, spawn, SHCMD("pamixer -i 5 ; pkill -RTMIN+6 dwmblocks")},
-	{0, XF86XK_AudioLowerVolume, spawn, SHCMD("pamixer -d 5 ; pkill -RTMIN+6 dwmblocks")},
+	{0, XF86XK_AudioRaiseVolume, spawn, SHCMD("pamixer -ui 5 ; pkill -RTMIN+6 dwmblocks")},
+	{0, XF86XK_AudioLowerVolume, spawn, SHCMD("pamixer -ud 5 ; pkill -RTMIN+6 dwmblocks")},
 
 	{0, XF86XK_MonBrightnessUp, spawn, SHCMD("brightnessctl s 5%+ ; pkill -RTMIN+8 dwmblocks")},
 	{0, XF86XK_MonBrightnessDown, spawn, SHCMD("brightnessctl s 5%- ; pkill -RTMIN+8 dwmblocks")},
