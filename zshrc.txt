@@ -1,0 +1,60 @@
+### Powerlevel10k auto
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+#########################
+
+# Lines configured by zsh-newuser-install
+HISTFILE=~/.histfile
+HISTSIZE=1000
+SAVEHIST=1000
+setopt beep notify
+bindkey -v
+# End of lines configured by zsh-newuser-install
+# The following lines were added by compinstall
+zstyle :compinstall filename '/home/delta/.zshrc'
+
+autoload -Uz compinit
+compinit
+# End of lines added by compinstall
+
+# Aliases #
+# ls with colors :D
+alias ls='lsd -a --group-dirs=first --color=always' # Files + Dirs
+alias la='lsd -alh --group-dirs=first --color=always' # Long format
+alias ll='exa -l --color=always --group-directories-first' # Long w/o dotfiles
+alias lt='exa -aT --color=always --group-directories-first' # Tree
+
+# Vim == Nvim -> true
+alias vim='nvim'
+
+# Confirm before making changes
+alias rm='rm -i' # You sure you wanna remove that?
+
+# Pacman updates
+alias pacsyu='sudo pacman -Syu'		# Update standard pkgs
+alias pacsyyu='sudo pacman -Syyu'	# Refresh pkglist & update
+
+# I use MANY window managers...
+alias shn='shutdown -h now'
+
+# UWU command
+alias uwu='~/uwu.sh | lolcat'
+
+# Powerlevel10k
+source ~/.config/zscripts/powerlevel10k/powerlevel10k.zsh-theme
+
+# PLUGINGS SECTION #
+source ~/.config/zscripts/zsh-autosuggestions/zsh-autosuggestions.zsh
+source ~/.config/zscripts/catppuccin/themes/catppuccin_mocha-zsh-syntax-highlighting.zsh
+source ~/.config/zscripts/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+# END OF PLUGINGS SECTION #
+
+neofetch --ascii_distro gentoo_small
