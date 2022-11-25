@@ -1,4 +1,14 @@
-### Powerlevel10k auto
+# Gitclones
+## Syntax highlight
+# git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.config/zscripts/zsh-syntax-highlighting
+
+## powerlevel10k
+# git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/.config/zscripts/powerlevel10k
+
+## Autosuggestions
+# 
+
+### Powerlevel10k autAutosuggestions
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
