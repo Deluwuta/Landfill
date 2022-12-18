@@ -1,4 +1,2 @@
-# DEMO 2
-
-Mucho texto
-tu mama me toca
+# Landfill
+Just a shithead uploading shit 🤙
