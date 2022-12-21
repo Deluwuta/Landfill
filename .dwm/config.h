@@ -17,12 +17,12 @@ static const unsigned int gappx     = 8;        /* gaps between windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-static const char *fonts[]          = { "Hack:size=12:antialias=true:autohint=true",
+static const char *fonts[]          = { "Hack:size=14:antialias=true:autohint=true",
                                         "Noto Color Emoji:size=12:antialias=true:autohint=true",
-										"Material Design Icons Desktop:size=14",
-                                        "Font Awesome 6 Free Solid:size=12:antialias=true:autohint=true",
-										"Font Awesome 6 Regular:size=12:antialias=true:autohint=true",
-										"Font Awesome 6 Brands:size=12:antialias=true:autohint=true"
+										"Material Design Icons Desktop:size=15",
+                                        "Font Awesome 6 Free Solid:size=14:antialias=true:autohint=true",
+										"Font Awesome 6 Regular:size=14:antialias=true:autohint=true",
+										"Font Awesome 6 Brands:size=14:antialias=true:autohint=true"
                                       };
 static const char dmenufont[]       = "Hack:size=11";
 static const char col_gray1[]       = "#222222";
@@ -104,7 +104,7 @@ static const char *colors[][3]           = {
 };
 
 /* tagging */
-static const char *tags[] = { "󰮯", "●", "\uf111", "●", "\uf111", "●", "\uf111", "●", "\uf111" };
+static const char *tags[] = { "󰮯", "⦁", "\uf111", "⦁", "\uf111", "⦁", "\uf111", "⦁", "\uf111" };
 static const char *tagsalt[] = { "α", "β", "γ", "Δ", "Θ", "λ", "χ", "ψ", "Ω" };
 static const int momentaryalttags = 0; // 1 means alttags will show only when key is held down
 
@@ -161,14 +161,16 @@ static const char *termcmd[]  = { "st", NULL };
 
 static Key keys[] = {
 	/* Keys        function        argument */
-	{MODKEY, XK_p,							spawn,          {.v = dmenucmd } },
+	{MODKEY, XK_d,							spawn,          {.v = dmenucmd } },
 //	{MODKEY, XK_e, 			spawn,          {.v = termcmd } },
 
     /* My own keybindings */
-    {MODKEY, XK_Return,      spawn,       SHCMD("termite -e fish")},
+    {MODKEY|ControlMask, XK_Return, spawn, SHCMD("alacritty -e fish")},
+	{MODKEY, XK_Return, spawn, SHCMD("alacritty")},
     {MODKEY|ShiftMask, XK_e, spawn, SHCMD("emacsclient -c -a 'emacs'")},
-    {MODKEY, XK_b, spawn, SHCMD("brave")},
+    {MODKEY, XK_b, spawn, SHCMD("librewolf")},
     {MODKEY, XK_f, spawn, SHCMD("thunar")},
+    {MODKEY|ShiftMask, XK_d, spawn, SHCMD("discord")},
 
 	// Your blade sir... It will KEEL
 	{MODKEY|ShiftMask, XK_c,					killclient,     {0} },
@@ -187,6 +189,15 @@ static Key keys[] = {
 
 	/*** (Dmenu scripts commands) Keychords SUPER + d followed by key ***/
 
+	/*** Volumen, Monitor backlight and keyboard backlight ***/
+	{0, XF86XK_AudioRaiseVolume, spawn, SHCMD("pamixer -ui 5 ; pkill -RTMIN+6 dwmblocks")},
+	{0, XF86XK_AudioLowerVolume, spawn, SHCMD("pamixer -ud 5 ; pkill -RTMIN+6 dwmblocks")},
+
+	{0, XF86XK_MonBrightnessUp, spawn, SHCMD("brightnessctl s 5%+ ; pkill -RTMIN+8 dwmblocks")},
+	{0, XF86XK_MonBrightnessDown, spawn, SHCMD("brightnessctl s 5%- ; pkill -RTMIN+8 dwmblocks")},
+
+	{0, XF86XK_KbdBrightnessUp, spawn, SHCMD("~/kbdbacklight.sh up")},
+	{0, XF86XK_KbdBrightnessDown, spawn, SHCMD("~/kbdbacklight.sh down")},
 
 	/*** Layout manipulation ***/
 	{MODKEY, XK_j,							focusstack,     {.i = +1 } },

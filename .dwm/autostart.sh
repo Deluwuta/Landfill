@@ -1,5 +1,5 @@
 #! /bin/bash
 picom &
-nitrogen --restore &
+feh --bg-scale ~/Pictures/wallpapers/makima2.jpg &
 dwmblocks &
 usr/bin/emacs --daemon &
