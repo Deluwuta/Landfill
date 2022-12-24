@@ -6,7 +6,7 @@
 # git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/.config/zscripts/powerlevel10k
 
 ## Autosuggestions
-# 
+# git clone https://github.com/zsh-users/zsh-autosuggestions ~/.config/zscripts/zsh-autosuggestions
 
 ### Powerlevel10k autAutosuggestions
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
