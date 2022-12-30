@@ -1,0 +1,254 @@
+--             __  __                       _   _                                           _     _ 
+--     /\     |  \/  |                     | | (_)                                         (_)   | |
+--    /  \    | \  / | ___  _ __   __ _  __| |  _ ___    __ _   _ __ ___   ___  _ __   ___  _  __| |
+--   / /\ \   | |\/| |/ _ \| '_ \ / _` |/ _` | | / __|  / _` | | '_ ` _ \ / _ \| '_ \ / _ \| |/ _` |
+--  / ____ \  | |  | | (_) | | | | (_| | (_| | | \__ \ | (_| | | | | | | | (_) | | | | (_) | | (_| |
+-- /_/    \_\ |_|  |_|\___/|_| |_|\__,_|\__,_| |_|___/  \__,_| |_| |_| |_|\___/|_| |_|\___/|_|\__,_|
+--                                                                                                  
+-- DeltΔ's config file.
+--
+
+import XMonad
+import Data.Monoid
+import System.Exit
+import XMonad.Util.SpawnOnce
+import XMonad.Util.Run (spawnPipe)
+
+import qualified XMonad.StackSet as W
+import qualified Data.Map        as M
+
+import XMonad.Hooks.ManageDocks
+import XMonad.Layout.Spacing (spacingWithEdge)
+
+ -- Hooks
+-- import XMonad.Hooks.DynamicLog (dynamicLogWithPP, wrap, PP(..))
+import XMonad.Hooks.EwmhDesktops -- Useful for Polybar!
+
+-- The preferred terminal program, which is used in a binding below and by
+-- certain contrib modules.
+--
+
+myTerminal :: String
+myTerminal = "kitty"
+
+-- Whether focus follows the mouse pointer.
+myFocusFollowsMouse :: Bool
+myFocusFollowsMouse = True
+
+-- Width of the window border in pixels.
+myBorderWidth :: Dimension
+myBorderWidth = 3
+
+-- mod1Mask = left alt | mod3Mask = right alt | mod4Mask = windows key (super)
+myModMask :: KeyMask
+myModMask = mod4Mask
+
+-- > workspaces = ["web", "irc", "code" ] ++ map show [4..9]
+-- myWorkspaces    = ["1","2","3","4","5","6","7","8","9"]
+myWorkspaces = ["uno", "dos", "tres" ] ++ map show [4..6]
+
+-- Border colors for unfocused and focused windows, respectively.
+myNormalBorderColor  = "#dddddd"
+myFocusedBorderColor = "#00ff00"
+
+------------------------------------------------------------------------
+-- Key bindings. Add, modify or remove key bindings here.
+myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
+
+    [
+        ((modm, xK_Return), spawn (myTerminal)),
+        ((modm, xK_d), spawn ("rofi -show run")),
+        ((modm .|. shiftMask, xK_c), kill),
+        ((modm, xK_space ), sendMessage NextLayout),
+        ((modm .|. shiftMask, xK_space ), setLayout $ XMonad.layoutHook conf),
+        ((modm, xK_n), refresh),
+
+        ((modm, xK_b), spawn ("brave")),
+        ((modm, xK_f), spawn ("thunar")),
+    
+      -- Window navigation
+        ((modm, xK_Tab), windows W.focusDown),
+        ((modm, xK_j), windows W.focusDown),
+        ((modm, xK_k), windows W.focusUp),
+        ((modm, xK_m), windows W.focusMaster),
+
+      -- Window swaping
+        ((modm .|. shiftMask, xK_Return), windows W.swapMaster),
+        ((modm .|. shiftMask, xK_j), windows W.swapDown),
+        ((modm .|. shiftMask, xK_k), windows W.swapUp),
+        
+      -- Window sizes modification
+        ((modm, xK_h), sendMessage Shrink),
+        ((modm, xK_l), sendMessage Expand),
+        ((modm, xK_t), withFocused $ windows . W.sink), -- Force to tile
+
+      -- Increment the number of windows in the master area
+        ((modm, xK_comma), sendMessage (IncMasterN 1)),
+
+      -- Deincrement the number of windows in the master area
+        ((modm, xK_period), sendMessage (IncMasterN (-1))),
+
+      -- Toggle the status bar gap
+      -- Use this binding with avoidStruts from Hooks.ManageDocks.
+      -- See also the statusBar function from Hooks.DynamicLog.
+      --
+      -- ((modm, xK_b), sendMessage ToggleStruts),
+
+      -- Quit or restart xmonad, in that order
+        ((modm .|. shiftMask, xK_q), io (exitWith ExitSuccess)),
+        ((modm .|. shiftMask, xK_r), spawn "xmonad --recompile; xmonad --restart")
+    ]
+    ++
+
+      --
+      -- mod-[1..9], Switch to workspace N
+      -- mod-shift-[1..9], Move client to workspace N
+      --
+        [((m .|. modm, k), windows $ f i)
+            | (i, k) <- zip (XMonad.workspaces conf) [xK_1 .. xK_9]
+            , (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask)]]
+        ++
+
+      --
+      -- mod-{w,e,y}, Switch to physical/Xinerama screens 1, 2, or 3
+      -- mod-shift-{w,e,y}, Move client to screen 1, 2, or 3
+      --
+        [((m .|. modm, key), screenWorkspace sc >>= flip whenJust (windows . f))
+            | (key, sc) <- zip [xK_w, xK_e, xK_y] [0..]
+            , (f, m) <- [(W.view, 0), (W.shift, shiftMask)]]
+
+
+------------------------------------------------------------------------
+-- Mouse bindings: default actions bound to mouse events
+--
+myMouseBindings (XConfig {XMonad.modMask = modm}) = M.fromList $
+
+    -- mod-button1, Set the window to floating mode and move by dragging
+    [ ((modm, button1), (\w -> focus w >> mouseMoveWindow w
+                                       >> windows W.shiftMaster))
+
+    -- mod-button2, Raise the window to the top of the stack
+    , ((modm, button2), (\w -> focus w >> windows W.shiftMaster))
+
+    -- mod-button3, Set the window to floating mode and resize by dragging
+    , ((modm, button3), (\w -> focus w >> mouseResizeWindow w
+                                       >> windows W.shiftMaster))
+
+    -- you may also bind events to the mouse scroll wheel (button4 and button5)
+    ]
+
+------------------------------------------------------------------------
+-- Layouts:
+
+-- You can specify and transform your layouts by modifying these values.
+-- If you change layout bindings be sure to use 'mod-shift-space' after
+-- restarting (with 'mod-q') to reset your layout state to the new
+-- defaults, as xmonad preserves your old layout settings by default.
+--
+-- * NOTE: XMonad.Hooks.EwmhDesktops users must remove the obsolete
+-- ewmhDesktopsLayout modifier from layoutHook. It no longer exists.
+-- Instead use the 'ewmh' function from that module to modify your
+-- defaultConfig as a whole. (See also logHook, handleEventHook, and
+-- startupHook ewmh notes.)
+--
+-- The available layouts.  Note that each layout is separated by |||,
+-- which denotes layout choice.
+--
+myLayout = avoidStruts (spacingWithEdge 6 $ tiled ||| Mirror tiled ||| Full)
+    where
+        tiled   = Tall nmaster delta ratio
+        nmaster = 1
+        ratio   = 1/2
+        delta   = 3/100
+
+------------------------------------------------------------------------
+-- Window rules:
+--
+-- Execute arbitrary actions and WindowSet manipulations when managing
+-- a new window. You can use this to, for example, always float a
+-- particular program, or have a client always appear on a particular
+-- workspace.
+--
+-- To find the property name associated with a program, use
+-- > xprop | grep WM_CLASS
+-- and click on the client you're interested in.
+--
+-- To match on the WM_NAME, you can use 'title' in the same way that
+-- 'className' and 'resource' are used below.
+--
+myManageHook = composeAll
+    [ className =? "MPlayer"        --> doFloat, 
+      className =? "Gimp"           --> doFloat,
+      resource  =? "desktop_window" --> doIgnore,
+      resource  =? "kdesktop"       --> doIgnore ]
+
+------------------------------------------------------------------------
+-- Event handling
+
+-- Defines a custom handler function for X Events. The function should
+-- return (All True) if the default handler is to be run afterwards. To
+-- combine event hooks use mappend or mconcat from Data.Monoid.
+--
+-- * NOTE: EwmhDesktops users should use the 'ewmh' function from
+-- XMonad.Hooks.EwmhDesktops to modify their defaultConfig as a whole.
+-- It will add EWMH event handling to your custom event hooks by
+-- combining them with ewmhDesktopsEventHook.
+--
+myEventHook = mempty
+
+------------------------------------------------------------------------
+-- Status bars and logging
+
+-- Perform an arbitrary action on each internal state change or X event.
+-- See the 'XMonad.Hooks.DynamicLog' extension for examples.
+--
+--
+-- * NOTE: EwmhDesktops users should use the 'ewmh' function from
+-- XMonad.Hooks.EwmhDesktops to modify their defaultConfig as a whole.
+-- It will add EWMH logHook actions to your custom log hook by
+-- combining it with ewmhDesktopsLogHook.
+
+myLogHook = return ()
+
+------------------------------------------------------------------------
+-- Startup hook
+
+-- Perform an arbitrary action each time xmonad starts or is restarted
+-- with mod-q.  Used by, e.g., XMonad.Layout.PerWorkspace to initialize
+-- per-workspace layout choices.
+--
+-- By default, do nothing.
+--
+-- * NOTE: EwmhDesktops users should use the 'ewmh' function from
+-- XMonad.Hooks.EwmhDesktops to modify their defaultConfig as a whole.
+-- It will add initialization of EWMH support to your custom startup
+-- hook by combining it with ewmhDesktopsStartup.
+--
+myStartupHook = do
+   spawnOnce "nitrogen --restore &"
+
+------------------------------------------------------------------------
+-- Now run xmonad with all the defaults we set up.
+-- Run xmonad with the settings you specify. No need to modify this.
+--
+main = do
+    handle <- spawnPipe "/home/delta/.config/polybar/launch.sh"
+    xmonad $ docks $ ewmh $ def {
+      -- simple stuff
+        terminal           = myTerminal,
+        focusFollowsMouse  = myFocusFollowsMouse,
+        borderWidth        = myBorderWidth,
+        modMask            = myModMask,
+        workspaces         = myWorkspaces,
+        normalBorderColor  = myNormalBorderColor,
+        focusedBorderColor = myFocusedBorderColor,
+      -- key bindings
+        keys               = myKeys,
+        mouseBindings      = myMouseBindings,
+      -- hooks, layouts
+        layoutHook         = myLayout,
+        manageHook         = myManageHook,
+        handleEventHook    = myEventHook,
+        startupHook        = myStartupHook,
+        logHook            = myLogHook
+    }
