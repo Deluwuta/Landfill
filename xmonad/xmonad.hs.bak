@@ -5,8 +5,9 @@
 --  / ____ \  | |  | | (_) | | | | (_| | (_| | | \__ \ | (_| | | | | | | | (_) | | | | (_) | | (_| |
 -- /_/    \_\ |_|  |_|\___/|_| |_|\__,_|\__,_| |_|___/  \__,_| |_| |_| |_|\___/|_| |_|\___/|_|\__,_|
 --                                                                                                  
--- DeltΔ's config file.
---
+-- DeltΔ's old config file.
+-- Config que funcionaba. Antiguas keybinding y sus formas de hacer las cosas
+-- No recomiendo volver aqui tras el cambio a EZConfig pero who know what may break
 
 import XMonad
 import Data.Monoid
@@ -47,85 +48,102 @@ myBorderWidth = 3
 myModMask :: KeyMask
 myModMask = mod4Mask
 
--- myWorkspaces = ["web", "irc", "code" ] ++ map show [4..9]
+-- > workspaces = ["web", "irc", "code" ] ++ map show [4..9]
 -- myWorkspaces    = ["1","2","3","4","5","6","7","8","9"]
-myWorkspaces = ["A", "B", "C", "D", "E", "F"]
-
--- (I think) Useful if you want Xmobar to be clickable (not fully)
--- myWorkspaceIndices = M.fromList $ zipWith (,) myWorkspaces [1..] -- (,) == \x y -> (x,y)
+myWorkspaces = ["uno", "dos", "tres" ] ++ map show [4..6]
 
 -- Border colors for unfocused and focused windows, respectively.
 myNormalBorderColor  = "#dddddd"
 myFocusedBorderColor = "#00ff00"
 
--- Keys 2.0
-myKeys :: [([Char], X())]
-myKeys = 
-    [
-      -- Quit and Restart, in that order
-        ("M-S-q"      , io (exitWith ExitSuccess)),
-        ("M-S-r"      , spawn "xmonad --recompile; xmonad --restart"),
-        
-      -- Oh? You're approaching me?
-        ("M-S-c"      , kill),
-
-      -- Common actions
-        ("M-<Return>" , spawn (myTerminal)),
-        ("M-d"        , spawn ("rofi -show run")),
-        ("M-b"        , spawn ("brave")),
-        ("M-f"        , spawn ("thunar")),
-
-      -- Scratchpads (ye)
-        
-      -- Window swapin
-        ("M-S-<Space>", windows W.swapMaster),
-        ("M-S-j"      , windows W.swapDown),
-        ("M-S-k"      , windows W.swapUp),
-
-      -- Window navigation
-        ("M-<Tab>"    , windows W.focusDown),
-        ("M-j"        , windows W.focusDown),
-        ("M-k"        , windows W.focusUp),
-        ("M-<Space>"  , windows W.focusMaster),
-
-      -- Window size modification
-        ("M-S-h"      , sendMessage Shrink),
-        ("M-S-l"      , sendMessage Expand),
-
-      -- Refresh size | Force to Tile
-        ("M-C-n"      , refresh), -- Refresh w size
-        ("M-S-t"      , withFocused $ windows . W.sink),
-
-      -- Unused / useless functionalities
---      -- Increment | Deincrement number of windows in master
---        ("M-,"        , sendMessage (IncMasterN 1)),
---        ("M-."        , sendMessage (IncMasterN (-1))),
-
-      -- Layout switching | Hide bar 
-        ("M-C-<Tab>"  , sendMessage NextLayout),
-        ("M-S-<Tab>"  , sendMessage ToggleStruts) -- Tapa la barra (No va con Polybar)
-   ]
-
-------------------------------------------------------------------------
--- Leftovers of old keybindings (might be helpful)
---      --
---      -- mod-[1..9], Switch to workspace N
---      -- mod-shift-[1..9], Move client to workspace N
---      --
---        [((m .|. modm, k), windows $ f i)
---            | (i, k) <- zip (XMonad.workspaces conf) [xK_1 .. xK_9]
---            , (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask)]]
---        ++
---      --
---      -- mod-{w,e,y}, Switch to physical/Xinerama screens 1, 2, or 3
---      -- mod-shift-{w,e,y}, Move client to screen 1, 2, or 3
---      --
---        [((m .|. modm, key), screenWorkspace sc >>= flip whenJust (windows . f))
---            | (key, sc) <- zip [xK_w, xK_e, xK_y] [0..]
---            , (f, m) <- [(W.view, 0), (W.shift, shiftMask)]]
+myScratchpads :: [NamedScratchpad]
+myScratchpads = [ NS "terminal" spawnTerm findTerm manageTerm ]
+    where
+        spawnTerm = myTerminal ++ " -t termScratch"
+        findTerm = title =? "termScratch"
+        manageTerm = customFloating $ W.RationalRect l t w h
+            where
+                h = 0.9
+                w = 0.9
+                t = 0.95 -h
+                l = 0/95 -w
 --
---    
+-- Needed for Scratchpads?
+    -- where nonNSP          = WSIs (return (\ws -> W.tag ws /= "NSP"))
+          -- nonEmptyNonNSP  = WSIs (return (\ws -> isJust (W.stack ws) && W.tag ws /= "NSP"))
+
+
 ------------------------------------------------------------------------
+-- Key bindings. Add, modify or remove key bindings here.
+myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
+
+    [
+        ((modm, xK_Return), spawn (myTerminal)),
+        -- ("M-<Return>", spawn (myTerminal)),
+        ((modm, xK_d), spawn ("rofi -show run")),
+        ((modm .|. shiftMask, xK_c), kill),
+        ((modm, xK_space), sendMessage NextLayout),
+        ((modm .|. shiftMask, xK_space ), setLayout $ XMonad.layoutHook conf),
+        ((modm, xK_n), refresh),
+
+      -- Scratchpads
+        -- ((modm .|. controlMask, xK_p), namedScratchpadAction $ myScratchpads "terminal")
+
+        ((modm, xK_b), spawn ("brave")),
+        ((modm, xK_f), spawn ("thunar")),
+    
+      -- Window navigation
+        ((modm, xK_Tab), windows W.focusDown),
+        ((modm, xK_j), windows W.focusDown),
+        ((modm, xK_k), windows W.focusUp),
+        ((modm, xK_m), windows W.focusMaster),
+
+      -- Window swaping
+        ((modm .|. shiftMask, xK_Return), windows W.swapMaster),
+        ((modm .|. shiftMask, xK_j), windows W.swapDown),
+        ((modm .|. shiftMask, xK_k), windows W.swapUp),
+        
+      -- Window sizes modification
+        ((modm, xK_h), sendMessage Shrink),
+        ((modm, xK_l), sendMessage Expand),
+        ((modm, xK_t), withFocused $ windows . W.sink), -- Force to tile
+
+      -- Increment the number of windows in the master area
+        ((modm, xK_comma), sendMessage (IncMasterN 1)),
+
+      -- Deincrement the number of windows in the master area
+        ((modm, xK_period), sendMessage (IncMasterN (-1))),
+
+      -- Toggle the status bar gap
+      -- Use this binding with avoidStruts from Hooks.ManageDocks.
+      -- See also the statusBar function from Hooks.DynamicLog.
+      --
+      -- ((modm, xK_b), sendMessage ToggleStruts),
+
+      -- Quit or restart xmonad, in that order
+        ((modm .|. shiftMask, xK_q), io (exitWith ExitSuccess)),
+        ((modm .|. shiftMask, xK_r), spawn "xmonad --recompile; xmonad --restart")
+    ]
+    ++
+
+      --
+      -- mod-[1..9], Switch to workspace N
+      -- mod-shift-[1..9], Move client to workspace N
+      --
+        [((m .|. modm, k), windows $ f i)
+            | (i, k) <- zip (XMonad.workspaces conf) [xK_1 .. xK_9]
+            , (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask)]]
+        ++
+
+      --
+      -- mod-{w,e,y}, Switch to physical/Xinerama screens 1, 2, or 3
+      -- mod-shift-{w,e,y}, Move client to screen 1, 2, or 3
+      --
+        [((m .|. modm, key), screenWorkspace sc >>= flip whenJust (windows . f))
+            | (key, sc) <- zip [xK_w, xK_e, xK_y] [0..]
+            , (f, m) <- [(W.view, 0), (W.shift, shiftMask)]]
+
+    
 
 ------------------------------------------------------------------------
 -- Mouse bindings: default actions bound to mouse events
@@ -190,7 +208,7 @@ myManageHook = composeAll [
     className =? "Gimp"           --> doFloat,
     resource  =? "desktop_window" --> doIgnore,
     resource  =? "kdesktop"       --> doIgnore 
-    ] 
+    ] <+> namedScratchpadManageHook myScratchpads
 
 ------------------------------------------------------------------------
 -- Event handling
@@ -241,7 +259,6 @@ myStartupHook = do
 -- Now run xmonad with all the defaults we set up.
 -- Run xmonad with the settings you specify. No need to modify this.
 --
-main :: IO ()
 main = do
     handle <- spawnPipe "/home/delta/.config/polybar/launch.sh"
     xmonad $ docks $ ewmh $ def {
@@ -254,7 +271,7 @@ main = do
         normalBorderColor  = myNormalBorderColor,
         focusedBorderColor = myFocusedBorderColor,
       -- key bindings
-        -- keys               = myKeys,
+        keys               = myKeys,
         mouseBindings      = myMouseBindings,
       -- hooks, layouts
         layoutHook         = myLayout,
@@ -262,4 +279,4 @@ main = do
         handleEventHook    = myEventHook,
         startupHook        = myStartupHook,
         logHook            = myLogHook
-    } `additionalKeysP` myKeys
+    }
