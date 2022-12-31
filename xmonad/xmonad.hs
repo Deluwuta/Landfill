@@ -8,9 +8,13 @@
 -- DeltΔ's config file.
 --
 
+ -- Base
 import XMonad
 import Data.Monoid
 import System.Exit
+
+import qualified XMonad.StackSet as W
+import qualified Data.Map        as M
 
  -- Utils
 import XMonad.Util.SpawnOnce
@@ -18,25 +22,18 @@ import XMonad.Util.Run (spawnPipe)
 import XMonad.Util.NamedScratchpad
 import XMonad.Util.EZConfig (additionalKeysP)
 
-import qualified XMonad.StackSet as W
-import qualified Data.Map        as M
-
-import XMonad.Hooks.ManageDocks
-import XMonad.Hooks.ManageHelpers (isFullscreen, doRectFloat)
+ -- Layout
 import XMonad.Layout.Spacing (spacingWithEdge)
 
  -- Hooks
 -- import XMonad.Hooks.DynamicLog (dynamicLogWithPP, wrap, PP(..))
+import XMonad.Hooks.ManageDocks
+import XMonad.Hooks.ManageHelpers (isFullscreen, doRectFloat)
 import XMonad.Hooks.EwmhDesktops -- Useful for Polybar!
-
--- The preferred terminal program, which is used in a binding below and by
--- certain contrib modules.
---
 
 myTerminal :: String
 myTerminal = "kitty"
 
--- Whether focus follows the mouse pointer.
 myFocusFollowsMouse :: Bool
 myFocusFollowsMouse = True
 
@@ -55,7 +52,6 @@ myWorkspaces = ["A", "B", "C", "D", "E", "F"]
 -- (I think) Useful if you want Xmobar to be clickable (not fully)
 -- myWorkspaceIndices = M.fromList $ zipWith (,) myWorkspaces [1..] -- (,) == \x y -> (x,y)
 
--- Border colors for unfocused and focused windows, respectively.
 myNormalBorderColor :: String
 myNormalBorderColor  = "#dddddd"
 
