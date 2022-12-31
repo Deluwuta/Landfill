@@ -7,7 +7,7 @@
 --                                                                                                  
 -- DeltΔ's old config file.
 -- Config que funcionaba. Antiguas keybinding y sus formas de hacer las cosas
--- No recomiendo volver aqui tras el cambio a EZConfig pero who know what may break
+-- No recomiendo volver aqui tras el cambio a EZConfig pero who knows what may break
 
 import XMonad
 import Data.Monoid
