@@ -22,6 +22,7 @@ import qualified XMonad.StackSet as W
 import qualified Data.Map        as M
 
 import XMonad.Hooks.ManageDocks
+import XMonad.Hooks.ManageHelpers (isFullscreen, doRectFloat)
 import XMonad.Layout.Spacing (spacingWithEdge)
 
  -- Hooks
@@ -55,11 +56,14 @@ myWorkspaces = ["A", "B", "C", "D", "E", "F"]
 -- myWorkspaceIndices = M.fromList $ zipWith (,) myWorkspaces [1..] -- (,) == \x y -> (x,y)
 
 -- Border colors for unfocused and focused windows, respectively.
+myNormalBorderColor :: String
 myNormalBorderColor  = "#dddddd"
+
+myFocusedBorderColor :: String
 myFocusedBorderColor = "#00ff00"
 
 -- Keys 2.0
-myKeys :: [([Char], X())]
+myKeys :: [(String, X())]
 myKeys = 
     [
       -- Quit and Restart, in that order
@@ -188,6 +192,7 @@ myLayout = avoidStruts (spacingWithEdge 6 $ tiled ||| Mirror tiled ||| Full)
 myManageHook = composeAll [ 
     className =? "MPlayer"        --> doFloat, 
     className =? "Gimp"           --> doFloat,
+    appName   =? "galculator"     --> doRectFloat(W.RationalRect 0.33 0.2 0.25 0.5), -- x y w h
     resource  =? "desktop_window" --> doIgnore,
     resource  =? "kdesktop"       --> doIgnore 
     ] 
@@ -253,8 +258,7 @@ main = do
         workspaces         = myWorkspaces,
         normalBorderColor  = myNormalBorderColor,
         focusedBorderColor = myFocusedBorderColor,
-      -- key bindings
-        -- keys               = myKeys,
+      -- key (mouse) bindings
         mouseBindings      = myMouseBindings,
       -- hooks, layouts
         layoutHook         = myLayout,
