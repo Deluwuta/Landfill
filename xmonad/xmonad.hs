@@ -23,7 +23,18 @@ import XMonad.Util.NamedScratchpad
 import XMonad.Util.EZConfig (additionalKeysP)
 
  -- Layout
-import XMonad.Layout.Spacing (spacingWithEdge)
+import XMonad.Layout.Spacing
+import XMonad.Layout.MultiToggle (mkToggle, EOT(EOT), (??))
+import XMonad.Layout.MultiToggle.Instances (StdTransformers(NBFULL, MIRROR, NOBORDERS))
+import XMonad.Layout.NoBorders
+import XMonad.Layout.Renamed
+import XMonad.Layout.Simplest
+import XMonad.Layout.SimplestFloat
+import XMonad.Layout.ResizableTile
+import XMonad.Layout.LayoutModifier
+
+import qualified XMonad.Layout.ToggleLayouts as T (toggleLayouts, ToggleLayout(Toggle))
+import qualified XMonad.Layout.MultiToggle as MT (Toggle(..))
 
  -- Hooks
 -- import XMonad.Hooks.DynamicLog (dynamicLogWithPP, wrap, PP(..))
@@ -71,7 +82,7 @@ myKeys =
 
       -- Common actions
         ("M-<Return>" , spawn (myTerminal)),
-        ("M-d"        , spawn ("rofi -show run")),
+        ("M-d"        , spawn ("rofi -show run -display-run 'Rufos ~>>'")),
         ("M-b"        , spawn ("brave")),
         ("M-f"        , spawn ("thunar")),
 
@@ -95,6 +106,8 @@ myKeys =
       -- Refresh size | Force to Tile
         ("M-C-n"      , refresh), -- Refresh w size
         ("M-S-t"      , withFocused $ windows . W.sink),
+
+        ("M-C-<Space>", sendMessage (MT.Toggle NBFULL) >> sendMessage ToggleStruts),
 
       -- Unused / useless functionalities
 --      -- Increment | Deincrement number of windows in master
@@ -148,27 +161,24 @@ myMouseBindings (XConfig {XMonad.modMask = modm}) = M.fromList $
 
 ------------------------------------------------------------------------
 -- Layouts:
+mySpacing :: Integer -> l a -> XMonad.Layout.LayoutModifier.ModifiedLayout Spacing l a
+mySpacing i = spacingRaw False (Border i i i i) True (Border i i i i) True
 
--- You can specify and transform your layouts by modifying these values.
--- If you change layout bindings be sure to use 'mod-shift-space' after
--- restarting (with 'mod-q') to reset your layout state to the new
--- defaults, as xmonad preserves your old layout settings by default.
---
--- * NOTE: XMonad.Hooks.EwmhDesktops users must remove the obsolete
--- ewmhDesktopsLayout modifier from layoutHook. It no longer exists.
--- Instead use the 'ewmh' function from that module to modify your
--- defaultConfig as a whole. (See also logHook, handleEventHook, and
--- startupHook ewmh notes.)
---
--- The available layouts.  Note that each layout is separated by |||,
--- which denotes layout choice.
---
-myLayout = avoidStruts (spacingWithEdge 6 $ tiled ||| Mirror tiled ||| Full)
+tall = renamed [Replace "tall"]
+        $ smartBorders
+        $ mySpacing 6
+        $ ResizableTall 1 (3/100) (1/2) []
+
+floats = renamed [Replace "floats"]
+        $ smartBorders
+        $ simplestFloat
+
+myLayoutHook = avoidStruts
+           $ T.toggleLayouts floats
+           $ mkToggle (NBFULL ?? NOBORDERS ?? EOT) myDefaultLayout
     where
-        tiled   = Tall nmaster delta ratio
-        nmaster = 1
-        ratio   = 1/2
-        delta   = 3/100
+        myDefaultLayout = withBorder myBorderWidth tall |||
+                                                   floats
 
 ------------------------------------------------------------------------
 -- Window rules:
@@ -257,7 +267,7 @@ main = do
       -- key (mouse) bindings
         mouseBindings      = myMouseBindings,
       -- hooks, layouts
-        layoutHook         = myLayout,
+        layoutHook         = myLayoutHook,
         manageHook         = myManageHook,
         handleEventHook    = myEventHook,
         startupHook        = myStartupHook,
