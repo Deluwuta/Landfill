@@ -19,7 +19,7 @@ import qualified Data.Map        as M
  -- Utils
 import XMonad.Util.SpawnOnce
 import XMonad.Util.Run (spawnPipe)
-import XMonad.Util.NamedScratchpad
+import XMonad.Util.NamedScratchpad as NS
 import XMonad.Util.EZConfig (additionalKeysP)
 
  -- Layout
@@ -41,6 +41,7 @@ import qualified XMonad.Layout.MultiToggle as MT (Toggle(..))
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.ManageHelpers (isFullscreen, doRectFloat)
 import XMonad.Hooks.EwmhDesktops -- Useful for Polybar!
+import XMonad.Hooks.WindowSwallowing
 
 myTerminal :: String
 myTerminal = "kitty"
@@ -85,8 +86,11 @@ myKeys =
         ("M-d"        , spawn ("rofi -show run -display-run 'Rufos ~>>'")),
         ("M-b"        , spawn ("brave")),
         ("M-f"        , spawn ("thunar")),
+        -- ("Print"      , spawn ("flameshot gui")),
 
-      -- Scratchpads (ye)
+      -- Scratchpads (WITH KEYCHORDS: Alt+s key) (ye)
+        ("M1-s t", namedScratchpadAction myScratchPads "terminal"),
+        ("M1-s c", namedScratchpadAction myScratchPads "calculator"),
         
       -- Window swapin
         ("M-S-<Space>", windows W.swapMaster),
@@ -97,7 +101,7 @@ myKeys =
         ("M-<Tab>"    , windows W.focusDown),
         ("M-j"        , windows W.focusDown),
         ("M-k"        , windows W.focusUp),
-        ("M-<Space>"  , windows W.focusMaster),
+        -- ("M-<Space>"  , windows W.focusMaster),
 
       -- Window size modification
         ("M-S-h"      , sendMessage Shrink),
@@ -115,7 +119,7 @@ myKeys =
 --        ("M-."        , sendMessage (IncMasterN (-1))),
 
       -- Layout switching | Hide bar 
-        ("M-C-<Tab>"  , sendMessage NextLayout),
+        ("M-<Space>"  , sendMessage NextLayout),
         ("M-S-<Tab>"  , sendMessage ToggleStruts) -- Tapa la barra (No va con Polybar)
    ]
 
@@ -178,30 +182,41 @@ myLayoutHook = avoidStruts
            $ mkToggle (NBFULL ?? NOBORDERS ?? EOT) myDefaultLayout
     where
         myDefaultLayout = withBorder myBorderWidth tall |||
-                                                   floats
+                                                   Mirror tall -- Horizontal like
 
 ------------------------------------------------------------------------
 -- Window rules:
---
--- Execute arbitrary actions and WindowSet manipulations when managing
--- a new window. You can use this to, for example, always float a
--- particular program, or have a client always appear on a particular
--- workspace.
---
--- To find the property name associated with a program, use
--- > xprop | grep WM_CLASS
--- and click on the client you're interested in.
---
--- To match on the WM_NAME, you can use 'title' in the same way that
--- 'className' and 'resource' are used below.
---
 myManageHook = composeAll [ 
     className =? "MPlayer"        --> doFloat, 
     className =? "Gimp"           --> doFloat,
-    appName   =? "galculator"     --> doRectFloat(W.RationalRect 0.33 0.2 0.25 0.5), -- x y w h
+    -- appName   =? "galculator"     --> doRectFloat(W.RationalRect 0.12 0.15 0.75 0.55), -- x y w h
     resource  =? "desktop_window" --> doIgnore,
     resource  =? "kdesktop"       --> doIgnore 
-    ] 
+    ] <+> namedScratchpadManageHook myScratchPads
+
+myScratchPads :: [NamedScratchpad]
+myScratchPads = [
+        NS "terminal" spawnTerm findTerm manageTerm,
+        NS "calculator" spawnCalc findCalc manageCalc
+    ]
+    where
+        spawnTerm  = myTerminal ++ " -T scratchKitty"
+        findTerm   = title =? "scratchKitty"
+        manageTerm = customFloating $ W.RationalRect x y w h
+            where
+                x = 0.9 -w 
+                y = 0.62 -h
+                w = 0.8
+                h = 0.6
+
+        spawnCalc  = "galculator"
+        findCalc   = title =? "galculator"
+        manageCalc = customFloating $ W.RationalRect x y w h
+            where
+                x = 0.87 -w
+                y = 0.62 -h
+                w = 0.75
+                h = 0.6
 
 ------------------------------------------------------------------------
 -- Event handling
@@ -215,7 +230,7 @@ myManageHook = composeAll [
 -- It will add EWMH event handling to your custom event hooks by
 -- combining them with ewmhDesktopsEventHook.
 --
-myEventHook = mempty
+myEventHook = swallowEventHook (className =? "kitty" <||> className =? "alacritty") (return True)
 
 ------------------------------------------------------------------------
 -- Status bars and logging
