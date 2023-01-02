@@ -61,7 +61,7 @@ myModMask = mod4Mask
 -- myWorkspaces    = ["1","2","3","4","5","6","7","8","9"]
 myWorkspaces = ["A", "B", "C", "D", "E", "F"]
 
--- (I think) Useful if you want Xmobar to be clickable (not fully)
+-- (I think) Useful if you want Xmobar to be clickable (needs clickable)
 -- myWorkspaceIndices = M.fromList $ zipWith (,) myWorkspaces [1..] -- (,) == \x y -> (x,y)
 
 myNormalBorderColor :: String
@@ -70,6 +70,7 @@ myNormalBorderColor  = "#dddddd"
 myFocusedBorderColor :: String
 myFocusedBorderColor = "#00ff00"
 
+------------------------------------------------------------------------
 -- Keys 2.0
 myKeys :: [(String, X())]
 myKeys = 
@@ -141,12 +142,10 @@ myKeys =
 --            | (key, sc) <- zip [xK_w, xK_e, xK_y] [0..]
 --            , (f, m) <- [(W.view, 0), (W.shift, shiftMask)]]
 --
---    
 ------------------------------------------------------------------------
 
 ------------------------------------------------------------------------
 -- Mouse bindings: default actions bound to mouse events
---
 myMouseBindings (XConfig {XMonad.modMask = modm}) = M.fromList $
 
     -- mod-button1, Set the window to floating mode and move by dragging
@@ -164,7 +163,7 @@ myMouseBindings (XConfig {XMonad.modMask = modm}) = M.fromList $
     ]
 
 ------------------------------------------------------------------------
--- Layouts:
+-- Layouts
 mySpacing :: Integer -> l a -> XMonad.Layout.LayoutModifier.ModifiedLayout Spacing l a
 mySpacing i = spacingRaw False (Border i i i i) True (Border i i i i) True
 
@@ -185,15 +184,7 @@ myLayoutHook = avoidStruts
                                                    Mirror tall -- Horizontal like
 
 ------------------------------------------------------------------------
--- Window rules:
-myManageHook = composeAll [ 
-    className =? "MPlayer"        --> doFloat, 
-    className =? "Gimp"           --> doFloat,
-    -- appName   =? "galculator"     --> doRectFloat(W.RationalRect 0.12 0.15 0.75 0.55), -- x y w h
-    resource  =? "desktop_window" --> doIgnore,
-    resource  =? "kdesktop"       --> doIgnore 
-    ] <+> namedScratchpadManageHook myScratchPads
-
+-- Scratchpads
 myScratchPads :: [NamedScratchpad]
 myScratchPads = [
         NS "terminal" spawnTerm findTerm manageTerm,
@@ -217,6 +208,16 @@ myScratchPads = [
                 y = 0.62 -h
                 w = 0.75
                 h = 0.6
+
+------------------------------------------------------------------------
+-- Window rules
+myManageHook = composeAll [ 
+    className =? "MPlayer"        --> doFloat, 
+    className =? "Gimp"           --> doFloat,
+    -- appName   =? "galculator"     --> doRectFloat(W.RationalRect 0.12 0.15 0.75 0.55), -- x y w h
+    resource  =? "desktop_window" --> doIgnore,
+    resource  =? "kdesktop"       --> doIgnore 
+    ] <+> namedScratchpadManageHook myScratchPads
 
 ------------------------------------------------------------------------
 -- Event handling
@@ -248,18 +249,6 @@ myLogHook = return ()
 
 ------------------------------------------------------------------------
 -- Startup hook
-
--- Perform an arbitrary action each time xmonad starts or is restarted
--- with mod-q.  Used by, e.g., XMonad.Layout.PerWorkspace to initialize
--- per-workspace layout choices.
---
--- By default, do nothing.
---
--- * NOTE: EwmhDesktops users should use the 'ewmh' function from
--- XMonad.Hooks.EwmhDesktops to modify their defaultConfig as a whole.
--- It will add initialization of EWMH support to your custom startup
--- hook by combining it with ewmhDesktopsStartup.
---
 myStartupHook = do
    spawnOnce "nitrogen --restore &"
 
