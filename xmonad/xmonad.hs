@@ -12,6 +12,7 @@
 import XMonad
 import Data.Monoid
 import System.Exit
+import System.IO (hPutStrLn)
 
 import qualified XMonad.StackSet as W
 import qualified Data.Map        as M
@@ -37,7 +38,7 @@ import qualified XMonad.Layout.ToggleLayouts as T (toggleLayouts, ToggleLayout(T
 import qualified XMonad.Layout.MultiToggle as MT (Toggle(..))
 
  -- Hooks
--- import XMonad.Hooks.DynamicLog (dynamicLogWithPP, wrap, PP(..))
+import XMonad.Hooks.DynamicLog (dynamicLogWithPP, xmobarPP, wrap, PP(..))
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.ManageHelpers (isFullscreen, doRectFloat)
 import XMonad.Hooks.EwmhDesktops -- Useful for Polybar!
@@ -45,6 +46,9 @@ import XMonad.Hooks.WindowSwallowing
 
 myTerminal :: String
 myTerminal = "kitty"
+
+myLogoutMenu :: String
+myLogoutMenu = "alacritty -t logout -e ~/logMenu.sh"
 
 myFocusFollowsMouse :: Bool
 myFocusFollowsMouse = True
@@ -65,10 +69,10 @@ myWorkspaces = ["A", "B", "C", "D", "E", "F"]
 -- myWorkspaceIndices = M.fromList $ zipWith (,) myWorkspaces [1..] -- (,) == \x y -> (x,y)
 
 myNormalBorderColor :: String
-myNormalBorderColor  = "#dddddd"
+myNormalBorderColor  = "#191919"
 
 myFocusedBorderColor :: String
-myFocusedBorderColor = "#00ff00"
+myFocusedBorderColor = "#56C2E8"
 
 ------------------------------------------------------------------------
 -- Keys 2.0
@@ -92,6 +96,7 @@ myKeys =
       -- Scratchpads (WITH KEYCHORDS: Alt+s key) (ye)
         ("M1-s t", namedScratchpadAction myScratchPads "terminal"),
         ("M1-s c", namedScratchpadAction myScratchPads "calculator"),
+        ("M1-s a", namedScratchpadAction myScratchPads "logmenu"),
         
       -- Window swapin
         ("M-S-<Space>", windows W.swapMaster),
@@ -188,6 +193,7 @@ myLayoutHook = avoidStruts
 myScratchPads :: [NamedScratchpad]
 myScratchPads = [
         NS "terminal" spawnTerm findTerm manageTerm,
+        NS "logmenu" spawnMenu findMenu manageMenu,
         NS "calculator" spawnCalc findCalc manageCalc
     ]
     where
@@ -198,6 +204,15 @@ myScratchPads = [
                 x = 0.9 -w 
                 y = 0.62 -h
                 w = 0.8
+                h = 0.6
+
+        spawnMenu  = "alacritty -t logmenu -e ~/logMenu.sh"
+        findMenu   = title =? "logmenu"
+        manageMenu = customFloating $ W.RationalRect x y w h
+            where
+                x = 0.65 -w 
+                y = 0.75 -h
+                w = 0.3
                 h = 0.6
 
         spawnCalc  = "galculator"
@@ -215,6 +230,7 @@ myManageHook = composeAll [
     className =? "MPlayer"        --> doFloat, 
     className =? "Gimp"           --> doFloat,
     -- appName   =? "galculator"     --> doRectFloat(W.RationalRect 0.12 0.15 0.75 0.55), -- x y w h
+    className   =? "Alacritty"     --> doRectFloat(W.RationalRect 0.35 0.15 0.3 0.6), -- x y w h
     resource  =? "desktop_window" --> doIgnore,
     resource  =? "kdesktop"       --> doIgnore 
     ] <+> namedScratchpadManageHook myScratchPads
@@ -245,12 +261,13 @@ myEventHook = swallowEventHook (className =? "kitty" <||> className =? "alacritt
 -- It will add EWMH logHook actions to your custom log hook by
 -- combining it with ewmhDesktopsLogHook.
 
-myLogHook = return ()
+-- myLogHook = return ()
 
 ------------------------------------------------------------------------
 -- Startup hook
 myStartupHook = do
-   spawnOnce "nitrogen --restore &"
+   -- spawnOnce "nitrogen --restore &"
+   spawnOnce "xwallpaper --zoom /home/delta/Pictures/greatnightmare.jpg"
 
 ------------------------------------------------------------------------
 -- Now run xmonad with all the defaults we set up.
@@ -258,8 +275,9 @@ myStartupHook = do
 --
 main :: IO ()
 main = do
-    handle <- spawnPipe "/home/delta/.config/polybar/launch.sh"
-    xmonad $ docks $ ewmh $ def {
+    -- handle <- spawnPipe "/home/delta/.config/polybar/launch.sh"
+    xmproc <- spawnPipe "xmobar"
+    xmonad $ docks $ def {
       -- simple stuff
         terminal           = myTerminal,
         focusFollowsMouse  = myFocusFollowsMouse,
@@ -275,5 +293,5 @@ main = do
         manageHook         = myManageHook,
         handleEventHook    = myEventHook,
         startupHook        = myStartupHook,
-        logHook            = myLogHook
+        logHook            = dynamicLogWithPP $ xmobarPP { ppOutput = hPutStrLn xmproc }
     } `additionalKeysP` myKeys
