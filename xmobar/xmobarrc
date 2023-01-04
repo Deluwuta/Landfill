@@ -10,16 +10,17 @@ Config { font = "xft:Ubuntu Mono:pixelsize=14"
         , commands = [   
                         Run Weather "CYVR" ["-t","<tempC>C","-L","18","-H","25","--normal","green","--high","red","--low","lightblue"] 36000,
                         Run Network "eth0" ["-L","0","-H","32","--normal","green","--high","red"] 10,
-                        Run Network "eth1" ["-L","0","-H","32","--normal","green","--high","red"] 10,
-                        Run Cpu ["-L","3","-H","50","--normal","green","--high","red"] 10,
+                        Run Wireless "wlan0" [ "-t", "<essid> [<quality]" ] 10,
+                        Run Cpu ["-L","3","-H","50","--normal","green","--high","red"] 300,
                         Run Memory ["-t","Mem: <usedratio>%"] 10,
                         Run Swap [] 10,
                         Run Com "echo" ["Puta"] "arrow" 36000,
                         Run Com "uname" ["-s","-r"] "" 36000,
-                        Run Date "%a %b %_d %Y %H:%M:%S" "date" 10,
+                        Run Date "%A %d - %H:%M:%S" "date" 10,
+                        Run Volume "default" "Master" [] 0,
                         Run UnsafeStdinReader
                 ]
         , sepChar = "%"
         , alignSep = "}{"
-        , template = " <box type=Top width=2 mb=2 color=#687950><fc=#671002><action=`alacritty -e ~/logMenu.sh`>%arrow%</action></fc></box> | %UnsafeStdinReader% }{ %cpu% | %memory% * %swap% | %eth0% - %eth1% | <fc=#ee9a00>%date%</fc> "
+        , template = " <box type=Top width=2 mb=2 color=#687950><fc=#671002><action=`alacritty -e ~/logMenu.sh`>%arrow%</action></fc></box> | %UnsafeStdinReader% }{ %cpu% | %eth0% | %wlan0% | %default:Master% | <fc=#ee9a00>%date%</fc> "
         }
