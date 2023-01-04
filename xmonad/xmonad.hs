@@ -38,17 +38,17 @@ import qualified XMonad.Layout.ToggleLayouts as T (toggleLayouts, ToggleLayout(T
 import qualified XMonad.Layout.MultiToggle as MT (Toggle(..))
 
  -- Hooks
-import XMonad.Hooks.DynamicLog (dynamicLogWithPP, xmobarPP, wrap, PP(..))
+import XMonad.Hooks.DynamicLog (dynamicLogWithPP, xmobarColor, filterOutWsPP, xmobarPP, wrap, PP(..))
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.ManageHelpers (isFullscreen, doRectFloat)
 import XMonad.Hooks.EwmhDesktops -- Useful for Polybar!
 import XMonad.Hooks.WindowSwallowing
 
+ -- Data
+import Data.Maybe (fromJust)
+
 myTerminal :: String
 myTerminal = "kitty"
-
-myLogoutMenu :: String
-myLogoutMenu = "alacritty -t logout -e ~/logMenu.sh"
 
 myFocusFollowsMouse :: Bool
 myFocusFollowsMouse = True
@@ -63,10 +63,16 @@ myModMask = mod4Mask
 
 -- myWorkspaces = ["web", "irc", "code" ] ++ map show [4..9]
 -- myWorkspaces    = ["1","2","3","4","5","6","7","8","9"]
-myWorkspaces = ["A", "B", "C", "D", "E", "F"]
+myWorkspaces = ["Ale", "El", "Terror", "De", "Las", "Nenas"]
 
 -- (I think) Useful if you want Xmobar to be clickable (needs clickable)
--- myWorkspaceIndices = M.fromList $ zipWith (,) myWorkspaces [1..] -- (,) == \x y -> (x,y)
+myWorkspaceIndices = M.fromList $ zipWith (,) myWorkspaces [1..] -- (,) == \x y -> (x,y)
+
+clickable ws = "<action=xdotool key super+"++show i++">"++ws++"</action>"
+    where i = fromJust $ M.lookup ws myWorkspaceIndices
+
+windowCount :: X (Maybe String)
+windowCount = gets $ Just . show . length . W.integrate' . W.stack . W.workspace . W.current . windowset
 
 myNormalBorderColor :: String
 myNormalBorderColor  = "#191919"
@@ -267,7 +273,7 @@ myEventHook = swallowEventHook (className =? "kitty" <||> className =? "alacritt
 -- Startup hook
 myStartupHook = do
    -- spawnOnce "nitrogen --restore &"
-   spawnOnce "xwallpaper --zoom /home/delta/Pictures/greatnightmare.jpg"
+   spawnOnce "xwallpaper --zoom /home/delta/Pictures/acientking.jpeg"
 
 ------------------------------------------------------------------------
 -- Now run xmonad with all the defaults we set up.
@@ -293,5 +299,24 @@ main = do
         manageHook         = myManageHook,
         handleEventHook    = myEventHook,
         startupHook        = myStartupHook,
-        logHook            = dynamicLogWithPP $ xmobarPP { ppOutput = hPutStrLn xmproc }
+        logHook            = dynamicLogWithPP $ filterOutWsPP [scratchpadWorkspaceTag] $ xmobarPP { 
+            ppOutput = hPutStrLn xmproc,
+            ppCurrent = xmobarColor "#aa34aa" "" . wrap 
+                ("<box type=Bottom width=2 mb=2 color=#567389>") "</box>",
+            -- Not visible with windows
+            ppHidden = xmobarColor "#67ff09" "" . wrap
+                ("<box type=Top width=2 mt=2 color=#aaffff>") "</box>" . clickable,
+            -- Neither visible or with windows
+            ppHiddenNoWindows = xmobarColor "#ffffff" "" . clickable,
+            -- Title of active window
+            ppTitle = xmobarColor "#4356aa" "",
+            -- Separator
+            ppSep = "<fc=#540000> <fn=1>|</fn> </fc>",
+            -- Urgent workspace 
+            ppUrgent = xmobarColor "#ff0000" "" . wrap "!" "!",
+            -- Adding # of windows on current workspace
+            ppExtras = [windowCount],
+            -- ws = workspaces | l = layout | ex = window count | t = title
+            ppOrder = \(ws:l:t:ex) -> [ws,l]++ex++[t]
+        }
     } `additionalKeysP` myKeys
