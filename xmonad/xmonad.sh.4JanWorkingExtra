@@ -48,9 +48,10 @@ import XMonad.Hooks.WindowSwallowing
 import Data.Maybe (fromJust)
 
  -- Polybar exclusive
-import qualified DBus as D
-import qualified DBus.Client as D
-import qualified Codec.Binary.UTF8.String as UTF8
+import Control.Monad (forM_, join)
+import Data.List (sortBy)
+import Data.Function (on)
+import XMonad.Util.NamedWindows (getName)
 
 myTerminal :: String
 myTerminal = "kitty"
@@ -260,6 +261,21 @@ myManageHook = composeAll [
 --
 myEventHook = swallowEventHook (className =? "kitty" <||> className =? "alacritty") (return True)
 
+polybarEventLogHook = do
+    winset <- gets windowset
+    title  <- maybe (return "") (fmap show . getName) . W.peek $ winset
+    let currWs = W.currentTag winset
+    let wss    = map W.tag $ W.workspaces winset
+    let wsStr  = join $ map (fmt currWs) $ sort' wss
+
+    io $ appendFile "/tmp/.xmonad-title-log" (title ++ "\n")
+    io $ appendFile "/tmp/.xmonad-workspace-log" (wsStr ++ "\n")
+
+    where fmt currWs ws
+            | currWs == ws = "[" ++ ws ++ "]"
+            | otherwise    = " " ++ ws ++ " "
+          sort' = sortBy (compare `on` (!! 0))
+
 ------------------------------------------------------------------------
 -- Status bars and logging
 
@@ -272,30 +288,7 @@ myEventHook = swallowEventHook (className =? "kitty" <||> className =? "alacritt
 -- It will add EWMH logHook actions to your custom log hook by
 -- combining it with ewmhDesktopsLogHook.
 
-myLogHook :: D.Client -> PP
-myLogHook dbus = def {
-        ppOutput = dbusOutput dbus,
-        -- ppCurrent = wrap "[" "]",
-        -- ppVisible = wrap ("%{B#687777} ") " %{B-}",
-        -- ppUrgent = wrap ("%{F#023232} ") " %{F-}",
-        -- ppHidden = wrap " " " ",
-        -- ppHiddenNoWindows = wrap ("%{F#ffffff} ") " %{F-}",
-        -- ppWsSep = "",
-        ppSep = " : "
-        -- ppTitle = shorten 60
-    }
-
--- Emit a DBus signal on log updates
-dbusOutput :: D.Client -> String -> IO ()
-dbusOutput dbus str = do
-    let signal = (D.signal objectPath interfaceName memberName) {
-            D.signalBody = [D.toVariant $ UTF8.decodeString str]
-        }
-    D.emit dbus signal
-  where
-    objectPath = D.objectPath_ "/org/xmonad/Log"
-    interfaceName = D.interfaceName_ "org.xmonad.Log"
-    memberName = D.memberName_ "Update"
+-- myLogHook = return ()
 
 ------------------------------------------------------------------------
 -- Startup hook
@@ -312,10 +305,6 @@ main :: IO ()
 main = do
     handle <- spawnPipe "$HOME/.config/xmonad/scripts/launch.sh"
     -- xmproc <- spawnPipe "xmobar"
-    dbus <- D.connectSession
-    -- Request access to the DBus name
-    D.requestName dbus (D.busName_ "org.xmonad.Log")
-        [D.nameAllowReplacement, D.nameReplaceExisting, D.nameDoNotQueue]
     xmonad $ ewmh $ docks $ def {
       -- simple stuff
         terminal           = myTerminal,
@@ -332,5 +321,24 @@ main = do
         manageHook         = myManageHook,
         handleEventHook    = myEventHook,
         startupHook        = myStartupHook,
-        logHook            = dynamicLogWithPP $ filterOutWsPP [scratchpadWorkspaceTag] $ (myLogHook dbus)
+        logHook            = dynamicLogWithPP $ filterOutWsPP [scratchpadWorkspaceTag] $ xmobarPP { 
+            -- ppOutput = hPutStrLn xmproc,
+            ppCurrent = xmobarColor "#aa34aa" "" . wrap 
+                ("<box type=Bottom width=2 mb=2 color=#567389>") "</box>",
+            -- Not visible with windows
+            ppHidden = xmobarColor "#67ff09" "" . wrap
+                ("<box type=Top width=2 mt=2 color=#aaffff>") "</box>" . clickable,
+            -- Neither visible or with windows
+            ppHiddenNoWindows = xmobarColor "#ffffff" "" . clickable,
+            -- Title of active window
+            ppTitle = xmobarColor "#4356aa" "",
+            -- Separator
+            ppSep = "<fc=#540000> <fn=1>|</fn> </fc>",
+            -- Urgent workspace 
+            ppUrgent = xmobarColor "#ff0000" "" . wrap "!" "!",
+            -- Adding # of windows on current workspace
+            ppExtras = [windowCount],
+            -- ws = workspaces | l = layout | ex = window count | t = title
+            ppOrder = \(ws:l:t:ex) -> [ws,l]++ex++[t]
+        }
     } `additionalKeysP` myKeys

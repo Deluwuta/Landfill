@@ -1,0 +1,10 @@
+[general]
+base_currency = EUR
+display = percentage
+
+[bitcoin]
+icon = ﴑ 
+
+[ethereum]
+icon = ﲹ
+
