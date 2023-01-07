@@ -6,20 +6,7 @@
 # git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/.config/zscripts/powerlevel10k
 
 ## Autosuggestions
-# git clone https://github.com/zsh-users/zsh-autosuggestions ~/.config/zscripts/zsh-autosuggestions
-
-### Powerlevel10k autAutosuggestions
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
-
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
-#########################
+# 
 
 # Lines configured by zsh-newuser-install
 HISTFILE=~/.histfile
@@ -35,6 +22,26 @@ autoload -Uz compinit
 compinit
 # End of lines added by compinstall
 
+## START OF CUSTOM PROMPT
+# Autoload zsh add-zsh-hook and vcs_info functions (-U autoload w/o substition, -z use zsh style)
+autoload -Uz add-zsh-hook vcs_info
+
+# Enable substitution in the prompt.
+setopt prompt_subst
+
+# Run vcs_info just before a prompt is displayed (precmd)
+add-zsh-hook precmd vcs_info
+
+# add ${vcs_info_msg_0} to the prompt
+PROMPT=' %F{#CE01DA}%f  %~ %F{red}${vcs_info_msg_0_}%f %(?.%F{#01F3F5}%f.%F{#DB0400}%f) '
+
+zstyle ':vcs_info:*' check-for-changes true
+zstyle ':vcs_info:*' unstagedstr ' *'
+zstyle ':vcs_info:*' stagedstr ' +'
+zstyle ':vcs_info:git:*' formats       '(%b%u%c)'
+zstyle ':vcs_info:git:*' actionformats '(%b|%a%u%c)'
+## END OF CUSTOM PROMPT
+
 # Aliases #
 # ls with colors :D
 alias ls='lsd -a --group-dirs=first --color=always' # Files + Dirs
@@ -48,10 +55,6 @@ alias vim='nvim'
 # Confirm before making changes
 alias rm='rm -i' # You sure you wanna remove that?
 
-# Pacman updates
-alias pacsyu='sudo pacman -Syu'		# Update standard pkgs
-alias pacsyyu='sudo pacman -Syyu'	# Refresh pkglist & update
-
 # I use MANY window managers...
 alias shn='shutdown -h now'
 
@@ -59,12 +62,14 @@ alias shn='shutdown -h now'
 alias uwu='~/uwu.sh | lolcat'
 
 # Powerlevel10k
-source ~/.config/zscripts/powerlevel10k/powerlevel10k.zsh-theme
+# source ~/.config/zscripts/powerlevel10k/powerlevel10k.zsh-theme
 
 # PLUGINGS SECTION #
 source ~/.config/zscripts/zsh-autosuggestions/zsh-autosuggestions.zsh
-source ~/.config/zscripts/catppuccin/themes/catppuccin_mocha-zsh-syntax-highlighting.zsh
+# source ~/.config/zscripts/catppuccin/themes/catppuccin_mocha-zsh-syntax-highlighting.zsh
 source ~/.config/zscripts/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 # END OF PLUGINGS SECTION #
 
-neofetch --ascii_distro gentoo_small
+# eval "$(starship init zsh)"
+
+# neofetch --ascii_distro gentoo_small
