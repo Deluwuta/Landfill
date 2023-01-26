@@ -134,6 +134,30 @@ local clock_widget = wibox.widget {
 
 container_clock_widget = require("container_nobackground")(clock_widget, "#fab3ff")
 
+local image_widget = wibox.widget {
+	{
+		{
+			image = "/home/delta/Pictures/yveltal.png",
+			resize = true,
+			widget = wibox.widget.imagebox,
+		},
+		left = 2,
+		right = 2,
+		widget = wibox.container.margin,
+	},
+	bg = "#4e4e4e",
+	shape = gears.shape.octogon,
+	widget = wibox.container.background,
+}
+
+image_widget:connect_signal("mouse::enter", function(c) c:set_bg("#000000") end)
+image_widget:connect_signal("mouse::leave", function(c) c:set_bg("#4e4e4e") end)
+image_widget:connect_signal("button::press", function(c) c:set_bg("#ffffff") end)
+image_widget:connect_signal("button::release", function(c, _, _, button) 
+	c:set_bg("#000000")
+	if button == 1 then awful.spawn("alacritty") end
+end)
+
 ----------------------------------------------------------------------
 
 awful.screen.connect_for_each_screen(function(s)
@@ -164,8 +188,7 @@ awful.screen.connect_for_each_screen(function(s)
     s.mywibox = awful.wibar({
         position = "top",
         margins = { top = 6, left = 5, right = 5 },
-        -- shape = gears.shape.rounded_bar,
-        height = 22,
+        height = 24,
         screen = s,
     })
 
@@ -173,8 +196,10 @@ awful.screen.connect_for_each_screen(function(s)
     s.mywibox:setup {
         layout = wibox.layout.align.horizontal,
         { -- Left widgets
-            wibox.widget.textbox("   "),
             layout = wibox.layout.fixed.horizontal,
+            wibox.widget.textbox(" "),
+	    image_widget,
+            wibox.widget.textbox(" "),
             -- mylauncher,
             s.mytaglist,
             -- s.mypromptbox,
