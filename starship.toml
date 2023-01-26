@@ -1,17 +1,19 @@
+# Prompt format
+format = "  $directory$character"
+
 #Inserts a blank line between shell prompts
-add_newline = false
+add_newline = true
 
 # Make prompt a single line instead of two lines
  [line_break]
  disabled = true
 
-# Replace the "❯" symbol in the prompt with "➜"
+# Replace the "❯" symbol in the prompt with "➜"
  [character]
- success_symbol = "[⨕](green)"
- error_symbol = "[⨕](bold red)"
+ success_symbol = "[](green)"
+ error_symbol = "[λ](bold red)"
 
 
 # Disable the package module, hiding it from the prompt completely
 [package]
 disabled = true
-
