@@ -25,13 +25,13 @@ local get_taglist = function(s)
 
 	----------------------------------------------------------------------
 
-	local unfocus_icon = " "
+	local unfocus_icon = ""
 	local unfocus_color = "#a6adc8"
 
-	local empty_icon = " "
+	local empty_icon = ""
 	local empty_color = "#585b70"
 
-	local focus_icon = " "
+	local focus_icon = ""
 	local focus_color = "#89b4fa"
 
 	----------------------------------------------------------------------
@@ -56,15 +56,15 @@ local get_taglist = function(s)
 	local icon_taglist = awful.widget.taglist {
 		screen = s,
 		filter = awful.widget.taglist.filter.all,
-		layout = { spacing = 1, layout = wibox.layout.fixed.horizontal },
+		layout = { spacing = 2, layout = wibox.layout.fixed.horizontal },
 		widget_template = {
 			{
-				{ id = 'icon_role', font = "Fantasque Sans Nerd Font Bold 16", widget = wibox.widget.textbox },
+				{ id = 'icon_role', font = "Fantasque Sans bold 20", widget = wibox.widget.textbox },
 				id = 'margin_role',
 				top = dpi(1),
 				bottom = dpi(1),
-				left = dpi(2),
-				right = dpi(2),
+				left = dpi(3),
+				right = dpi(3),
 				widget = wibox.container.margin
 			},
 			id = 'background_role',
