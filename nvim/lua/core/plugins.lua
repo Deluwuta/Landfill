@@ -22,6 +22,7 @@ return require('packer').startup(function(use)
   use 'nvim-treesitter/nvim-treesitter'
   use 'nvim-telescope/telescope-file-browser.nvim'
   use 'windwp/nvim-autopairs'
+  use "akinsho/bufferline.nvim"
   use 'terrortylor/nvim-comment'
   use {
     "williamboman/mason.nvim",

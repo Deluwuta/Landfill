@@ -6,6 +6,7 @@ require("core.plugin_config.treesitter")
 require("core.plugin_config.colorizer")
 require("core.plugin_config.lsp_config")
 require("core.plugin_config.completions")
+require("core.plugin_config.bufferline")
 
 -- Highlight current line number :^)
 vim.cmd[[ highlight CursorLineNr guifg=#17FFFF gui=bold ]]
