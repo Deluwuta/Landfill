@@ -1,45 +1,54 @@
-## Configuration for Alacritty, the GPU enhanced terminal emulator.
-
-## It's a very basic and simple config file, for full configuration...
-## See, /usr/share/doc/alacritty/example/alacritty.yml
-
-## Import files (Colors, Fonts, Etc)
 import:
-  - ~/.config/leftwm/alacritty/colors.yml
-  - ~/.config/leftwm/alacritty/fonts.yml
+  - ~/.config/alacritty/font.yml
+  - ~/.config/alacritty/color.yml
 
-## Set environment variables
 env:
-  TERM: alacritty
+  TERM: xterm-256color
 
-## Terminal window settings
 window:
-  dimensions:
-    columns: 82
-    lines: 25
+  decorations: none
+  dimentions:
+    columns: 0
+    lines: 0
+
+  position:
+    x: 0
+    y: 0
 
   padding:
-    x: 12
-    y: 12
+    x: 6
+    y: 6
 
-  decorations: full
-  startup_mode: Windowed
-  dynamic_title: true
+      #opacity: 0.7
 
-## scrolling
-  history: 10000
-  multiplier: 3
+  title: Alacritty
 
-## Background opacity
-window.opacity: 1.0 
+  class:
+    instance: Alacritty
+    general: Alacritty
 
-## Cursor
+
+scrolling:
+  history: 5000
+
 cursor:
   style:
-    shape: Block
+    shape: Underline
     blinking: On
+  unfocused_hollow: true
 
-  unfocused_hollow: false
+key_bindings:
+    # (Windows, Linux, and BSD only)
+  - { key: V,        mods: Control|Shift, action: Paste            }
+  - { key: C,        mods: Control|Shift, action: Copy             }
+  - { key: Insert,   mods: Shift,         action: PasteSelection   }
+  - { key: Key0,     mods: Control,       action: ResetFontSize    }
+  - { key: Equals,   mods: Control,       action: IncreaseFontSize }
+  - { key: Minus,    mods: Control,       action: DecreaseFontSize }
 
-## Live config reload
-live_config_reload: true
+  - { key: L,         mods: Control, action: ClearLogNotice                   }
+  - { key: L,         mods: Control, chars: "\x0c"                            }
+  - { key: PageUp,    mods: Shift,   action: ScrollPageUp,   mode: ~Alt       }
+  - { key: PageDown,  mods: Shift,   action: ScrollPageDown, mode: ~Alt       }
+  - { key: Home,      mods: Shift,   action: ScrollToTop,    mode: ~Alt       }
+  - { key: End,       mods: Shift,   action: ScrollToBottom, mode: ~Alt       }
