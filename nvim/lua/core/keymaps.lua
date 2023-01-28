@@ -33,3 +33,6 @@ vim.keymap.set("n", "<leader>fr", ":Telescope oldfiles hidden=true<CR>")
 vim.keymap.set("n", "<leader>.", ":Telescope file_browser hidden=true<CR>")
 vim.keymap.set("n", "<leader>fw", ":Telescope live_grep<CR>")
 vim.keymap.set("n", "<leader>ht", ":Telescope colorscheme<CR>")
+
+-- Commenting keys
+vim.keymap.set("n", "<leader>l", ":CommentToggle<CR>")

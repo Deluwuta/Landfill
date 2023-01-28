@@ -17,13 +17,30 @@ return require('packer').startup(function(use)
   use {'catppuccin/nvim', as = 'catppuccin'}
   use 'nvim-tree/nvim-tree.lua'
   use 'nvim-tree/nvim-web-devicons'
+  use 'norcalli/nvim-colorizer.lua'
   use 'nvim-lualine/lualine.nvim'
   use 'nvim-treesitter/nvim-treesitter'
   use 'nvim-telescope/telescope-file-browser.nvim'
+  use 'windwp/nvim-autopairs'
+  use 'terrortylor/nvim-comment'
   use {
-    'nvim-telescope/telescope.nvim', 
+    "williamboman/mason.nvim",
+    "williamboman/mason-lspconfig.nvim",
+    "neovim/nvim-lspconfig",
+  }
+  use {
+    'nvim-telescope/telescope.nvim',
     tag = '0.1.1',
     requires = { {'nvim-lua/plenary.nvim'} }
+  }
+  -- Completion
+  use {
+    "hrsh7th/nvim-cmp",
+    "hrsh7th/cmp-nvim-lsp",
+    "L3MON4D3/LuaSnip",
+    -- For vscode like snippets
+    "saadparwaiz1/cmp_luasnip",
+    "rafamadriz/friendly-snippets",
   }
 
   -- Automatically set up your configuration after cloning packer.nvim
