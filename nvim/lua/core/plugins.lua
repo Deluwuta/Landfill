@@ -15,25 +15,42 @@ local packer_bootstrap = ensure_packer()
 return require('packer').startup(function(use)
   use 'wbthomason/packer.nvim'
   use {'catppuccin/nvim', as = 'catppuccin'}
-  use 'nvim-tree/nvim-tree.lua'
+  -- use 'nvim-tree/nvim-tree.lua'
+  use 'nvim-neo-tree/neo-tree.nvim'
   use 'nvim-tree/nvim-web-devicons'
-  use 'norcalli/nvim-colorizer.lua'
+  -- use 'norcalli/nvim-colorizer.lua'
+  use 'brenoprata10/nvim-highlight-colors'
   use 'nvim-lualine/lualine.nvim'
   use 'nvim-treesitter/nvim-treesitter'
   use 'nvim-telescope/telescope-file-browser.nvim'
+  use "j-hui/fidget.nvim"
+  use 'terrortylor/nvim-comment'
+  use "lukas-reineke/indent-blankline.nvim"
   use 'windwp/nvim-autopairs'
   use "akinsho/bufferline.nvim"
-  use 'terrortylor/nvim-comment'
+  use "akinsho/toggleterm.nvim"
+
+  -- Notifications
+  use {
+--    "rcarriga/nvim-notify",
+--    "folke/noice.nvim",
+    "MunifTanjim/nui.nvim",
+  }
+
+  -- Mason and LSP servers
   use {
     "williamboman/mason.nvim",
     "williamboman/mason-lspconfig.nvim",
     "neovim/nvim-lspconfig",
   }
+
+  -- Telescope shit
   use {
     'nvim-telescope/telescope.nvim',
     tag = '0.1.1',
     requires = { {'nvim-lua/plenary.nvim'} }
   }
+
   -- Completion
   use {
     "hrsh7th/nvim-cmp",

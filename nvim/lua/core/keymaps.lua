@@ -1,5 +1,8 @@
 vim.o.termguicolors = true
 
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
@@ -23,7 +26,13 @@ vim.opt.shiftround = true
 vim.opt.expandtab  = true
 
 -- Clear search
-vim.keymap.set('n', '<leader>h' , ':nohlsearch<CR>')
+vim.keymap.set('n', '<ESC>', ':nohlsearch<CR>')
+
+-- Saving and Exiting bindings
+vim.keymap.set("n", "<leader>wf", ":w<CR>")
+vim.keymap.set("n", "<leader>wq", ":wq<CR>")
+vim.keymap.set("n", "<leader>q" , ":q<CR>")
+vim.keymap.set("n", "<leader>qa", ":qa<CR>")
 
 -- Navigation between splits
 vim.keymap.set("n", "<leader>ww", '<C-w>w')
@@ -36,8 +45,14 @@ vim.keymap.set("n", "<leader>wl", '<C-w>l')
 vim.keymap.set("n", "<leader>wv", ":vsp<CR>")
 vim.keymap.set("n", "<leader>ws", ":sp<CR>")
 
+-- Toggle terminal
+vim.keymap.set("n", "<leader>ot", ":ToggleTerm<CR>")
+
+-- Nvimtree keys
+-- vim.keymap.set("n", "<leader>e" , ":NvimTreeFindFileToggle<CR>")
+
 -- Neotree keys
-vim.keymap.set("n", "<leader>e" , ":NvimTreeFindFileToggle<CR>")
+vim.keymap.set("n", "<leader>e" , ":NeoTreeFocusToggle<CR>")
 
 -- Telescope keys
 vim.keymap.set("n", "<leader>ff", ":Telescope find_files hidden=true<CR>")
