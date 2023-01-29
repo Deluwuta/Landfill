@@ -28,7 +28,7 @@ return require('packer').startup(function(use)
 
   -- Color stuff
   use {
-    -- "norcalli/nvim-colorizer.lua",
+    "norcalli/nvim-colorizer.lua",
     "brenoprata10/nvim-highlight-colors",
     "nvim-treesitter/nvim-treesitter",
   }

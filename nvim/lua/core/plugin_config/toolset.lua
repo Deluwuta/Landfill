@@ -14,20 +14,6 @@ require("neo-tree").setup{
   filesystem = { follow_current_file = true },
 }
 
-require("telescope").setup {
-  defaults = {
-    initial_mode = "normal",
-  },
-  extensions = {
-    file_browser = {
-      theme = "ivy",
-      hidden = true,
-      hijack_netrw = true,
-    },
-  },
-}
-require("telescope").load_extension("file_browser")
-
 require("toggleterm").setup{
   auto_scroll = true,
   close_on_exit = true,
