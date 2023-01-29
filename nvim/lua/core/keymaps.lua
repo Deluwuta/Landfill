@@ -29,10 +29,13 @@ vim.opt.expandtab  = true
 vim.keymap.set('n', '<ESC>', ':nohlsearch<CR>')
 
 -- Saving and Exiting bindings
-vim.keymap.set("n", "<leader>wf", ":w<CR>")
-vim.keymap.set("n", "<leader>wq", ":wq<CR>")
-vim.keymap.set("n", "<leader>q" , ":q<CR>")
+-- vim.keymap.set("n", "<leader>wf", ":w<CR>")
+-- vim.keymap.set("n", "<leader>wq", ":wq<CR>")
+vim.keymap.set("n", "<leader>qq" , ":q<CR>")
 vim.keymap.set("n", "<leader>qa", ":qa<CR>")
+
+-- Closing windows
+vim.keymap.set("n", "<leader>wc", ":close<CR>")
 
 -- Navigation between splits
 vim.keymap.set("n", "<leader>ww", '<C-w>w')

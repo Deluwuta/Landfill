@@ -1,48 +1,6 @@
-require("bufferline").setup{}
+--require("alpha").setup{}
 
--- Catppuccin theme
-require("catppuccin").setup({
-  flavour = "mocha", -- latte, frappe, macchiato, mocha
-  background = { -- :h background
-    light = "latte",
-    dark = "mocha",
-  },
-  transparent_background = true,
-  show_end_of_buffer = false, -- show the '~' characters after the end of buffers
-    term_colors = false,
-    dim_inactive = {
-        enabled = false,
-        shade = "dark",
-        percentage = 0.15,
-    },
-    no_italic = false, -- Force no italic
-    no_bold = false, -- Force no bold
-    styles = {
-        comments = { "italic" },
-        conditionals = { "italic" },
-        loops = {},
-        functions = {},
-        keywords = {},
-        strings = {},
-        variables = {},
-        numbers = {},
-        booleans = {},
-        properties = {},
-        types = {},
-        operators = {},
-    },
-    color_overrides = {},
-    custom_highlights = {},
-    integrations = {
-        cmp = true,
-        gitsigns = true,
-        nvimtree = true,
-        telescope = true,
-        notify = false,
-        mini = false,
-        -- For more plugins integrations please scroll down (https://github.com/catppuccin/nvim#integrations)
-    },
-})
+require("bufferline").setup{}
 
 -- require("colorizer").setup()
 require("nvim-highlight-colors").setup {
@@ -55,48 +13,50 @@ require("nvim-highlight-colors").setup {
 require("fidget").setup{}
 
 require("indent_blankline").setup{
-  char = "│",
-  char_list_blankline = { "|", "┊", "┆", "¦" },
-  space_char_blankline = " ",
-  show_first_indent_level = true,
-  show_trailing_blankline_indent = false,
+  indentLine_enabled = 1,
   filetype_exclude = {
       "",
       "NvimTree",
       "Octo",
       "TelescopePrompt",
       "Trouble",
-      "dashboard",
+      "alpga",
       "git",
       "help",
       "markdown",
       "undotree",
   },
   buftype_exclude = { "terminal", "nofile" },
-  show_current_context = false,
-  show_current_context_start = false,
-  context_patterns = {
-      "class",
-      "function",
-      "method",
-      "block",
-      "list_literal",
-      "selector",
-      "^if",
-      "^table",
-      "if_statement",
-      "while",
-      "for",
-      "type",
-      "var",
-      "import",
-  },
+  char = "│",
+  char_list_blankline = { "|", "┊", "┆", "¦" },
+  space_char_blankline = " ",
+
+  show_trailing_blankline_indent = false,
+  show_first_indent_level = false,
+  show_current_context = true,
+  show_current_context_start = true,
+  --context_patterns = {
+  --    "class",
+  --    "function",
+  --    "method",
+  --    "block",
+  --    "list_literal",
+  --    "selector",
+  --    "^if",
+  --    "^table",
+  --    "if_statement",
+  --    "while",
+  --    "for",
+  --    "type",
+  --    "var",
+  --    "import",
+  --},
 }
 
 require("lualine").setup {
   options = {
     icons_enabled = true,
-    theme = "nightfly",
+    theme = "tokyonight",
   },
   sections = {
     lualine_a = {
@@ -146,9 +106,6 @@ require("lualine").setup {
 --    "rcarriga/nvim-notify"
 --  },
 --}
-
--- Colorscheme
-vim.cmd [[ colorscheme catppuccin ]]
 
 -- Highlight current line number :^)
 vim.cmd[[ highlight CursorLineNr guifg=#17FFFF gui=bold ]]

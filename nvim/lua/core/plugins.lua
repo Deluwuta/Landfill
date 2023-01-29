@@ -13,23 +13,43 @@ end
 local packer_bootstrap = ensure_packer()
 
 return require('packer').startup(function(use)
+  -- Essential
   use 'wbthomason/packer.nvim'
-  use {'catppuccin/nvim', as = 'catppuccin'}
-  -- use 'nvim-tree/nvim-tree.lua'
-  use 'nvim-neo-tree/neo-tree.nvim'
-  use 'nvim-tree/nvim-web-devicons'
-  -- use 'norcalli/nvim-colorizer.lua'
-  use 'brenoprata10/nvim-highlight-colors'
-  use 'nvim-lualine/lualine.nvim'
-  use 'nvim-treesitter/nvim-treesitter'
-  use 'nvim-telescope/telescope-file-browser.nvim'
-  use "j-hui/fidget.nvim"
-  use 'terrortylor/nvim-comment'
-  use "lukas-reineke/indent-blankline.nvim"
-  use 'windwp/nvim-autopairs'
-  use "akinsho/bufferline.nvim"
-  use "akinsho/toggleterm.nvim"
-  -- use "X3eRo0/dired.nvim"
+
+  use "lewis6991/impatient.nvim" -- Speed up loading Lua modules 
+
+  -- Alpha dashboard
+  use {
+    "goolord/alpha-nvim",
+    config = function()
+      require"alpha".setup(require'alpha.themes.dashboard'.config)
+    end
+  }
+
+  -- Color stuff
+  use {
+    -- "norcalli/nvim-colorizer.lua",
+    "brenoprata10/nvim-highlight-colors",
+    "nvim-treesitter/nvim-treesitter",
+  }
+
+  -- Completions
+  use {
+    "hrsh7th/nvim-cmp",
+    "hrsh7th/cmp-nvim-lsp",
+    "hrsh7th/cmp-path",
+    "L3MON4D3/LuaSnip",
+    -- For vscode like snippets
+    "saadparwaiz1/cmp_luasnip",
+    "rafamadriz/friendly-snippets",
+  }
+
+  -- Navigation
+  use {
+    -- "nvim-tree/nvim-tree.lua",
+    -- "X3eRo0/dired.nvim",
+    "nvim-neo-tree/neo-tree.nvim",
+  }
 
   -- Notifications
   use {
@@ -51,16 +71,28 @@ return require('packer').startup(function(use)
     tag = '0.1.1',
     requires = { {'nvim-lua/plenary.nvim'} }
   }
+  use 'nvim-telescope/telescope-file-browser.nvim'
 
-  -- Completion
+  -- Themes 
   use {
-    "hrsh7th/nvim-cmp",
-    "hrsh7th/cmp-nvim-lsp",
-    "hrsh7th/cmp-path",
-    "L3MON4D3/LuaSnip",
-    -- For vscode like snippets
-    "saadparwaiz1/cmp_luasnip",
-    "rafamadriz/friendly-snippets",
+    "catppuccin/nvim",
+    "folke/tokyonight.nvim",
+  }
+
+  -- Tools
+  use {
+    "terrortylor/nvim-comment",
+    "windwp/nvim-autopairs",
+    "akinsho/toggleterm.nvim",
+  }
+
+  -- Ui / Visuals
+  use {
+    "nvim-tree/nvim-web-devicons",
+    "nvim-lualine/lualine.nvim",
+    "j-hui/fidget.nvim",
+    "akinsho/bufferline.nvim",
+    "lukas-reineke/indent-blankline.nvim",
   }
 
   -- Automatically set up your configuration after cloning packer.nvim

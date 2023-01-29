@@ -6,6 +6,8 @@
 --  show_colors = true,
 --}
 
+require("impatient")
+
 -- require("nvim-tree").setup{}
 require("neo-tree").setup{
   window = { width = 28 },
@@ -29,8 +31,8 @@ require("telescope").load_extension("file_browser")
 require("toggleterm").setup{
   auto_scroll = true,
   close_on_exit = true,
-  start_in_insert = false,
-  direction = "vertical",
+  start_in_insert = true,
+  direction = "float",
   float_opts = {
     border = "curved",
     winblend = 3,
