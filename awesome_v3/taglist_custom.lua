@@ -59,7 +59,7 @@ local get_taglist = function(s)
 		layout = { spacing = 2, layout = wibox.layout.fixed.horizontal },
 		widget_template = {
 			{
-				{ id = 'icon_role', font = "Fantasque Sans bold 20", widget = wibox.widget.textbox },
+				{ id = 'icon_role', font = "FantasqueSansMono Nerd Font Mono bold 22", widget = wibox.widget.textbox },
 				id = 'margin_role',
 				top = dpi(1),
 				bottom = dpi(1),

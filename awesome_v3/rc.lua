@@ -25,8 +25,8 @@ local scratch = require("scripts/scratch")
 -- when client with a matching name is opened:
 require("awful.hotkeys_popup.keys")
 
--- Autostarting (the lau guru way)
-awful.util.spawn("xwallpaper --zoom /home/delta/Pictures/absdark.png")
+-- Autostarting (the lua guru way)
+awful.util.spawn("xwallpaper --zoom /home/delta/Pictures/wallpaper.jpg")
 awful.util.spawn("/usr/share/emacs --daemon")
 
 -- {{{ Error handling
@@ -59,8 +59,8 @@ end
 beautiful.init("/home/delta/.config/awesome/mytheme.lua")
 
 -- This is used later as the default terminal and editor to run.
-terminal = "alacritty"
-editor = os.getenv("EDITOR") or "nano"
+terminal = "kitty"
+editor = os.getenv("EDITOR") or "nvim"
 editor_cmd = terminal .. " -e " .. editor
 
 -- Default modkey.
@@ -141,20 +141,20 @@ local image_widget = wibox.widget {
 			resize = true,
 			widget = wibox.widget.imagebox,
 		},
-		left = 2,
-		right = 2,
+		left = 1,
+		right = 1,
 		widget = wibox.container.margin,
 	},
-	bg = "#4e4e4e",
+	bg = "#5f5f5f",
 	shape = gears.shape.octogon,
 	widget = wibox.container.background,
 }
 
-image_widget:connect_signal("mouse::enter", function(c) c:set_bg("#000000") end)
-image_widget:connect_signal("mouse::leave", function(c) c:set_bg("#4e4e4e") end)
-image_widget:connect_signal("button::press", function(c) c:set_bg("#ffffff") end)
+image_widget:connect_signal("mouse::enter", function(c) c:set_bg("#919191") end)
+image_widget:connect_signal("mouse::leave", function(c) c:set_bg("#5f5f5f") end)
+image_widget:connect_signal("button::press", function(c) c:set_bg("#1a1a1a") end)
 image_widget:connect_signal("button::release", function(c, _, _, button) 
-	c:set_bg("#000000")
+	c:set_bg("#919191")
 	if button == 1 then awful.spawn("alacritty") end
 end)
 
@@ -197,8 +197,8 @@ awful.screen.connect_for_each_screen(function(s)
         layout = wibox.layout.align.horizontal,
         { -- Left widgets
             layout = wibox.layout.fixed.horizontal,
-            wibox.widget.textbox(" "),
-	    image_widget,
+            wibox.widget.textbox("  "),
+	          image_widget,
             wibox.widget.textbox(" "),
             -- mylauncher,
             s.mytaglist,
@@ -214,7 +214,8 @@ awful.screen.connect_for_each_screen(function(s)
             layout = wibox.layout.fixed.horizontal,
             container_clock_widget,
             -- wibox.widget.systray(),
-            -- s.mylayoutbox,
+            s.mylayoutbox,
+            wibox.widget.textbox("  ")
         },
     }
 end)
@@ -222,9 +223,9 @@ end)
 
 -- {{{ Mouse bindings
 root.buttons(gears.table.join(
-    awful.button({ }, 3, function () mymainmenu:toggle() end),
-    awful.button({ }, 4, awful.tag.viewnext),
-    awful.button({ }, 5, awful.tag.viewprev)
+    awful.button({ }, 3, function () mymainmenu:toggle() end)
+--    awful.button({ }, 4, awful.tag.viewnext),
+--    awful.button({ }, 5, awful.tag.viewprev)
 ))
 -- }}}
 
