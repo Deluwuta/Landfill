@@ -29,6 +29,7 @@ return require('packer').startup(function(use)
   use 'windwp/nvim-autopairs'
   use "akinsho/bufferline.nvim"
   use "akinsho/toggleterm.nvim"
+  -- use "X3eRo0/dired.nvim"
 
   -- Notifications
   use {

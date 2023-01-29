@@ -1,3 +1,11 @@
+--require("dired").setup{
+--  path_separator = "/",
+--  show_banner = false,
+--  show_hidden = true,
+--  show_dot_dirs = true,
+--  show_colors = true,
+--}
+
 -- require("nvim-tree").setup{}
 require("neo-tree").setup{
   window = { width = 28 },
@@ -18,12 +26,11 @@ require("telescope").setup {
 }
 require("telescope").load_extension("file_browser")
 
--- Toggleterm setup (lol)
 require("toggleterm").setup{
   auto_scroll = true,
   close_on_exit = true,
   start_in_insert = false,
-  direction = "float",
+  direction = "vertical",
   float_opts = {
     border = "curved",
     winblend = 3,
