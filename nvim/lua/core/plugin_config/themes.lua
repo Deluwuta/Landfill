@@ -45,7 +45,7 @@ require("catppuccin").setup({
 require("tokyonight").setup({
   style = "storm", -- storm | moon | night | day
   light_style = "day",
-  transparent = true, -- Background
+  transparent = false, -- Background
   terminal_colors = true,
   styles = {
     -- Style to be applied to different syntax groups
