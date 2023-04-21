@@ -3,7 +3,7 @@
 # La idea es corregir cosas, pero no puedo hacer que ella te ame
 
 if [[ $# -ne 1 ]]; then
-  echo "`basename $0`: I just need one, FUCKING, PARAMETER, dude" 1>&2
+  echo "Usage: `basename $0` nameOfFile > outputFile" 1>&2
   exit 1
 fi
 
@@ -20,6 +20,10 @@ detectVowel(){
       ;;
 
     "i")
+      echo -n "í"
+      ;;
+
+    "ı")
       echo -n "í"
       ;;
 
@@ -52,3 +56,5 @@ while IFS="" read -rN1 chara; do
     echo -en "$chara"
   fi
 done < $1
+
+echo 
