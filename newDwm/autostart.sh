@@ -1,5 +1,5 @@
 #!/bin/bash
 
-xrandr -s 1920x1080
-xwallpaper --zoom $HOME/Pictures/texas-lappland-arknights-uhdpaper.com-4K-6.1934.jpg
+redshift -P -O 4600 &
+feh --bg-fill $HOME/Pictures/background/arknightsFeater2.png &
 # dwmblocks &
