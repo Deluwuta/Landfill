@@ -18,7 +18,7 @@ static const char *colors[][3] = {
 
     /*               fg         bg         border   */
     [SchemeNorm] = {col_gray3, col_gray1, col_gray2},
-    [SchemeSel] = {col_gray4, col_cyan, col_red},
+    [SchemeSel] = {col_gray4, "#62338A", "#398E99"},
 };
 
 /* tagging */
@@ -66,6 +66,34 @@ static const Layout layouts[] = {
     .v = (const char *[]) { "/bin/sh", "-c", cmd, NULL }                       \
   }
 
+#define STATUSBAR "dwmblocks"
+
+#define STATUSBAR "dwmblocks"
+
+#define STATUSBAR "dwmblocks"
+
+#define STATUSBAR "dwmblocks"
+
+#define STATUSBAR "dwmblocks"
+
+#define STATUSBAR "dwmblocks"
+
+#define STATUSBAR "dwmblocks"
+
+#define STATUSBAR "dwmblocks"
+
+#define STATUSBAR "dwmblocks"
+
+#define STATUSBAR "dwmblocks"
+
+#define STATUSBAR "dwmblocks"
+
+#define STATUSBAR "dwmblocks"
+
+#define STATUSBAR "dwmblocks"
+
+#define STATUSBAR "dwmblocks"
+
 /* commands */
 static char dmenumon[2] =
     "0"; /* component of dmenucmd, manipulated in spawn() */
@@ -96,8 +124,8 @@ static const Key keys[] = {
     {0, XF86XK_AudioLowerVolume, spawn, SHCMD("$HOME/.config/dunst/notif_scripts/volume_notif.sh down")},
     {0, XF86XK_AudioRaiseVolume, spawn, SHCMD("$HOME/.config/dunst/notif_scripts/volume_notif.sh up")},
 
-    {0, XF86XK_MonBrightnessDown, spawn, SHCMD("brightnessctl s 5%-")},
-    {0, XF86XK_MonBrightnessUp, spawn, SHCMD("brightnessctl s 5%+")},
+    {0, XF86XK_MonBrightnessDown, spawn, SHCMD("brightnessctl s 5%- ; kill -39 $(pidof dwmblocks)")},
+    {0, XF86XK_MonBrightnessUp, spawn, SHCMD("brightnessctl s 5%+ ; kill -39 $(pidof dwmblocks)")},
 
     {0, XF86XK_KbdBrightnessDown, spawn, SHCMD("$HOME/.config/scripts/kbdbacklight.sh down")},
     {0, XF86XK_KbdBrightnessUp, spawn, SHCMD("$HOME/.config/scripts/kbdbacklight.sh up")},
