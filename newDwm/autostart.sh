@@ -1,10 +1,8 @@
 #!/bin/bash
 
-# My eyes hurst broh
-redshift -P -O 4600 &
+redshift -P -O 3600 &
 
-feh --bg-fill $HOME/Pictures/Backgrounds/arknightsFeater2.png
-
+feh --bg-fill $HOME/Pictures/Backgrounds/Coso_raro_pero_cuco.png
 # Notifications kek
 killall -q dunst
 while pgrep -u $UID -x dunst >/dev/null; do
