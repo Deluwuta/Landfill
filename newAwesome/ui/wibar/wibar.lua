@@ -5,12 +5,15 @@ local gears = require("gears")
 -- Keyboard map indicator and switcher
 local mykeyboardlayout = awful.widget.keyboardlayout()
 
+-- Internet watcher
+
+
 -- Create a textclock widget
 local mytextclock = wibox.widget({
     {
         {
             id = "clock_role",
-            format = "<b>" .. " %a, %d/%m ~ %I:%M %p " .. "</b>",
+            format = "<b>" .. " %a, %d/%m ~ %H:%M " .. "</b>",
             refresh = 30,
             -- font = "Fantasque Nerd Font Mono 11",
             widget = wibox.widget.textclock(),
@@ -99,7 +102,7 @@ local taglist_template = {
 
 awful.screen.connect_for_each_screen(function(s)
     -- Each screen has its own tag table.
-    awful.tag({ "\u{e24f}", "\u{e24f}", "\u{e24f}", "\u{e24f}", "\u{e24f}", "\u{e24f}" }, s, awful.layout.layouts[1])
+    awful.tag({ "\u{e24f}", "\u{e24f}", "\u{e24f}", "\u{e24f}", "\u{e24f}", "\u{e24f}", "\u{e24f}" }, s, awful.layout.layouts[1])
 
     -- Custom tags config
     local tag1 = awful.tag.add(" FLOAT ", {

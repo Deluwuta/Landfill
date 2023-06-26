@@ -114,14 +114,14 @@ require("ui.wibar")
 
 -- {{{ Mouse bindings
 
-local rofi = "rofi -modi combi -show combi -display-combi 'Rufos ~>>' -combi-modi run,drun"
+local rofi = "rofi -modi combi -show combi -display-combi 'Plutus ~\u{f054}' -combi-modi run,drun"
 local volume = "/home/delta/.config/dunst/notif_scripts/volume_notif.sh"
 local scriptsPath = "/home/delta/.config/scripts/"
 
 root.buttons(gears.table.join(
-    awful.button({ }, 3, function () mymainmenu:toggle() end),
-    awful.button({ }, 4, awful.tag.viewnext),
-    awful.button({ }, 5, awful.tag.viewprev)
+    awful.button({ }, 3, function () mymainmenu:toggle() end)
+    -- awful.button({ }, 4, awful.tag.viewnext),
+    -- awful.button({ }, 5, awful.tag.viewprev)
 ))
 -- }}}
 
@@ -130,14 +130,15 @@ globalkeys = gears.table.join(
 
     -- Restart and quit, in that order
     awful.key({ mod, "Control" }, "r", awesome.restart),
-    awful.key({ mod, "Shift"   }, "q", awesome.quit),
+    awful.key({ mod, "Control"   }, "q", awesome.quit),
 
     -- Basic stuff
     awful.key({ mod }, "Return", function () awful.spawn(terminal) end),
-    awful.key({ mod }, "b", function () awful.spawn("firefox") end),
-    awful.key({ mod }, "f", function () awful.spawn("nautilus") end),
+    awful.key({ mod }, "b", function () awful.spawn("brave") end),
+    awful.key({ mod }, "f", function () awful.spawn("thunar") end),
     awful.key({ mod }, "d", function () awful.spawn(rofi) end),
-    awful.key({ }, "Print", function () awful.spawn("flameshot gui") end),
+    awful.key({ mod, "Shift" }, "s", function () awful.spawn("flameshot gui") end),
+    -- awful.key({ alt }, "Tab", function () awful.spawn("rofi -modi window -show window run") end),
 
     -- Multimedia keys
     awful.key({ }, "XF86AudioRaiseVolume", function () awful.spawn(volume .. " up") end),
@@ -201,12 +202,12 @@ clientkeys = gears.table.join(
     -- Make the focused window to stay on top
     awful.key({ mod, "Control" }, "t", function (c) c.ontop = not c.ontop end),
 
-    awful.key({ mod }, "n",
-        function (c)
-            -- The client currently has the input focus, so it cannot be
-            -- minimized, since minimized clients can't have the focus.
-            c.minimized = true
-        end),
+--    awful.key({ mod }, "n",
+--        function (c)
+--            -- The client currently has the input focus, so it cannot be
+--            -- minimized, since minimized clients can't have the focus.
+--            c.minimized = true
+--        end),
 
     -- Three ways of maximizing windows. Just XD
     awful.key({ mod }, "m",
@@ -329,8 +330,11 @@ awful.rules.rules = {
           "Tor Browser", -- Needs a fixed window size to avoid fingerprinting by screen size.
           "Wpa_gui",
           "discord",
+          "Spotify",
           "joplin",
+          "Joplin",
           "joplin-desktop",
+          "Joplin-desktop",
           "veromix",
           "xtightvncviewer"},
 
@@ -350,7 +354,7 @@ awful.rules.rules = {
     { rule_any = {type = { "normal", "dialog" }
       }, properties = { titlebars_enabled = false }
     },
-    { rule_any = { class = { "discord", "joplin" } },
+    { rule_any = { class = { "discord", "joplin", "Spotify" } },
         properties = { placement = awful.placement.centered }
     },
 
@@ -365,7 +369,7 @@ awful.rules.rules = {
 client.connect_signal("manage", function (c)
     -- Set the windows at the slave,
     -- i.e. put it at the end of others instead of setting it master.
-    -- if not awesome.startup then awful.client.setslave(c) end
+    if not awesome.startup then awful.client.setslave(c) end
 
     if awesome.startup
       and not c.size_hints.user_position
@@ -416,9 +420,9 @@ client.connect_signal("request::titlebars", function(c)
 end)
 
 -- Enable sloppy focus, so that focus follows mouse.
-client.connect_signal("mouse::enter", function(c)
-    c:emit_signal("request::activate", "mouse_enter", {raise = false})
-end)
+--client.connect_signal("mouse::enter", function(c)
+--    c:emit_signal("request::activate", "mouse_enter", {raise = false})
+--end)
 
 client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
