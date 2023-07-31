@@ -1,0 +1,24 @@
+# Quit and restart
+super + ctrl + {q,r}
+  bspc {quit, wm -r}
+
+# Terminal launching
+super + Return
+  alacritty
+
+# Killin
+super + shift + c 
+  bspc node -c
+
+super + b
+  brave
+
+super + d 
+  rofi -show run
+
+super + f
+  nemo
+
+# Workspace navigation
+super + {_, shift + }{1-7,0}
+  bspc {desktop -f,node -d} focused:'^{1-7,10}'
