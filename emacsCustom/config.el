@@ -74,6 +74,25 @@
     "t l" '(display-line-numbers-mode :wk "Toggle line numbers")
     "t t" '(visual-line-mode :wk "Toggle truncated lines"))
 
+  (delta/leader-keys
+    "w" '(:ignore t :wk "Window manipulation")
+    "w c" '(evil-window-delete :wk "Close window")
+
+    ;; Window split
+    "w n" '(evil-window-new :wk "New window")
+    "w s" '(evil-window-split :wk "Horizontal split")
+    "w v" '(evil-window-vsplit :wk "Vertical split")
+
+    ;; Window motions
+    "w h" '(evil-window-left :wk "Window left")
+    "w j" '(evil-window-down :wk "Window down")
+    "w k" '(evil-window-up :wk "Window up")
+    "w l" '(evil-window-right :wk "Window right")
+    "w w" '(evil-window-next :wk "Goto next window")
+
+  )
+
+
 )
 
 (set-face-attribute 'default nil
@@ -126,6 +145,12 @@
 (electric-indent-mode -1)
 
 (require 'org-tempo)
+
+(use-package catppuccin-theme
+  :config
+    (setq catppuccin-flavor 'macchiato) ;; or 'latte / 'frappe / 'macchiato / 'mocha
+)
+(load-theme 'catppuccin :no-confirm)
 
 (use-package sudo-edit
   :config
