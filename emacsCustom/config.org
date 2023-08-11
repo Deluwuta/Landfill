@@ -22,6 +22,7 @@
   - [[#disable-electric-indent][Disable Electric Indent]]
   - [[#source-code-block-tag-expansion][Source Code Block Tag Expansion]]
 - [[#theme][THEME]]
+- [[#scrolling][SCROLLING]]
 - [[#sudo-edit][SUDO EDIT]]
 - [[#which-key][WHICH-KEY]]
 
@@ -267,6 +268,8 @@ Let's remove visual bloat :D
   (setq display-line-numbers-type 'relative) ;; Relative line numbers bb
   (global-display-line-numbers-mode 1)
   (global-visual-line-mode t)
+
+  (global-hl-line-mode 1) ;; Highlight current line
 #+end_src
 
 * ORG MODE
@@ -311,6 +314,21 @@ Catppuccin '-'
   (load-theme 'catppuccin :no-confirm)
 #+end_src
 
+* SCROLLING
+By default Emacs has a really "jumpy" scroll behaviour, so let's change it to be smoother and with some margin.
+
+#+begin_src emacs-lisp
+  (setq redisplay-dont-pause t
+    scroll-margin 10
+    scroll-step 1
+    scroll-conservatively 10000
+    scroll-perserve-screen-position 1
+    mouse-wheel-progressive-speed t ;; (don't) accelerate scrolling
+    ;mouse-whell-scroll-amount '(10)
+    mouse-whell-follow-mouse 't
+    )
+#+end_src
+
 * SUDO EDIT
 Open files with sudo privileges or switch over to editing with sudo privileges.
 #+begin_src emacs-lisp
@@ -344,3 +362,4 @@ Just because I have the stupid :(
   )
 
 #+end_src
+

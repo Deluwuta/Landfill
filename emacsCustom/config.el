@@ -134,6 +134,8 @@
 (global-display-line-numbers-mode 1)
 (global-visual-line-mode t)
 
+(global-hl-line-mode 1) ;; Highlight current line
+
 (use-package toc-org
   :commands toc-org-enable
   :init (add-hook 'org-mode-hook 'toc-org-enable))
@@ -151,6 +153,16 @@
     (setq catppuccin-flavor 'macchiato) ;; or 'latte / 'frappe / 'macchiato / 'mocha
 )
 (load-theme 'catppuccin :no-confirm)
+
+(setq redisplay-dont-pause t
+  scroll-margin 10
+  scroll-step 1
+  scroll-conservatively 10000
+  scroll-perserve-screen-position 1
+  mouse-wheel-progressive-speed t ;; (don't) accelerate scrolling
+  ;mouse-whell-scroll-amount '(10)
+  mouse-whell-follow-mouse 't
+  )
 
 (use-package sudo-edit
   :config
