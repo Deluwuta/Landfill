@@ -41,8 +41,10 @@
     :global-prefix "M-SPC") ;; Access leader in insert mode
 
   (delta/leader-keys
+    "SPC" '(counsel-M-x :wk "Counsel M-x")
     "." '(find-file :wk "Find file")
     "f c" '((lambda () (interactive) (find-file "~/.config/emacs/config.org")) :wk "Edit emacs config.org")
+    "f r" '(counsel-recentf :wk "Find recent files")
     "l" '(comment-line :wk "(Un)Comment lines")
   )
 
@@ -70,9 +72,14 @@
     "h r r" '((lambda () (interactive) (load-file "~/.config/emacs/init.el")) :wk "Reload emacs config"))
 
   (delta/leader-keys
+    "m b" '(:ignore t :wk "Tables")
+    "m b -" '(org-table-insert-hline :wk "Insert hline in table"))
+
+  (delta/leader-keys
     "t" '(:ignore t :wk "Toggle")
     "t l" '(display-line-numbers-mode :wk "Toggle line numbers")
-    "t t" '(visual-line-mode :wk "Toggle truncated lines"))
+    "t t" '(visual-line-mode :wk "Toggle truncated lines")
+    "t v" '(vterm-toggle :wk "Toggle vterm"))
 
   (delta/leader-keys
     "w" '(:ignore t :wk "Window manipulation")
@@ -91,9 +98,40 @@
     "w w" '(evil-window-next :wk "Goto next window")
 
   )
-
-
 )
+
+(use-package all-the-icons
+  :ensure t
+  :if (display-graphic-p))
+
+(use-package all-the-icons-dired
+  :hook (dired-mode . (lambda () (all-the-icons-dired-mode t))))
+
+(use-package company
+  ;; :defer 2
+  :custom
+  (company-begin-commands '(self-insert-command))
+  (company-idle-delay .1)
+  (company-minimum-prefix-length 2)
+  (company-show-numbers nil)
+  (company-tooltip-align-annotations 't)
+  (global-company-mode t))
+
+(use-package company-box
+  :after company
+  :hook (company-mode . company-box-mode))
+
+(use-package lua-mode
+  :hook (lua-mode . lsp-deferred))
+(use-package haskell-mode)
+
+(use-package lsp-mode
+  :commands (lsp lsp-deferred)
+  :init (setq lsp-keymap-prefix "C-c l") ;; I don't like this
+  :config
+  (lsp-enable-which-key-integration t))
+
+(electric-pair-mode 1)
 
 (set-face-attribute 'default nil
   :font "Hack Nerd Font Mono"
@@ -126,15 +164,48 @@
 (global-set-key (kbd "<C-wheel-up>") 'text-scale-increase)
 (global-set-key (kbd "<C-wheel-down>") 'text-scale-decrease)
 
-(menu-bar-mode 1)
+(menu-bar-mode -1)
 (tool-bar-mode -1)
-(scroll-bar-mode 1)
+(scroll-bar-mode -1)
 
 (setq display-line-numbers-type 'relative) ;; Relative line numbers bb
 (global-display-line-numbers-mode 1)
 (global-visual-line-mode t)
 
 (global-hl-line-mode 1) ;; Highlight current line
+
+(use-package counsel
+  :after ivy
+  :config (counsel-mode))
+
+(use-package ivy
+  :bind
+  ;; ivy-resume  resumes the last Ivy-based completion.
+  (("C-c C-r" . ivy-resume)
+   ("C-x B" . ivy-switch-buffer-other-window))
+  :custom
+  (setq ivy-use-virtual-buffers t)
+  (setq ivy-count-format "(%d/%d) ")
+  (setq enable-recursive-minibuffers t)
+  :config
+  (ivy-mode))
+
+(use-package all-the-icons-ivy-rich
+  :ensure t
+  :init (all-the-icons-ivy-rich-mode 1))
+
+(use-package ivy-rich
+  :after ivy
+  :ensure t
+  :init (ivy-rich-mode 1) ;; this gets us descriptions in M-x
+  :custom
+  (ivy-virtual-abbreviate 'full
+   ivy-rich-switch-buffer-align-virutal-buffer t
+   ivy-rich-path-style 'abbrev)
+  :config
+  (ivy-set-display-transformer 'ivy-switch-buffer
+                                'ivy-rich-switch-buffer-transformer)
+)
 
 (use-package toc-org
   :commands toc-org-enable
@@ -144,7 +215,8 @@
 (use-package org-bullets)
 (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
 
-(electric-indent-mode -1)
+;(electric-indent-mode -1)
+(setq org-edit-src-content-indentation 0)
 
 (require 'org-tempo)
 
@@ -153,6 +225,9 @@
     (setq catppuccin-flavor 'macchiato) ;; or 'latte / 'frappe / 'macchiato / 'mocha
 )
 (load-theme 'catppuccin :no-confirm)
+
+(use-package rainbow-mode
+  :hook org-mode prog-mode)
 
 (setq redisplay-dont-pause t
   scroll-margin 10
@@ -163,6 +238,47 @@
   ;mouse-whell-scroll-amount '(10)
   mouse-whell-follow-mouse 't
   )
+
+(use-package eshell-syntax-highlighting
+  :after esh-mode
+  :config
+  (eshell-syntax-highlighting-global-mode +1))
+
+;; eshell-rc-script -- eshell profile
+;; eshell-aliases-file -- aliases file for the eshell
+
+(setq eshell-rc-script (concat user-emacs-directory "eshell/profile")
+      eshell-aliases-file (concat user-emacs-directory "eshell/aliases")
+      eshell-history-size 5000
+      eshell-buffer-maximum-lines 5000
+      eshell-hist-ignoredups t
+      eshell-scroll-to-bottom-on-input t
+      eshell-destroy-buffer-when-process-dies t
+      eshell-visual-commands'("bash" "zsh" "htop" "top" "ssh"))
+
+(use-package vterm)
+  :config
+  (setq shell-file-name "/bin/zsh"
+        vterm-max-scrollback 5000)
+
+(use-package vterm-toggle
+  :after vterm
+  :config
+  (setq vterm-toggle-fullscreen-p nil)
+  (setq vterm-toggle-scope 'project)
+  (add-to-list 'display-buffer-alist
+             '((lambda (buffer-or-name _)
+                   (let ((buffer (get-buffer buffer-or-name)))
+                     (with-current-buffer buffer
+                       (or (equal major-mode 'vterm-mode)
+                           (string-prefix-p vterm-buffer-name (buffer-name buffer))))))
+                (display-buffer-reuse-window display-buffer-at-bottom)
+                ;;(display-buffer-reuse-window display-buffer-in-direction)
+                ;;display-buffer-in-direction/direction/dedicated is added in emacs27
+                ;;(direction . bottom)
+                ;;(dedicated . t) ;dedicated is supported in emacs27
+                (reusable-frames . visible)
+                (window-height . 0.3))))
 
 (use-package sudo-edit
   :config
@@ -184,6 +300,6 @@
 	which-key-side-window-max-height 0.25
 	which-key-idle-dalay 0.8
 	which-key-max-description-length 25
-	which-key-allow-imprecise-window-fit t
+	which-key-allow-imprecise-window-fit nil
 	which-key-separator " > ")
 )
