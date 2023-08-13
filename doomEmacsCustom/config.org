@@ -1,0 +1,148 @@
+#+title: Delta's Doom Emacs Config
+#+author: Deluwuta (<https://github.com/deluwuta>)
+#+description: Delta's personal Doom config.
+#+startup: showeverything
+
+* TABLE OF CONTENTS :toc:
+- [[#fonts][FONTS]]
+- [[#graphical-interface][GRAPHICAL INTERFACE]]
+  - [[#line-configurations][Line configurations]]
+- [[#mouse-support][MOUSE SUPPORT]]
+- [[#org-mode][ORG MODE]]
+  - [[#org-directory][Org directory]]
+  - [[#enabling-org-bullets][Enabling Org Bullets]]
+- [[#quality-of-life][QUALITY OF LIFE]]
+- [[#rainbow-mode][RAINBOW MODE]]
+- [[#scrolling][SCROLLING]]
+- [[#theme][THEME]]
+
+* FONTS
+Defining fonts (*pretends to be shocked*).
+Settings related to fonts within Doom Emacs:
++ `doom-font' -- the primary font to use
++ `doom-variable-pitch-font' -- a non-monospace font (where applicable)
++ `doom-big-font' -- used for `doom-big-font-mode'; use this for presentations or streaming.
++ `doom-unicode-font' -- for unicode glyphs
++ `doom-serif-font' -- for the `fixed-pitch-serif' face
+
+#+begin_src emacs-lisp
+(setq doom-font
+      ;; (font-spec :family "FiraCode Nerd Font"
+      (font-spec :family "Hack Nerd Font"
+                 :size 16
+                 :weight 'medium)
+      doom-variable-pitch-font
+      (font-spec :family "FantasqueSansM Nerd Font"
+                 :size 16
+                 :weight 'medium))
+(after! doom-themes
+  (setq doom-themes-enable-bold t
+        doom-themes-enable-italic t))
+
+(custom-set-faces!
+  '(font-lock-comment-face :slant italic)
+  '(font-lock-keyword-face :weight bold))
+
+(setq-default line-spacing 0.12)
+#+end_src
+
+* GRAPHICAL INTERFACE
+La verdad es que tengo problemas mentales.
+
+** Line configurations
+#+begin_src emacs-lisp
+
+; Some colors: #89dceb #f5c2e7 #f38ba8
+
+(map! :leader
+      :desc "Comment or uncomment lines" "l" #'comment-line)
+
+(setq evil-normal-state-cursor '(box "#89dceb")
+      evil-insert-state-cursor '(hbar "#89dceb")
+      evil-visual-state-cursor '(hollow "#f38ba8"))
+
+(setq display-line-numbers-type 'relative)
+(setq display-line-numbers-mode 1)
+(global-visual-line-mode t)
+
+(custom-set-faces!
+  '(line-number-current-line :foreground "#f5c2e7"
+                             :slant italic
+                             :weight bold))
+#+end_src
+
+* MOUSE SUPPORT
+For the terminal version of Emacs.
+
+#+begin_src emacs-lisp
+(xterm-mouse-mode 1)
+#+end_src
+
+* ORG MODE
+** Org directory
+If you use `org' and don't want your org files in the default location below, change `org-directory'. It must be set before org loads!
+
+#+begin_src emacs-lisp
+(setq org-directory "~/org/")
+#+end_src
+
+** Enabling Org Bullets
+Org-bullets gives us attrative bullets (ojalá en mi pecho) rather than asterisks
+
+#+begin_src emacs-lisp
+(add-hook 'org-mode-hook 'org-indent-mode)
+(require 'org-bullets)
+(add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+#+end_src
+
+* QUALITY OF LIFE
+Just a bunch of changes to try to reduce my sui**dal thoughts.
+
+#+begin_src emacs-lisp
+(setq confirm-kill-emacs nil) ; No more asking If I want to quit
+
+; Why did it split ON TOP???
+(after! evil
+  (setq evil-vsplit-window-right t
+        evil-split-window-below t))
+#+end_src
+
+* RAINBOW MODE
+Idk why do I have to *explicitly* set this (Thank you DT).
+
+#+begin_src emacs-lisp
+(define-globalized-minor-mode global-rainbow-mode rainbow-mode
+  (lambda ()
+    (when (not (memq major-mode
+                     (list 'org-agenda-mode)))
+      (rainbow-mode 1))))
+(global-rainbow-mode 1)
+#+end_src
+
+* SCROLLING
+By default Doom Emacs fixes the "jumpy" scroll behaviour that Vanilla Emacs have, but I'll tweak it a bit.
+
+#+begin_src emacs-lisp
+(setq redisplay-dont-pause t
+  scroll-margin 10
+  scroll-step 1
+  scroll-conservatively 10000
+  scroll-perserve-screen-position 1
+  mouse-wheel-progressive-speed t ;; (don't) accelerate scrolling
+  ;mouse-whell-scroll-amount '(10)
+  mouse-whell-follow-mouse 't
+)
+#+end_src
+
+* THEME
+Doom has a *lot* of themes but Catppuccin remains superior. To use Catppuccin as a theme is needed to add it on the package.el file first.
+
+#+begin_src emacs-lisp
+;; There are two ways to load a theme. Both assume the theme is installed and
+;; available. You can either set `doom-theme' or manually load a theme with the
+;; `load-theme' function. This is the default:
+
+(setq doom-theme 'catppuccin)
+(setq catppuccin-flavor 'macchiato) ; 'latte / 'macchiato / 'latte / 'mocha
+
+#+end_src
