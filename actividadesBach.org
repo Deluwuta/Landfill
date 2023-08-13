@@ -1,0 +1,133 @@
+#+title: Actividades Bach
+#+author: Er Trojes
+#+description: Ejercicios que me mandaron en bachillerato pero que hago ahora porque puedo. Están pensados para C++ pero los voy a hacer en Python '-'
+#+startup: showeverything
+
+* Ejercicio 1
+Crea un programa que pida un número al usuario y muestre todos sus divisores.
+
+#+begin_src python
+num = int(input("Dime un numero: "))
+divisores = []
+for x in range (1, num+1):
+    if num % x == 0:
+        divisores.append(x)
+
+print(f'Sus divisores son {divisores}')
+#+end_src
+
+* Ejercicio 2
+Elabora un programa que dibuje un rectángulo, formado por asteriscos, del ancho y el alto indicados por el usuario:
+
+#+begin_src python
+print("Vamos a dibujar un rectángulo jsjs")
+ancho = int(input("Dime el ancho: "))
+alto = int(input("Dime el alto: "))
+
+for x in range(0, alto):
+    for y in range(0, ancho):
+        print('*', end='')
+    print("")
+#+end_src
+
+* Ejercicio 3
+Diseña un programa que pida al usuario diez número enteros y muestre su suma, sin utilizar ningún array y con solo dos variables.
+
+#+begin_src python
+a = 0
+b = 0
+for x in range (0, 10):
+    a = int(input(f"Dime un número ({x+1})/10: "))
+    b += a
+
+print(f"La suma es {b}")
+#+end_src
+
+* Ejercicio 4
+Crea un programa que pida al usuario diez números enteros y los guarde en un array. A continuación, mientras el usuario teclea un número distinto de 0, deberá indicar en qué posiciones se encuentra (o no indicar nada, si no aparece).
+
+#+begin_src python
+a = 0
+b = []
+for x in range (0, 10):
+    a = int(input(f"Dime un número ({x+1})/10: "))
+    b.append(a)
+
+a = -1
+while (a != 0):
+    a = int(input(f"Dime un número (0 para salir): "))
+    for index,x in enumerate(b):
+        if x == a:
+            print(f"Esta en la posición {index}")
+print("Hasta luego!")
+#+end_src
+
+* Ejercicio 5
+Crea una versión alternativa del programa de la actividad anterior, en la que simplemente se responda al usuario si el número aparece o no.
+
+#+begin_src python
+a = 0
+b = []
+for x in range (0, 10):
+    a = int(input(f"Dime un número ({x+1})/10: "))
+    b.append(a)
+
+a = -1
+while (a != 0):
+    a = int(input(f"Dime un número (0 para salir): "))
+    for index,x in enumerate(b):
+        if x == a:
+            print("Encontrado")
+            break
+print("Hasta luego!")
+#+end_src
+
+* Ejercicio 6
+#+begin_quote
+Diseña un programa básico de estadística: debe tener espacio para hasta 1000 datos reales de doble precisión. El usuario podrá añadir un nuevo dato, consultar todos los existentes y calcular y mostrar su media aritmética y su desviación típica.
+#+end_quote
+
+A lo mejor me compliqué un poco la vida con este ejercicio pero lo he disfrutado mucho JAJAJ.
+
+#+begin_src python
+def addValue(arr):
+    arr.append(float(input("\nIntroduzca el nuevo número: ")))
+
+def showValues(arr):
+    print(f"\nLos valores guardados son:\n{arr}")
+
+def arithmetics(arr):
+    # Media aritmética
+    media = sum(arr)/len(arr)
+
+    # Desviación típica
+    suma = 0;
+    for x in arr:
+        suma = (x - media)**2
+    desviado = suma / len(arr)
+    desviado **= 0.5 # Raíz cuadrada
+
+    print(f"\nLa media es: {media}\nLa desviación típica es: {desviado}\n")
+
+def menu():
+    print("1. Añadir un dato")
+    print("2. Ver todos los datos")
+    print("3. Mostrar media y desviación")
+    print("0. Terminar")
+
+    return int(input())
+
+if __name__ == '__main__':
+    bigArr = []
+    funcsDict = {
+        1 : addValue,
+        2 : showValues,
+        3 : arithmetics,
+    }
+    val = menu()
+    while (val != 0):
+        funcsDict[val](bigArr)
+        val = menu()
+
+    print("Fuck u!")
+#+end_src
