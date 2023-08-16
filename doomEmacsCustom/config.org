@@ -4,6 +4,8 @@
 #+startup: showeverything
 
 * TABLE OF CONTENTS :toc:
+- [[#dashboard][DASHBOARD]]
+  - [[#custom-banner][Custom banner]]
 - [[#fonts][FONTS]]
 - [[#graphical-interface][GRAPHICAL INTERFACE]]
   - [[#line-configurations][Line configurations]]
@@ -11,10 +13,51 @@
 - [[#org-mode][ORG MODE]]
   - [[#org-directory][Org directory]]
   - [[#enabling-org-bullets][Enabling Org Bullets]]
+  - [[#headings-at-point][Headings at point]]
+  - [[#disable-company][Disable Company]]
 - [[#quality-of-life][QUALITY OF LIFE]]
 - [[#rainbow-mode][RAINBOW MODE]]
 - [[#scrolling][SCROLLING]]
 - [[#theme][THEME]]
+
+* DASHBOARD
+** Custom banner
+
+#+begin_src emacs-lisp
+
+; If you want to use an image, change the path of the line below
+(setq fancy-splash-image "~/Pictures/emacs_logo1_res.png")
+
+
+; Ascii ART
+(defun my-weebery-is-always-greater ()
+  (let* ((banner '("⣇⣿⠘⣿⣿⣿⡿⡿⣟⣟⢟⢟⢝⠵⡝⣿⡿⢂⣼⣿⣷⣌⠩⡫⡻⣝⠹⢿⣿⣷"
+        "⡆⣿⣆⠱⣝⡵⣝⢅⠙⣿⢕⢕⢕⢕⢝⣥⢒⠅⣿⣿⣿⡿⣳⣌⠪⡪⣡⢑⢝⣇"
+        "⡆⣿⣿⣦⠹⣳⣳⣕⢅⠈⢗⢕⢕⢕⢕⢕⢈⢆⠟⠋⠉⠁⠉⠉⠁⠈⠼⢐⢕⢽"
+        "⡗⢰⣶⣶⣦⣝⢝⢕⢕⠅⡆⢕⢕⢕⢕⢕⣴⠏⣠⡶⠛⡉⡉⡛⢶⣦⡀⠐⣕⢕"
+        "⡝⡄⢻⢟⣿⣿⣷⣕⣕⣅⣿⣔⣕⣵⣵⣿⣿⢠⣿⢠⣮⡈⣌⠨⠅⠹⣷⡀⢱⢕"
+        "⡝⡵⠟⠈⢀⣀⣀⡀⠉⢿⣿⣿⣿⣿⣿⣿⣿⣼⣿⢈⡋⠴⢿⡟⣡⡇⣿⡇⡀⢕"
+        "⡝⠁⣠⣾⠟⡉⡉⡉⠻⣦⣻⣿⣿⣿⣿⣿⣿⣿⣿⣧⠸⣿⣦⣥⣿⡇⡿⣰⢗⢄"
+        "⠁⢰⣿⡏⣴⣌⠈⣌⠡⠈⢻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣬⣉⣉⣁⣄⢖⢕⢕⢕"
+        "⡀⢻⣿⡇⢙⠁⠴⢿⡟⣡⡆⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣵⣵⣿"
+        "⡻⣄⣻⣿⣌⠘⢿⣷⣥⣿⠇⣿⣿⣿⣿⣿⣿⠛⠻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿"
+        "⣷⢄⠻⣿⣟⠿⠦⠍⠉⣡⣾⣿⣿⣿⣿⣿⣿⢸⣿⣦⠙⣿⣿⣿⣿⣿⣿⣿⣿⠟"
+        "⡕⡑⣑⣈⣻⢗⢟⢞⢝⣻⣿⣿⣿⣿⣿⣿⣿⠸⣿⠿⠃⣿⣿⣿⣿⣿⣿⡿⠁⣠"
+        "⡝⡵⡈⢟⢕⢕⢕⢕⣵⣿⣿⣿⣿⣿⣿⣿⣿⣿⣶⣶⣿⣿⣿⣿⣿⠿⠋⣀⣈⠙"
+        "⡝⡵⡕⡀⠑⠳⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⠛⢉⡠⡲⡫⡪⡪⡣" ))
+         (longest-line (apply #'max (mapcar #'length banner))))
+    (put-text-property
+     (point)
+     (dolist (line banner (point))
+       (insert (+doom-dashboard--center
+                +doom-dashboard--width
+                (concat line (make-string (max 0 (- longest-line (length line))) 32)))
+               "\n"))
+     'face 'doom-dashboard-banner)))
+
+;; (setq +doom-dashboard-ascii-banner-fn #'my-weebery-is-always-greater)
+(setq dashboard-center-content t)
+#+end_src
 
 * FONTS
 Defining fonts (*pretends to be shocked*).
@@ -27,8 +70,8 @@ Settings related to fonts within Doom Emacs:
 
 #+begin_src emacs-lisp
 (setq doom-font
-      ;; (font-spec :family "FiraCode Nerd Font"
-      (font-spec :family "Hack Nerd Font"
+      (font-spec :family "FiraCode Nerd Font"
+      ;; (font-spec :family "Hack Nerd Font"
                  :size 16
                  :weight 'medium)
       doom-variable-pitch-font
@@ -95,16 +138,36 @@ Org-bullets gives us attrative bullets (ojalá en mi pecho) rather than asterisk
 (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
 #+end_src
 
+** Headings at point
+Insert Org headings at point, not after the current subtree (f*ck u Doom).
+#+begin_src emacs-lisp
+(after! org
+  (setq org-insert-heading-respect-content nil))
+#+end_src
+
+** Disable Company
+Is really anoying in Org.
+#+begin_src emacs-lisp
+(defun delta/adjust-org-company-backends ()
+  (remove-hook 'after-change-major-mode-hook '+company-init-backends-h)
+  (setq-local company-backends nil))
+
+(add-hook! org-mode (delta/adjust-org-company-backends))
+#+end_src
+
 * QUALITY OF LIFE
 Just a bunch of changes to try to reduce my sui**dal thoughts.
 
 #+begin_src emacs-lisp
 (setq confirm-kill-emacs nil) ; No more asking If I want to quit
+(setq company-minimum-prefix-length 1)
 
 ; Why did it split ON TOP???
 (after! evil
   (setq evil-vsplit-window-right t
         evil-split-window-below t))
+
+(setq +lsp-company-backends '(:separate company-yasnippet company-capf))
 #+end_src
 
 * RAINBOW MODE
