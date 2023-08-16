@@ -1,6 +1,6 @@
 #!/bin/bash
 
-conn="$(cat /sys/class/net/enp3s0/operstate)"
+conn="$(cat /sys/class/net/enp0s3/operstate)"
 
 if [[ $conn == "up" ]]; then
     echo "Ethernet"

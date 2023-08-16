@@ -22,6 +22,9 @@ local hotkeys_popup = require("awful.hotkeys_popup")
 -- when client with a matching name is opened:
 require("awful.hotkeys_popup.keys")
 
+-- Widgets
+volumecfg = require("ui.wibar.volume-control")({})
+
 -- Autostarting
 awful.util.spawn("/home/delta/.config/awesome/autostart.sh")
 
@@ -135,14 +138,14 @@ globalkeys = gears.table.join(
     -- Basic stuff
     awful.key({ mod }, "Return", function () awful.spawn(terminal) end),
     awful.key({ mod }, "b", function () awful.spawn("brave") end),
-    awful.key({ mod }, "f", function () awful.spawn("thunar") end),
+    awful.key({ mod }, "f", function () awful.spawn("pcmanfm") end),
     awful.key({ mod }, "d", function () awful.spawn(rofi) end),
     awful.key({ mod, "Shift" }, "s", function () awful.spawn("flameshot gui") end),
     -- awful.key({ alt }, "Tab", function () awful.spawn("rofi -modi window -show window run") end),
 
     -- Multimedia keys
-    awful.key({ }, "XF86AudioRaiseVolume", function () awful.spawn(volume .. " up") end),
-    awful.key({ }, "XF86AudioLowerVolume", function () awful.spawn(volume .. " down") end),
+    awful.key({ }, "XF86AudioRaiseVolume", function () volumecfg:up() end),
+    awful.key({ }, "XF86AudioLowerVolume", function () volumecfg:down() end),
 
     awful.key({ mod }, "space", function () awful.spawn(scriptsPath .. "keyboardChanger.sh") end),
 

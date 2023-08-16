@@ -2,10 +2,23 @@ local awful = require("awful")
 local wibox = require("wibox")
 local gears = require("gears")
 
+-- Widgets
+local volume_control = require("ui.wibar.volume-control")
+
 -- Keyboard map indicator and switcher
 local mykeyboardlayout = awful.widget.keyboardlayout()
 
+-- Battery?
+local myBat = wibox.widget({
+        id = "bat_role",
+        markup = require("ui.wibar.prueba")(),
+        refresh = 60,
+        widget = wibox.widget.textbox,
+})
+
 -- Internet watcher
+-- Volume
+volumecfg = volume_control({})
 
 
 -- Create a textclock widget
@@ -99,16 +112,48 @@ local taglist_template = {
     end
 }
 
+local taglist_simple = {
+    {
+        id = 'index_rule',
+        widget = wibox.widget.textbox,
+    },
+    margins = 4,
+    widget = wibox.container.margin,
+}
+
+local taglist_custom = {
+    {
+        {
+            {
+                id     = 'index_role',
+                widget = wibox.widget.textbox,
+            },
+            fg = '#ff0000',
+            widget = wibox.container.background,
+        },
+        layout = wibox.layout.fixed.horizontal,
+    },
+    id     = 'background_role',
+    widget = wibox.container.background,
+    -- Add support for hover colors and an index label
+    create_callback = function(self, c3, index, objects) --luacheck: no unused args
+        self:get_children_by_id('index_role')[1].markup = '<b> '..index..' </b>'
+    end,
+    update_callback = function(self, c3, index, objects) --luacheck: no unused args
+        self:get_children_by_id('index_role')[1].markup = '<b> '..index..' </b>'
+    end,
+}
 
 awful.screen.connect_for_each_screen(function(s)
     -- Each screen has its own tag table.
-    awful.tag({ "\u{e24f}", "\u{e24f}", "\u{e24f}", "\u{e24f}", "\u{e24f}", "\u{e24f}", "\u{e24f}" }, s, awful.layout.layouts[1])
+    -- awful.tag({ "\u{e24f}" }, s, awful.layout.layouts[1])
+    awful.tag({"1", "2", "3", "4", "5", "6", "7"}, s, awful.layout.layouts[1])
 
     -- Custom tags config
-    local tag1 = awful.tag.add(" FLOAT ", {
-        layout = awful.layout.suit.floating,
-        selected = false
-    })
+    -- local tag1 = awful.tag.add(" FLOAT ", {
+        -- layout = awful.layout.suit.floating,
+        -- selected = false
+    -- })
 
     -- Create a promptbox for each screen
     s.mypromptbox = awful.widget.prompt()
@@ -127,9 +172,25 @@ awful.screen.connect_for_each_screen(function(s)
     s.mytaglist = awful.widget.taglist {
         screen  = s,
         filter  = awful.widget.taglist.filter.all,
-        -- widget_template = taglist_template,
+        style = {
+            font = "FantasqueSansM Nerd Font Propo 14",
+            spacing = 2,
+            bg_focus = "#313244",
+            fg_focus = "#89b4fa",
+
+            fg_occupied = "#fab387",
+
+            bg_urgent = "#f38ba8",
+            fg_urgent = "#181825",
+
+        },
+        --widget_template = {
+        --    margins =  4,
+        --    widget = wibox.container.margin,
+        --},
         buttons = taglist_buttons
     }
+
 
     -- Create a tasklist widget
     s.mytasklist = awful.widget.tasklist {
@@ -142,27 +203,29 @@ awful.screen.connect_for_each_screen(function(s)
     s.mywibox = awful.wibar({
         screen = s,
         position = "top",
-        height = 22
+        height = 20
     })
 
     -- Add widgets to the wibox
     s.mywibox:setup {
+        layout = wibox.layout.align.horizontal,
         { -- Left widgets
             layout = wibox.layout.fixed.horizontal,
-            s.mylayoutbox,
+            s.mypromptbox,
             -- mylauncher,
             s.mytaglist,
-            s.mypromptbox,
+            s.mylayoutbox,
         },
-         -- Middle widgets
-            layout = wibox.layout.align.horizontal,
-            expand = "none",
-            mytextclock,
+        { -- Middle widgets
+            layout = wibox.layout.fixed.horizontal,
             -- s.mytasklist,
-
+        },
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
+            volumecfg.widget,
             mykeyboardlayout,
+            myBat,
+            mytextclock,
             wibox.widget.systray(),
         },
     }
