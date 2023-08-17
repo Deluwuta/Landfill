@@ -11,7 +11,7 @@ local mykeyboardlayout = awful.widget.keyboardlayout()
 -- Battery?
 local myBat = wibox.widget({
         id = "bat_role",
-        markup = require("ui.wibar.prueba")(),
+        -- markup = require("ui.wibar.prueba")(),
         refresh = 60,
         widget = wibox.widget.textbox,
 })
