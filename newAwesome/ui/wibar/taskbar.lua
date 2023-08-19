@@ -27,7 +27,7 @@ awful.screen.connect_for_each_screen(function(s)
         screen  = s,
         filter  = awful.widget.tasklist.filter.currenttags,
         style = {
-            font = "Hack Nerd Font 14",
+            font = "Hack Nerd Font 10",
             disable_task_name = false,
 
             fg_normal = "#cdd6f4",

@@ -1,17 +1,5 @@
-#!/bin/bash
+#!/bin/sh
 
-# redshift -P -O 3300 &
-# picom &
-
-feh --bg-fill $HOME/Pictures/wallpaper1.png &
-# feh --bg-fill $HOME/Pictures/wallpaper2.png &
+xrandr -s 1920x1080
+xwallpaper --zoom "$HOME/Pictures/wallhaven1.jpg"
 /usr/bin/emacs --daemon &
-
-# Notifications kek
-# killall -q dunst
-# while pgrep -u $UID -x dunst >/dev/null; do
-#  sleep 1
-# done
-# dunst &
-
-setxkbmap us -variant altgr-intl -option nodeadkeys

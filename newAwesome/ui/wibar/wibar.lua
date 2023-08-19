@@ -173,7 +173,7 @@ awful.screen.connect_for_each_screen(function(s)
         screen  = s,
         filter  = awful.widget.taglist.filter.all,
         style = {
-            font = "FantasqueSansM Nerd Font Propo 14",
+            font = "FantasqueSansM Nerd Font Propo 12",
             spacing = 2,
             bg_focus = "#313244",
             fg_focus = "#89b4fa",
