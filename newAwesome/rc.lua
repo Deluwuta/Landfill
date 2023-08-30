@@ -14,7 +14,7 @@ local wibox = require("wibox")
 local beautiful = require("beautiful")
 
 -- Notification library
--- local naughty = require("naughty")
+local naughty = require("naughty")
 local menubar = require("menubar")
 local hotkeys_popup = require("awful.hotkeys_popup")
 
@@ -23,35 +23,13 @@ local hotkeys_popup = require("awful.hotkeys_popup")
 require("awful.hotkeys_popup.keys")
 
 -- Widgets
-volumecfg = require("ui.wibar.volume-control")({})
+local volumecfg = require("ui.wibar.scripts.volume-control")({})
 
 -- Autostarting
 awful.util.spawn("/home/delta/.config/awesome/autostart.sh")
 
--- {{{ Error handling
--- Check if awesome encountered an error during startup and fell back to
--- another config (This code will only ever execute for the fallback config)
-if awesome.startup_errors then
-    naughty.notify({ preset = naughty.config.presets.critical,
-                     title = "Oops, there were errors during startup!",
-                     text = awesome.startup_errors })
-end
-
--- Handle runtime errors after startup
-do
-    local in_error = false
-    awesome.connect_signal("debug::error", function (err)
-        -- Make sure we don't go into an endless error loop
-        if in_error then return end
-        in_error = true
-
-        naughty.notify({ preset = naughty.config.presets.critical,
-                         title = "Oops, an error happened!",
-                         text = tostring(err) })
-        in_error = false
-    end)
-end
--- }}}
+-- ** Notifications and error handleling ** --
+require("ui.notifications")
 
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
@@ -426,3 +404,19 @@ client.connect_signal("unfocus", function(c)
     c.border_color = beautiful.border_normal
 end)
 -- }}}
+
+-- ** Garbage Collector ** --
+-- Enable for lower memory consumption
+-- Taken from https://github.com/rxyhn/yoru
+
+-- collectgarbage("incremental", 110, 1000, 0) -- Awesome no me deja usarlo xd
+collectgarbage("setpause", 110)
+collectgarbage("setstepmul", 1000)
+gears.timer({
+    timeout = 120,
+    autostart = true,
+    call_now = true,
+    callback = function ()
+        collectgarbage("collect")
+    end,
+})

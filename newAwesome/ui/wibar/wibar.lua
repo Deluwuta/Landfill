@@ -1,43 +1,119 @@
 local awful = require("awful")
 local wibox = require("wibox")
 local gears = require("gears")
+local beautiful = require("beautiful")
+
+local volume_control = require("ui.wibar.scripts.volume-control")
+local kernel_func = require("ui.wibar.scripts.kernel")
+local pacman_widget = require("ui.wibar.scripts.pacman-widget.pacman")
 
 -- Widgets
-local volume_control = require("ui.wibar.volume-control")
+
+-- Separator (idk bro)
+local separator = wibox.widget {
+    {
+        id = "separator",
+        text = " | ",
+        widget = wibox.widget.textbox,
+    },
+    bg = beautiful.wibar_bg,
+    fg = beautiful.color9,
+    widget = wibox.container.background,
+}
+
+local espacer = wibox.widget {
+    {
+        id = "espaces",
+        text = " ",
+        widget = wibox.widget.textbox,
+    },
+    bg = beautiful.transparent,
+    widget = wibox.container.background,
+}
 
 -- Keyboard map indicator and switcher
 local mykeyboardlayout = awful.widget.keyboardlayout()
 
--- Battery?
-local myBat = wibox.widget({
-        id = "bat_role",
-        -- markup = require("ui.wibar.prueba")(),
-        refresh = 60,
-        widget = wibox.widget.textbox,
+local battery = wibox.widget({
+    {
+        {
+            id = "bat_templ",
+            text = "  92%",
+            font = beautiful.font_name .. "bold 10",
+            widget = wibox.widget.textbox,
+        },
+        fg = beautiful.color10,
+        widget = wibox.container.background,
+    },
+    bottom = 2,
+    color = beautiful.color10,
+    widget = wibox.container.margin,
+})
+
+-- Kernel
+local kernel = wibox.widget({
+    {
+        {
+            id = "kernel_role",
+            text = " " .. kernel_func(),
+            font = beautiful.font_name .. "bold 10",
+            widget = wibox.widget.textbox,
+        },
+        fg = beautiful.color5,
+        widget = wibox.container.background,
+    },
+    bottom = 2,
+    color = beautiful.color5,
+    widget = wibox.container.margin,
 })
 
 -- Internet watcher
 -- Volume
-volumecfg = volume_control({})
+local volumecfg = volume_control({})
 
-
--- Create a textclock widget
+-- Textclock
 local mytextclock = wibox.widget({
     {
         {
             id = "clock_role",
-            format = "<b>" .. " %a, %d/%m ~ %H:%M " .. "</b>",
+            format = "<b>" .. " %a, %d/%m ~ %H:%M" .. "</b>",
             refresh = 30,
-            -- font = "Fantasque Nerd Font Mono 11",
             widget = wibox.widget.textclock(),
         },
-        fg = "#f5e0dc",
+        fg = beautiful.color12,
         widget = wibox.container.background,
     },
-    margins = 2,
-    spacing = 2,
+    bottom = 2,
+    color = beautiful.color4,
     widget = wibox.container.margin,
 })
+
+-- Image 
+local image_widget = wibox.widget {
+    {
+        {
+            image = "/home/delta/Pictures/nixos-icon.svg",
+            resize = true,
+            widget = wibox.widget.imagebox,
+        },
+        bottom = 2,
+        color = beautiful.extra_blue2,
+        widget = wibox.container.margin,
+    },
+    bg = beautiful.wibar_bg,
+    shape = gears.shape.octogon,
+    widget = wibox.container.background,
+}
+
+image_widget:connect_signal("mouse::enter", function (c) c:set_bg(beautiful.extra_blue2) end)
+image_widget:connect_signal("mouse::leave", function (c) c:set_bg(beautiful.wibar_bg) end)
+image_widget:connect_signal("button::press", function (c) c:set_bg(beautiful.color14 .. "77") end)
+image_widget:connect_signal("button::release", function (c, _, _, button)
+    c:set_bg(beautiful.extra_blue2)
+    if button == 1 then
+        awful.spawn("st")
+    end
+end)
 
 -- Create a wibox for each screen and add it
 local taglist_buttons = gears.table.join(
@@ -57,49 +133,51 @@ local taglist_buttons = gears.table.join(
     awful.button({ }, 5, function(t) awful.tag.viewprev(t.screen) end)
 )
 
-local tasklist_buttons = gears.table.join(
-    awful.button({ }, 1, function (c)
-        if c == client.focus then
-            c.minimized = true
-        else
-            c:emit_signal(
-                "request::activate",
-                "tasklist",
-                {raise = true})
-        end
-    end),
-    awful.button({ }, 3, function()
-        awful.menu.client_list({ theme = { width = 250 }})
-    end),
-    awful.button({ }, 4, function () awful.client.focus.byidx(1) end),
-    awful.button({ }, 5, function () awful.client.focus.byidx(-1) end)
-)
-
 -- Function to update tags
 local update_tags = function (self, c3)
     local tagicon = self:get_children_by_id('icon_role')[1]
     if c3.selected then
-        tagicon.text = "\u{f03c3}"
-        self.fg = "#eeeeee"
+        tagicon.text = c3.name
+        self.bg = beautiful.taglist_bg_focus
+        self.fg = beautiful.taglist_fg_focus
     elseif #c3:clients() == 0 then
-        tagicon.text = '\u{f09de}'
-        self.fg = "#0077ff"
+        tagicon.text = c3.name
+        self.fg = beautiful.white
     else
-        tagicon.text = '\u{f14fb}'
-        self.fg = "#ff7700"
+        tagicon.text = c3.name
+        self.fg = beautiful.taglist_fg_occupied
     end
 end
+
+
+local window_counter = function (c3)
+    return #c3:clients()
+end
+
+local window_count = {
+    {
+        widget = wibox.widget.textbox
+    },
+    widget = wibox.container.background,
+    create_callback = function (c3)
+        window_counter(c3)
+    end,
+    update_callback = function (c3)
+        window_counter(c3)
+    end,
+}
 
 -- Taglist widget_template definitions. Just to cleanup a bit
 local taglist_template = {
     {
         {
             id = 'icon_role',
-            font = "FantasqueSansM Nerd Font Propo 16",
+            font = beautiful.font_name .. "Bold 12",
             widget = wibox.widget.textbox
         },
         id = 'margin_role',
         margins = 2,
+        -- color = beautiful.color11,
         widget = wibox.container.margin
     },
     id = 'background_role',
@@ -112,47 +190,15 @@ local taglist_template = {
     end
 }
 
-local taglist_simple = {
-    {
-        id = 'index_rule',
-        widget = wibox.widget.textbox,
-    },
-    margins = 4,
-    widget = wibox.container.margin,
-}
-
-local taglist_custom = {
-    {
-        {
-            {
-                id     = 'index_role',
-                widget = wibox.widget.textbox,
-            },
-            fg = '#ff0000',
-            widget = wibox.container.background,
-        },
-        layout = wibox.layout.fixed.horizontal,
-    },
-    id     = 'background_role',
-    widget = wibox.container.background,
-    -- Add support for hover colors and an index label
-    create_callback = function(self, c3, index, objects) --luacheck: no unused args
-        self:get_children_by_id('index_role')[1].markup = '<b> '..index..' </b>'
-    end,
-    update_callback = function(self, c3, index, objects) --luacheck: no unused args
-        self:get_children_by_id('index_role')[1].markup = '<b> '..index..' </b>'
-    end,
-}
-
 awful.screen.connect_for_each_screen(function(s)
     -- Each screen has its own tag table.
     -- awful.tag({ "\u{e24f}" }, s, awful.layout.layouts[1])
     awful.tag({"1", "2", "3", "4", "5", "6", "7"}, s, awful.layout.layouts[1])
 
     -- Custom tags config
-    -- local tag1 = awful.tag.add(" FLOAT ", {
-        -- layout = awful.layout.suit.floating,
-        -- selected = false
+    -- local tag1 = awful.tag.add("8", {
+    --     layout = awful.layout.suit.floating,
+    --     selected = false
     -- })
 
     -- Create a promptbox for each screen
@@ -173,37 +219,29 @@ awful.screen.connect_for_each_screen(function(s)
         screen  = s,
         filter  = awful.widget.taglist.filter.all,
         style = {
-            font = "FantasqueSansM Nerd Font Propo 12",
-            spacing = 2,
-            bg_focus = "#313244",
-            fg_focus = "#89b4fa",
-
-            fg_occupied = "#fab387",
-
-            bg_urgent = "#f38ba8",
-            fg_urgent = "#181825",
-
+            font = beautiful.font_name .. "Bold 11",
+            -- shape = gears.shape.circle,
+            spacing = 4,
         },
-        --widget_template = {
-        --    margins =  4,
-        --    widget = wibox.container.margin,
-        --},
+        widget_template = taglist_template,
+        layout = wibox.layout.fixed.horizontal,
         buttons = taglist_buttons
     }
-
 
     -- Create a tasklist widget
     s.mytasklist = awful.widget.tasklist {
         screen  = s,
-        filter  = awful.widget.tasklist.filter.currenttags,
-        buttons = tasklist_buttons
+        filter  = awful.widget.tasklist.filter.focused,
+        style = {
+            tasklist_disable_icon = true,
+        },
     }
 
     -- Create the wibox
     s.mywibox = awful.wibar({
         screen = s,
         position = "top",
-        height = 20
+        height = 24
     })
 
     -- Add widgets to the wibox
@@ -211,22 +249,33 @@ awful.screen.connect_for_each_screen(function(s)
         layout = wibox.layout.align.horizontal,
         { -- Left widgets
             layout = wibox.layout.fixed.horizontal,
-            s.mypromptbox,
-            -- mylauncher,
+            espacer,
+            image_widget,
+            separator,
             s.mytaglist,
+            separator,
             s.mylayoutbox,
+            window_count,
+            separator,
+            s.mytasklist,
         },
         { -- Middle widgets
             layout = wibox.layout.fixed.horizontal,
-            -- s.mytasklist,
         },
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
             volumecfg.widget,
-            mykeyboardlayout,
-            myBat,
+            -- mykeyboardlayout,
+            pacman_widget(),
+            espacer,
+            kernel,
+            espacer,
+            battery,
+            espacer,
             mytextclock,
+            separator,
             wibox.widget.systray(),
+            -- espacer,
         },
     }
 end)

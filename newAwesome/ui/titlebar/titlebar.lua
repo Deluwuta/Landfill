@@ -2,6 +2,7 @@
 local gears = require("gears")
 local awful = require("awful")
 local wibox = require("wibox")
+local beautiful = require("beautiful")
 
 local xresources = require("beautiful.xresources")
 local dpi = xresources.apply_dpi
@@ -43,44 +44,74 @@ end
 
 -- Functionality
 client.connect_signal("request::titlebars", function(c)
-    -- buttons for the titlebar
+    --- Titlebar click events
     local buttons = gears.table.join(
+        --- Move client
         awful.button({ }, 1, function()
-            c:emit_signal("request::activate", "titlebar", {raise = true})
-	    -- Double click momento
-	    if double_click_event_handler() then
-	       c.maximized = not c.maximized
-	       c:raise()
-	    else
-	       awful.mouse.client.move(c)
-	    end
+            c:emit_signal("request::activate", "titlebar", { raise = true })
+	        -- Double click momento
+	        if double_click_event_handler() then
+	           c.maximized = not c.maximized
+	           c:raise()
+	        else
+	           awful.mouse.client.move(c)
+	        end
         end),
+
+        --- Kill client
+        awful.button({ }, 2, function ()
+            c:emit_signal("request::activate", "titlebar", { raise = true })
+            c:kill()
+        end),
+
         awful.button({ }, 3, function()
-            c:emit_signal("request::activate", "titlebar", {raise = true})
+            c:emit_signal("request::activate", "titlebar", { raise = true })
             awful.mouse.client.resize(c)
         end)
     )
 
-    awful.titlebar(c, { position = "top", size = dpi(16), font = "FantasqueSansM Nerd Font Propo 12", bg = "#363a4f", fg = "#cdd6f4"}) : setup {
-        { -- Left
-            awful.titlebar.widget.iconwidget(c),
-            buttons = buttons,
-            layout  = wibox.layout.fixed.horizontal
-        },
-        { -- Middle
-            { -- Title
-                align  = "center",
-                widget = awful.titlebar.widget.titlewidget(c)
-            },
-            buttons = buttons,
-            layout  = wibox.layout.flex.horizontal
-        },
-        { -- Right
-            awful.titlebar.widget.maximizedbutton(c),
-	    awful.titlebar.widget.minimizebutton(c),
-            awful.titlebar.widget.closebutton    (c),
-            layout = wibox.layout.fixed.horizontal()
-        },
-        layout = wibox.layout.align.horizontal
-    }
+    --- The actual titlebar :D
+    awful.titlebar(c, { position = "top", size = dpi(16), font = beautiful.font, bg = beautiful.titlebar_bg, fg = beautiful.white })
+         :setup({
+                    layout = wibox.layout.align.horizontal,
+                    { -- Left
+                        awful.titlebar.widget.iconwidget(c),
+                        buttons = buttons,
+                        layout  = wibox.layout.fixed.horizontal,
+                    },
+
+                    { -- Middle
+                        { -- Title
+                            align  = "center",
+                            font = beautiful.font,
+                            widget = awful.titlebar.widget.titlewidget(c),
+                            buttons = buttons,
+                        },
+                        layout  = wibox.layout.flex.horizontal,
+                    },
+
+                    { -- Right
+                        {
+                            {
+						    	awful.titlebar.widget.minimizebutton(c),
+                                right = dpi(2),
+						    	widget = wibox.container.margin,
+						    },
+						    {
+						    	awful.titlebar.widget.maximizedbutton(c),
+                                left = dpi(2),
+                                right = dpi(2),
+						    	widget = wibox.container.margin,
+						    },
+						    {
+						    	awful.titlebar.widget.closebutton(c),
+                                left = dpi(2),
+						    	widget = wibox.container.margin,
+						    },
+						    layout = wibox.layout.fixed.horizontal,
+                        },
+                        right = dpi(6),
+                        widget = wibox.container.margin,
+                    },
+                })
 end)

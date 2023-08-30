@@ -15,6 +15,7 @@ local theme = {}
 theme.font_name = "FantasqueSansM Nerd Font "
 -- theme.font_name = "Hack Nerd Font "
 -- theme.font_name = "JetBrainsNF Nerd Font "
+
 theme.font = theme.font_name .. "Medium 10"
 -- theme.taglist_font  = "FantasqueSansM Nerd Font Propo 12"
 
@@ -78,6 +79,7 @@ theme.color15 = "#f2f4f5"
 --- * Extras * ---
 -- E-Blue
 theme.extra_blue1 = "#45D0FE"
+theme.extra_blue2 = "#485eab99"
 
 -- E-Pink
 theme.extra_pink1 = "#f5c2e7"
@@ -115,10 +117,24 @@ theme.enter_event = "#ffffff" .. "10"
 theme.pres_event = "#ffffff" .. "15"
 theme.release_event = "#ffffff" .. "10"
 
+-- ** Notifications ** --
+theme.notification_spacing = dpi(4)
+theme.notification_bg = theme.black
+theme.notification_bg_alt = theme.lighter_black
+
+-- ** Notif center ** --
+theme.notif_center_notifs_bg = theme.one_bg2
+theme.notif_center_notifs_bg_alt = theme.one_bg3
+
 -- ** Taglist ** --
 theme.taglist_bg_focus = "#4d4d4d"
 theme.taglist_fg_focus = "#89dceb"
 theme.taglist_fg_occupied = "#cba6f7"
+
+-- ** Tasklist ** --
+theme.tasklist_bg_focus = theme.transparent
+theme.tasklist_fg_focus = theme.white
+theme.tasklist_disable_icon = false
 
 theme.menu_submenu_icon = themes_path.."default/submenu.png"
 theme.menu_height = dpi(15)
