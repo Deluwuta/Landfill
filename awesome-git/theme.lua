@@ -100,7 +100,7 @@ theme.fg_urgent     = theme.color1
 theme.fg_minimize   = theme.color0
 
 -- ** Borders ** -- 
-theme.gap_single_client = false
+theme.gap_single_client = true
 
 theme.border_width  = 3
 theme.useless_gap   = dpi(4)
