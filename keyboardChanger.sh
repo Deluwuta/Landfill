@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Bash script que cambia el layout del teclado
-# Utiliza la funcionalidad xbk-switch, la cual escupe el layout actual
+# Utiliza la funcionalidad xkb-switch, la cual escupe el layout actual
 
 DIR=/home/delta/.config/dunst/notif_scripts/
 
