@@ -6,6 +6,12 @@ local beautiful = require("beautiful")
 local xresources = require("beautiful.xresources")
 local dpi = xresources.apply_dpi
 
+local kernel_func = require("ui.wibar.widgets.kernel")
+local volume_widget = require("ui.wibar.widgets.volume-widget.volume")
+local net_widget = require("ui.wibar.widgets.net-widget")
+
+local home_dir = "/home/delta/"
+
 -- local widgets = require("ui.wibar.widgets.control_center")
 
 -- Widgets
@@ -30,8 +36,46 @@ local espacer = wibox.widget {
   widget = wibox.container.background,
 }
 
+local net_wireless = net_widget.wireless({interface="wlan0", timeout=10})
+local net_wired = net_widget.indicator({
+  interfaces = {"enp3s0"},
+  timeout = 10,
+})
+
 -- Keyboard map indicator and switcher
 local mykeyboardlayout = awful.widget.keyboardlayout()
+
+local kernel = wibox.widget({
+  {
+    {
+      id = "kernel_role",
+      text = " " .. kernel_func(),
+      font = beautiful.font_name .. "bold 12",
+      widget = wibox.widget.textbox,
+    },
+    fg = beautiful.color5,
+    bg = beautiful.wibar_bg,
+    widget = wibox.container.background,
+  },
+  bottom = 2,
+  color = beautiful.color5,
+  widget = wibox.container.margin,
+})
+
+local volume = wibox.widget({
+  {
+    {
+      id = "vol_role",
+      widget = volume_widget(),
+    },
+    fg = beautiful.color3,
+    bg = beautiful.wibar_bg,
+    widget = wibox.container.background,
+  },
+  bottom = 2,
+  color = beautiful.color11,
+  widget = wibox.container.margin,
+})
 
 -- Create a textclock widget
 local clock = wibox.widget({
@@ -50,6 +94,32 @@ local clock = wibox.widget({
   color = beautiful.color4,
   widget = wibox.container.margin,
 })
+
+local image_widget = wibox.widget({
+  {
+    {
+      image = home_dir .. "Pictures/nixos-icon.svg",
+      resize = true,
+      widget = wibox.widget.imagebox,
+    },
+    bottom = 2,
+    color = beautiful.extra_blue2,
+    widget = wibox.container.margin,
+  },
+  bg = beautiful.wibar_bg,
+  shape = gears.shape.circle,
+  widget = wibox.container.background,
+})
+
+image_widget:connect_signal("mouse::enter", function (c) c:set_bg(beautiful.extra_blue2) end)
+image_widget:connect_signal("mouse::leave", function (c) c:set_bg(beautiful.wibar_bg) end)
+image_widget:connect_signal("button::press", function (c) c:set_bg(beautiful.color14 .. "77") end)
+image_widget:connect_signal("button::release", function (c, _, _, button)
+    c:set_bg(beautiful.extra_blue2)
+    if button == 1 then
+        awful.spawn("alacritty")
+    end
+end)
 
 screen.connect_signal("request::desktop_decoration", function(s)
     -- Each screen has its own tag table.
@@ -82,7 +152,7 @@ screen.connect_signal("request::desktop_decoration", function(s)
         screen  = s,
         filter  = awful.widget.taglist.filter.all,
         style = {
-          font = beautiful.font_name .. "Medium 11",
+          font = beautiful.font_name .. "Medium 12",
           shape = gears.shape.circle,
           -- spacing = 2,
         },
@@ -128,6 +198,8 @@ screen.connect_signal("request::desktop_decoration", function(s)
             { -- Left widgets
                 layout = wibox.layout.fixed.horizontal,
                 espacer,
+                image_widget,
+                separator,
                 s.mytaglist,
                 separator,
                 s.mylayoutbox,
@@ -140,6 +212,13 @@ screen.connect_signal("request::desktop_decoration", function(s)
             { -- Right widgets
                 layout = wibox.layout.fixed.horizontal,
                 mykeyboardlayout,
+                separator,
+                kernel,
+                separator,
+                net_wired,
+                -- net_wireless,
+                separator,
+                volume,
                 separator,
                 clock,
                 separator,

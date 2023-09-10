@@ -26,9 +26,6 @@ local hotkeys_popup = require("awful.hotkeys_popup")
 -- when client with a matching name is opened:
 require("awful.hotkeys_popup.keys")
 
--- Autostarting
-awful.util.spawn("/home/delta/.config/awesome/autostart.sh")
-
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
 -- another config (This code will only ever execute for the fallback config)
@@ -40,6 +37,14 @@ naughty.connect_signal("request::display_error", function(message, startup)
     }
 end)
 -- }}}
+
+-- Autostarting
+awful.spawn.once("openrazer-daemon")
+awful.spawn("/home/delta/.config/awesome/autostart.sh")
+
+-- Custom widgets
+local volume_osd = require("popups.volume_osd")
+local volume_widget = require("ui.wibar.widgets.volume-widget.volume")
 
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
@@ -108,27 +113,68 @@ awful.mouse.append_global_mousebindings({
 
 -- {{{ Key bindings
 
+-- Volume OSD functionality
+--local volume_timer = gears.timer {
+--  timeout = 2,
+--  autostart = true,
+--  callback = function ()
+--    volume_osd.visible = false
+--  end,
+--}
+--
+--volume_osd:connect_signal("mouse::enter", function ()
+--  volume_timer:stop()       -- Stop the timer when the mouse enters the dock
+--  volume_osd.visible = true -- Show the dock
+--end)
+--
+--volume_osd:connect_signal("mouse::leave", function ()
+--  volume_timer:again() -- Restart the timer
+--end)
+
+-- Useful variables (to me '-')
+local home_path = "/home/delta/"
+local scripts_path = home_path .. ".config/gen_scripts/"
+
+local rofi = "rofi -modi combi -show combi -display-combi 'Rufos ~>>' -combi-modi run,drun"
+
 -- General Awesome keys
 awful.keyboard.append_global_keybindings({
     -- awful.key({ mod }, "s", hotkeys_popup.show_help, { description="show help", group="awesome" }),
     -- awful.key({ mod }, "w", function () mymainmenu:show() end,{ description = "show main menu", group = "awesome" }),
 
+    --awful.key({ mod }, "x", function ()
+        --  awful.prompt.run {
+            --    prompt       = "Run Lua code: ",
+            --    textbox      = awful.screen.focused().mypromptbox.widget,
+            --    exe_callback = awful.util.eval,
+            --    history_path = awful.util.get_cache_dir() .. "/history_eval"
+            --  }
+            --end, { description = "lua execute prompt", group = "awesome"} ),
+
     -- I wanna quit life (in game)
     awful.key({ mod, "Control" }, "q", awesome.quit),
     awful.key({ mod, "Control" }, "r", awesome.restart),
 
-    --awful.key({ mod }, "x", function ()
-    --  awful.prompt.run {
-    --    prompt       = "Run Lua code: ",
-    --    textbox      = awful.screen.focused().mypromptbox.widget,
-    --    exe_callback = awful.util.eval,
-    --    history_path = awful.util.get_cache_dir() .. "/history_eval"
-    --  }
-    --end, { description = "lua execute prompt", group = "awesome"} ),
-
     awful.key({ mod }, "Return", function () awful.spawn(terminal) end),
-    awful.key({ mod }, "p"     , function () awful.spawn("rofi -show drun") end),
-    awful.key({ mod }, "b"     , function () awful.spawn("brave") end),
+    awful.key({ mod }, "b"     , function () awful.spawn("brave --password-store=kwallet5") end),
+    awful.key({ mod }, "f"     , function () awful.spawn("pcmanfm") end),
+    awful.key({ mod }, "p"     , function () awful.spawn(rofi) end),
+
+    awful.key({ mod, "Shift" }, "s", function () awful.spawn("spectacle gui") end),
+
+    -- Multimedia keys
+    awful.key({ }, "XF86AudioRaiseVolume", function ()
+      -- awful.spawn("amixer -D pulse set Master 5%+ > /dev/null")
+      volume_widget:inc(5)
+    end),
+
+    awful.key({ }, "XF86AudioLowerVolume", function ()
+      -- awful.spawn("amixer -D pulse set Master 5%- > /dev/null")
+      volume_widget:dec(5)
+    end),
+
+    -- Keyboard language changer
+    awful.key({ mod }, "space", function () awful.spawn(scripts_path .. "keyboardChanger.sh") end),
 
     -- Tags related keybindings
     awful.key({ mod }, "Left"  , awful.tag.viewprev, { description = "view previous", group = "tag"}),
