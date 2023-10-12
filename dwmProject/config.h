@@ -12,7 +12,8 @@ static const char *const autostart[] = {
 };
 
 /* appearance */
-static const unsigned int borderpx  = 1;        /* border pixel of windows */
+static const unsigned int borderpx  = 2;        /* border pixel of windows */
+static const unsigned int gappx = 12; /* Gaps between windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
@@ -88,7 +89,7 @@ static const Key keys[] = {
 	// Basic stuff
 	{ MODKEY, XK_b, spawn, SHCMD("brave")},
 
-	//{ MODKEY, XK_b,      togglebar,      {0} },
+	{ MODKEY|ControlMask, XK_h, togglebar, {0} },
 	
 	{ MODKEY, XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY, XK_k,      focusstack,     {.i = -1 } },
