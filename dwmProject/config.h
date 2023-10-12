@@ -1,4 +1,14 @@
 /* See LICENSE file for copyright and license details. */
+/* 
+ * "sh", "-c", "xwallpaper --daemon --zoom $HOME/Pictures/oshinoko.png", NULL, 
+ * */
+
+// Autostarting
+static const char *const autostart[] = {
+	"alacritty", NULL,
+	"sh", "-c", "xwallpaper --daemon --zoom $HOME/Pictures/oshinoko.png", NULL,
+	NULL /* terminate */
+};
 
 /* appearance */
 static const unsigned int borderpx  = 1;        /* border pixel of windows */
