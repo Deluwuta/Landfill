@@ -1,29 +1,19 @@
 --- dwm.c
 +++ dwm.c
-@@ -1671,9 +1710,25 @@ showhide(Client *c)
+@@ -205,6 +205,8 @@ static void setup(void);
+ static void seturgent(Client *c, int urg);
+ static void showhide(Client *c);
+ static void sigchld(int unused);
++static void sighup(int unused);
++static void sigterm(int unused);
+ static void spawn(const Arg *arg);
+ static void tag(const Arg *arg);
+ static void tagmon(const Arg *arg);
+@@ -1249,6 +1252,7 @@ propertynotify(XEvent *e)
  void
- sigchld(int unused)
+ quit(const Arg *arg)
  {
-+	pid_t pid;
-+
- 	if (signal(SIGCHLD, sigchld) == SIG_ERR)
- 		die("can't install SIGCHLD handler:");
--	while (0 < waitpid(-1, NULL, WNOHANG));
-+	while (0 < (pid = waitpid(-1, NULL, WNOHANG))) {
-+		pid_t *p, *lim;
-+
-+		if (!(p = autostart_pids))
-+			continue;
-+		lim = &p[autostart_len];
-+
-+		for (; p < lim; p++) {
-+			if (*p == pid) {
-+				*p = -1;
-+				break;
-+			}
-+		}
-+
-+	}
++	if(arg->i) restart = 1;
+ 	running = 0;
  }
  
- void
