@@ -6,13 +6,14 @@
 // Autostarting
 static const char *const autostart[] = {
 	// "alacritty", NULL,
-	"sh", "-c", "xrandr -s 1920x1080", NULL,
 	"sh", "-c", "xwallpaper --zoom $HOME/Pictures/oshinoko.png", NULL,
+	"sh", "-c", "xrandr -s 1920x1080", NULL,
+	"sh", "-c", "killall -q dwmblocks; while pgrep -u $UID -x dwmblocks >/dev/null; do sleep 1; done; dwmblocks &", NULL,
 	NULL /* terminate */
 };
 
 /* appearance */
-static const unsigned int borderpx  = 2;        /* border pixel of windows */
+static const unsigned int borderpx = 3;        /* border pixel of windows */
 static const unsigned int gappx = 12; /* Gaps between windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
