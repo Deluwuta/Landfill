@@ -103,7 +103,6 @@ myKeys = [
   ("M-<Return>", spawn (myTerminal)),
   ("M-p"       , spawn ("exe=`dmenu_path | dmenu` && eval \"exec $exe\"")),
   ("M-b"       , spawn ("brave --password-store=kwallet5")),
-  ("M-S-b"     , spawn ("chromium")),
   ("M-f"       , spawn ("pcmanfm")),
   ("M-S-s"     , spawn ("flameshot gui")),
 
@@ -283,7 +282,6 @@ myStartupHook = do
   spawnOnce "xwallpaper --zoom $HOME/Pictures/backgrounds/haskell1.png"
   spawnOnce "redshift -P -O 3200 &"
   spawnOnce "$HOME/.config/xmobar/scripts/autopipes.sh"
-  spawnOnce "/usr/bin/emacs --daemon &"
 
 ------------------------------------------------------------------------
 -- Now run xmonad with all the defaults we set up.

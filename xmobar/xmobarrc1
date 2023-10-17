@@ -5,7 +5,7 @@ Config {
      font =         "Ubuntu Mono Bold 12"
    , bgColor =      "#1f2122"
    , fgColor =      "#e4e6e7"
-   , position =     BottomH 24
+   , position =     TopH 22
    , border =       BottomB
    , borderColor =  "#1f2122"
 
@@ -71,27 +71,27 @@ Config {
 
         -- battery monitor
         , Run Battery        [ "--template" , "Batt: <acstatus>"
-                             , "--Low"      , "10"        -- units: %
+                             , "--Low"      , "20"        -- units: %
                              , "--High"     , "80"        -- units: %
                              , "--low"      , "darkred"
-                             , "--normal"   , "darkorange"
-                             , "--high"     , "darkgreen"
+                             , "--normal"   , "#70b8ca"
+                             , "--high"     , "#45D0FE"
 
                              , "--" -- battery specific options
                                        -- discharging status
                                        , "-o"	, "<left>% (<timeleft>)"
                                        -- AC "on" status
-                                       , "-O"	, "<fc=#dAA520>Charging</fc>"
+                                       , "-O"	, "<fc=#e79881>Charging</fc>"
                                        -- charged status
-                                       , "-i"	, "<fc=#006000>Charged</fc>"
+                                       , "-i"	, "<fc=#81c19b>Charged</fc>"
                              ] 100
 
         -- time and date indicator 
         --   (%F = y-m-d date, %a = day of week, %T = h:m:s time)
         , Run Date           "<fc=#edeff0>%a, %d/%m ~ %I:%M:%S %p</fc>" "date" 10
 
-        , Run PipeReader "/tmp/.volume-pipe1" "vol_pipe"
-        , Run PipeReader "/tmp/.bright-pipe1" "bri_pipe"
+        , Run PipeReader "/tmp/.volume-pipe2" "vol_pipe"
+        , Run PipeReader "/tmp/.bright-pipe2" "bri_pipe"
 
         -- keyboard layout indicator
         , Run Kbd            [ ("us(dvorak)" , "<fc=#00008B>DV</fc>")
