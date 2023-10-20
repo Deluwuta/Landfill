@@ -1,66 +1,89 @@
 --- dwm.c
 +++ dwm.c
-@@ -1255,11 +1255,63 @@ propertynotify(XEvent *e)
- 	}
- }
- 
-+void
-+saveSession(void)
-+{
-+	FILE *fw = fopen(SESSION_FILE, "w");
-+	for (Client *c = selmon->clients; c != NULL; c = c->next) { // get all the clients with their tags and write them to the file
-+		fprintf(fw, "%lu %u\n", c->win, c->tags);
-+	}
-+	fclose(fw);
-+}
-+
-+void
-+restoreSession(void)
-+{
-+	// restore session
-+	FILE *fr = fopen(SESSION_FILE, "r");
-+	if (!fr)
-+		return;
-+
-+	char *str = malloc(23 * sizeof(char)); // allocate enough space for excepted input from text file
-+	while (fscanf(fr, "%[^\n] ", str) != EOF) { // read file till the end
-+		long unsigned int winId;
-+		unsigned int tagsForWin;
-+		int check = sscanf(str, "%lu %u", &winId, &tagsForWin); // get data
-+		if (check != 2) // break loop if data wasn't read correctly
-+			break;
-+		
-+		for (Client *c = selmon->clients; c ; c = c->next) { // add tags to every window by winId
-+			if (c->win == winId) {
-+				c->tags = tagsForWin;
+@@ -190,7 +196,7 @@ static void maprequest(XEvent *e);
+ static void monocle(Monitor *m);
+ static void motionnotify(XEvent *e);
+ static void movemouse(const Arg *arg);
+-static Client *nexttiled(Client *c);
++static Client *nexttiled(Client *c, Monitor *m);
+ static void pop(Client *);
+ static void propertynotify(XEvent *e);
+ static void quit(const Arg *arg);
+@@ -1718,7 +1780,23 @@ spawn(const Arg *arg)
+ void
+ tag(const Arg *arg)
+ {
++	Monitor *m;
++	unsigned int newtags;
+ 	if (selmon->sel && arg->ui & TAGMASK) {
++		newtags = arg->ui & TAGMASK;
++		for (m = mons; m; m = m->next)
++			/* if tag is visible on another monitor, move client to the new monitor */
++			if (m != selmon && m->tagset[m->seltags] & newtags) {
++				/* prevent moving client to all tags (MODKEY-Shift-0) when multiple monitors are connected */
++				if(newtags & selmon->tagset[selmon->seltags])
++					return;
++				selmon->sel->tags = newtags;
++				selmon->sel->mon = m;
++				arrange(m);
 +				break;
 +			}
-+		}
-+    }
++		/* workaround in case just one monitor is connected */
 +
-+	for (Client *c = selmon->clients; c ; c = c->next) { // refocus on windows
-+		focus(c);
-+		restack(c->mon);
-+	}
-+
-+	for (Monitor *m = selmon; m; m = m->next) // rearrange all monitors
-+		arrange(m);
-+
-+	free(str);
-+	fclose(fr);
-+	
-+	// delete a file
-+	remove(SESSION_FILE);
-+}
-+
- void
- quit(const Arg *arg)
- {
- 	if(arg->i) restart = 1;
- 	running = 0;
-+
-+	if (restart == 1)
-+		saveSession();
+ 		selmon->sel->tags = arg->ui & TAGMASK;
+ 		focus(NULL);
+ 		arrange(selmon);
+@@ -1747,7 +1825,7 @@ tile(Monitor *m)
+ 		mw = m->nmaster ? m->ww * m->mfact : 0;
+ 	else
+ 		mw = m->ww;
+-	for (i = my = ty = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)
++	for (i = my = ty = 0, c = nexttiled(m->cl->clients, m); c; c = nexttiled(c->next, m), i++)
+ 		if (i < m->nmaster) {
+ 			h = (m->wh - my) / (MIN(n, m->nmaster) - i);
+ 			resize(c, m->wx, m->wy + my, mw - (2*c->bw), h - (2*c->bw), 0);
+@@ -1956,8 +2054,10 @@ updategeom(void)
+ 		if (n <= nn) { /* new monitors available */
+ 			for (i = 0; i < (nn - n); i++) {
+ 				for (m = mons; m && m->next; m = m->next);
+-				if (m)
++				if (m) {
+ 					m->next = createmon();
++					attachclients(m->next);
++				}
+ 				else
+ 					mons = createmon();
+ 			}
+@@ -1977,16 +2077,13 @@ updategeom(void)
+ 		} else { /* less monitors available nn < n */
+ 			for (i = nn; i < n; i++) {
+ 				for (m = mons; m && m->next; m = m->next);
+-				while ((c = m->clients)) {
+-					dirty = 1;
+-					m->clients = c->next;
+-					detachstack(c);
+-					c->mon = mons;
+-					attach(c);
+-					attachstack(c);
+-				}
+ 				if (m == selmon)
+ 					selmon = mons;
++				for (c = m->cl->clients; c; c = c->next) {
++					dirty = True;
++					if (c->mon == m)
++						c->mon = selmon;
++				}
+ 				cleanupmon(m);
+ 			}
+ 		}
+@@ -2222,8 +2338,8 @@ zoom(const Arg *arg)
+ 	if (!selmon->lt[selmon->sellt]->arrange
+ 	|| (selmon->sel && selmon->sel->isfloating))
+ 		return;
+-	if (c == nexttiled(selmon->clients))
+-		if (!c || !(c = nexttiled(c->next)))
++	if (c == nexttiled(selmon->cl->clients, selmon))
++		if (!c || !(c = nexttiled(c->next, selmon)))
+ 			return;
+ 	pop(c);
  }
- 
- Monitor *

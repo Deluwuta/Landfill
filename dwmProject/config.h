@@ -14,8 +14,9 @@ Delta's Δωμ config file.
 // Autostarting
 static const char *const autostart[] = {
 	// "alacritty", NULL,
-	"sh", "-c", "xwallpaper --zoom $HOME/Pictures/oshinoko.png", NULL,
-	"sh", "-c", "xrandr -s 1920x1080", NULL,
+	"sh", "-c", "xwallpaper --zoom $HOME/Pictures/backgrounds/oshinoko.png", NULL,
+  "sh", "-c", "redshift -P -O 3200 &", NULL,
+  "sh", "-c", "exec /usr/lib/polkit-kde-authentication-agent-1 &", NULL,
 	"sh", "-c", "killall -q dwmblocks; while pgrep -u $UID -x dwmblocks >/dev/null; do sleep 1; done; dwmblocks &", NULL,
 	NULL /* terminate */
 };
@@ -26,8 +27,8 @@ static const unsigned int gappx    = 12; /* Gaps between windows */
 static const unsigned int snap     = 32; /* snap pixel */
 static const int showbar           = 1;  /* 0 means no bar */
 static const int topbar            = 1;  /* 0 means bottom bar */
-static const char *fonts[]         = { "FiraCode Nerd Font:size=10" };
-static const char dmenufont[]      = "FiraCode Nerd Font:size=10";
+static const char *fonts[]         = { "FiraCode Nerd Font:size=11" };
+static const char dmenufont[]      = "FiraCode Nerd Font:size=11";
 
 /* static const char col_gray1[] = "#222222"; */
 static const char col_gray2[] = "#444444";
@@ -123,7 +124,16 @@ static const Key keys[] = {
 	{ MODKEY|ShiftMask, XK_c, killclient, {0} },
 
 	// Basic stuff
-	{ MODKEY, XK_b, spawn, SHCMD("brave")},
+	/* { MODKEY, XK_b, spawn, SHCMD("brave --password-store=kwallet5")}, */
+	{ MODKEY, XK_b, spawn, SHCMD("thorium-browser")},
+  { MODKEY|ShiftMask, XK_s, spawn, SHCMD("flameshot gui")},
+
+  // Multimedia
+  {0, XF86XK_AudioRaiseVolume, spawn, SHCMD("amixer -D pulse set Master 5%+ unmute > /dev/null; pkill -RTMIN+6 dwmblocks")},
+	{0, XF86XK_AudioLowerVolume, spawn, SHCMD("amixer -D pulse set Master 5%- unmute > /dev/null; pkill -RTMIN+6 dwmblocks")},
+
+  {0, XF86XK_MonBrightnessUp, spawn, SHCMD("brightnessctl s 5%+ ; pkill -RTMIN+8 dwmblocks")},
+	{0, XF86XK_MonBrightnessDown, spawn, SHCMD("brightnessctl s 5%- ; pkill -RTMIN+8 dwmblocks")},
 
 	// Force to tile | Hide bar
 	{ MODKEY|ShiftMask  , XK_t, togglefloating, {0} },
@@ -152,10 +162,10 @@ static const Key keys[] = {
 	//{ MODKEY, XK_d, incnmaster, {.i = -1 } },
 
 	// Multimonitor keys
-	//{ MODKEY,                       XK_comma,  focusmon,       {.i = -1 } },
-	//{ MODKEY,                       XK_period, focusmon,       {.i = +1 } },
-	//{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
-	//{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
+	{ MODKEY, XK_comma,  focusmon, {.i = -1 } },
+	{ MODKEY, XK_period, focusmon, {.i = +1 } },
+	{ MODKEY|ShiftMask, XK_comma, tagmon, {.i = -1 } },
+	{ MODKEY|ShiftMask, XK_period, tagmon, {.i = +1 } },
 
 	TAGKEYS(XK_1, 0)
 	TAGKEYS(XK_2, 1)
