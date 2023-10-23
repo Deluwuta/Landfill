@@ -60,14 +60,56 @@
 #define TEXTW(X)                (drw_fontset_getwidth(drw, (X)) + lrpad)
 
 /* enums */
-enum { CurNormal, CurResize, CurMove, CurLast }; /* cursor */
-enum { SchemeNorm, SchemeSel }; /* color schemes */
-enum { NetSupported, NetWMName, NetWMState, NetWMCheck,
-       NetWMFullscreen, NetActiveWindow, NetWMWindowType,
-       NetWMWindowTypeDialog, NetClientList, NetClientInfo, NetLast }; /* EWMH atoms */
-enum { WMProtocols, WMDelete, WMState, WMTakeFocus, WMLast }; /* default atoms */
-enum { ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle,
-       ClkClientWin, ClkRootWin, ClkLast }; /* clicks */
+enum { 
+    CurNormal, 
+    CurResize, 
+    CurMove, 
+    CurLast 
+}; /* cursor */
+
+enum { 
+    SchemeNorm, 
+    SchemeSel,
+    SchemeTitleNorm,
+    SchemeTitleSel,
+    SchemeTagsNorm,
+    SchemeTagsSel,
+    SchemeHidNorm,
+    SchemeHidSel,
+    SchemeUrg,
+}; /* color schemes */
+
+enum { 
+    NetSupported, 
+    NetWMName, 
+    NetWMState, 
+    NetWMCheck,
+    NetWMFullscreen, 
+    NetActiveWindow, 
+    NetWMWindowType,
+    NetWMWindowTypeDialog, 
+    NetClientList, 
+    NetClientInfo, 
+    NetLast 
+}; /* EWMH atoms */
+
+enum { 
+    WMProtocols, 
+    WMDelete, 
+    WMState, 
+    WMTakeFocus, 
+    WMLast 
+}; /* default atoms */
+
+enum { 
+    ClkTagBar, 
+    ClkLtSymbol, 
+    ClkStatusText, 
+    ClkWinTitle,
+    ClkClientWin, 
+    ClkRootWin, 
+    ClkLast 
+}; /* clicks */
 
 typedef union {
 	int i;
@@ -811,9 +853,9 @@ drawbar(Monitor *m)
 
 	/* draw status first so it can be overdrawn by tags later */
 	if (m == selmon) { /* status is only drawn on selected monitor */
-		drw_setscheme(drw, scheme[SchemeNorm]);
-		tw = TEXTW(stext) - lrpad + 2; /* 2px right padding */
-		drw_text(drw, m->ww - tw, 0, tw, bh, 0, stext, 0);
+        drw_setscheme(drw, scheme[SchemeNorm]);
+        tw = TEXTW(stext) - lrpad + 2; /* 2px right padding */
+        drw_text(drw, m->ww - tw, 0, tw, bh, 0, stext, 0);
 	}
 
 	for (c = m->cl->clients; c; c = c->next) {

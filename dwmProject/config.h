@@ -14,7 +14,7 @@ Delta's Δωμ config file.
 // Autostarting
 static const char *const autostart[] = {
 	// "alacritty", NULL,
-	"sh", "-c", "xwallpaper --zoom $HOME/Pictures/backgrounds/oshinoko.png", NULL,
+	"sh", "-c", "xwallpaper --zoom $HOME/Pictures/black_rock_shooter_alpha.png", NULL,
   "sh", "-c", "redshift -P -O 3200 &", NULL,
   "sh", "-c", "exec /usr/lib/polkit-kde-authentication-agent-1 &", NULL,
 	"sh", "-c", "killall -q dwmblocks; while pgrep -u $UID -x dwmblocks >/dev/null; do sleep 1; done; dwmblocks &", NULL,
@@ -25,36 +25,46 @@ static const char *const autostart[] = {
 static const unsigned int borderpx = 3;  /* border pixel of windows */
 static const unsigned int gappx    = 12; /* Gaps between windows */
 static const unsigned int snap     = 32; /* snap pixel */
+
 static const int showbar           = 1;  /* 0 means no bar */
 static const int topbar            = 1;  /* 0 means bottom bar */
+
 static const char *fonts[]         = { "FiraCode Nerd Font:size=11" };
 static const char dmenufont[]      = "FiraCode Nerd Font:size=11";
 
 /* static const char col_gray1[] = "#222222"; */
 static const char col_gray2[] = "#444444";
-static const char col_gray3[] = "#bbbbbb";
-static const char col_gray4[] = "#eeeeee";
-static const char col_cyan[]  = "#005577";
 
-// Oxocarbon color scheme
-static const char col_black1[] = "#161616";
-static const char col_black2[] = "#262626";
-static const char col_black3[] = "#393939";
+static const char darkest_dark[] = "#131313";
+static const char darker_black[] = "#161616";
+static const char black[]        = "#262626";
+static const char grey[]         = "#393939";
+static const char light_grey[]   = "#525252";
+static const char soft_white[]   = "#dde1e6";
+static const char white[]        = "#f2f4f8";
+static const char pure_white[]   = "#ffffff";
 
-static const char col_white1[] = "#dde1e6";
-static const char col_white2[] = "#f2f4f8";
-static const char col_white3[] = "#ffffff";
+static const char teal_blue[]    = "#08bdba";
+static const char blue[]         = "#33b1ff";
+static const char lighter_blue[] = "#3ddbd9";
+static const char light_blue[]   = "#82cfff";
 
-static const char col_gray1[] = "#525252";
+static const char green[]        = "#42be65";
 
-static const char col_pink1[] = "#ee5396";
-static const char col_pink2[] = "#ff7eb6";
+static const char purple[]       = "#be95ff";
 
+static const char strong_pink[]  = "#ee5396";
+static const char pink[]         = "#ff7eb6";
 
+// #faedff #eeeeee //#454545
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
-	[SchemeNorm] = { col_white1, col_black2, col_black1 },
-	[SchemeSel]  = { col_white3, col_black3,  col_pink2  },
+	[SchemeNorm]       = { white, darker_black, darkest_dark },
+	[SchemeSel]        = { soft_white, darkest_dark, purple },
+	[SchemeTitleNorm]  = { light_grey, darker_black, grey},
+	[SchemeTitleSel]   = { pink, pink, pink},
+	[SchemeTagsNorm]   = { pink, pink, pink},
+	[SchemeTagsSel]    = { pink, pink, pink},
 };
 
 /* tagging */
@@ -102,10 +112,10 @@ static const char *dmenucmd[] = {
 	"dmenu_run", 
 	"-m", dmenumon, 
 	"-fn", dmenufont, 
-	"-nb", col_gray1, 
-	"-nf", col_gray3, 
-	"-sb", col_cyan, 
-	"-sf", col_gray4, 
+	"-nb", grey, 
+	"-nf", light_grey, 
+	"-sb", teal_blue, 
+	"-sf", soft_white, 
 	NULL };
 
 static const char *termcmd[]  = { "alacritty", NULL };
