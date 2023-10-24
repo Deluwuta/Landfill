@@ -41,6 +41,7 @@ static const char black[]        = "#262626";
 static const char grey[]         = "#393939";
 static const char light_grey[]   = "#525252";
 static const char soft_white[]   = "#dde1e6";
+static const char white2[]       = "#faedff";
 static const char white[]        = "#f2f4f8";
 static const char pure_white[]   = "#ffffff";
 
@@ -59,12 +60,13 @@ static const char pink[]         = "#ff7eb6";
 // #faedff #eeeeee //#454545
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
-	[SchemeNorm]       = { white, darker_black, darkest_dark },
-	[SchemeSel]        = { soft_white, darkest_dark, purple },
-	[SchemeTitleNorm]  = { light_grey, darker_black, grey},
-	[SchemeTitleSel]   = { pink, pink, pink},
-	[SchemeTagsNorm]   = { pink, pink, pink},
-	[SchemeTagsSel]    = { pink, pink, pink},
+	[SchemeNorm]      = { pure_white, darkest_dark, darkest_dark },
+	[SchemeSel]       = { darkest_dark, white2, purple },
+    [SchemeUrg]      = { pink, darker_black, darker_black },
+	[SchemeTitleNorm] = { light_grey, darker_black, grey},
+	[SchemeTitleSel]  = { pink, pink, pink},
+	[SchemeTagsNorm]  = { pink, pink, pink},
+	[SchemeTagsSel]   = { pink, pink, pink},
 };
 
 /* tagging */
@@ -112,10 +114,10 @@ static const char *dmenucmd[] = {
 	"dmenu_run", 
 	"-m", dmenumon, 
 	"-fn", dmenufont, 
-	"-nb", grey, 
-	"-nf", light_grey, 
-	"-sb", teal_blue, 
-	"-sf", soft_white, 
+	"-nb", darkest_dark, 
+	"-nf", pure_white, 
+	"-sb", white2, 
+	"-sf", darkest_dark, 
 	NULL };
 
 static const char *termcmd[]  = { "alacritty", NULL };
