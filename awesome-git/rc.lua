@@ -43,7 +43,7 @@ awful.spawn.once("openrazer-daemon")
 awful.spawn("/home/delta/.config/awesome/autostart.sh")
 
 -- Custom widgets
-local volume_osd = require("popups.volume_osd")
+-- local volume_osd = require("popups.volume_osd")
 local volume_widget = require("ui.wibar.widgets.volume-widget.volume")
 
 -- {{{ Variable definitions
@@ -113,24 +113,6 @@ awful.mouse.append_global_mousebindings({
 
 -- {{{ Key bindings
 
--- Volume OSD functionality
---local volume_timer = gears.timer {
---  timeout = 2,
---  autostart = true,
---  callback = function ()
---    volume_osd.visible = false
---  end,
---}
---
---volume_osd:connect_signal("mouse::enter", function ()
---  volume_timer:stop()       -- Stop the timer when the mouse enters the dock
---  volume_osd.visible = true -- Show the dock
---end)
---
---volume_osd:connect_signal("mouse::leave", function ()
---  volume_timer:again() -- Restart the timer
---end)
-
 -- Useful variables (to me '-')
 local home_path = "/home/delta/"
 local scripts_path = home_path .. ".config/gen_scripts/"
@@ -171,6 +153,14 @@ awful.keyboard.append_global_keybindings({
     awful.key({ }, "XF86AudioLowerVolume", function ()
       -- awful.spawn("amixer -D pulse set Master 5%- > /dev/null")
       volume_widget:dec(5)
+    end),
+
+    awful.key({ }, "XF86MonBrightnessUp", function ()
+      awful.spawn("brightnessctl s 5%+")
+    end),
+
+    awful.key({ }, "XF86MonBrightnessDown", function ()
+      awful.spawn("brightnessctl s 5%-")
     end),
 
     -- Keyboard language changer

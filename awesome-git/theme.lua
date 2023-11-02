@@ -16,7 +16,7 @@ theme.font_name = "FantasqueSansM Nerd Font "
 -- theme.font_name = "Hack Nerd Font "
 -- theme.font_name = "JetBrainsNF Nerd Font "
 
-theme.font = theme.font_name .. "Medium 12"
+theme.font = theme.font_name .. "Medium 14"
 -- theme.taglist_font  = "FantasqueSansM Nerd Font Propo 12"
 
 -- Icon Fonts (In progress)
@@ -106,7 +106,7 @@ theme.border_width  = 3
 theme.useless_gap   = dpi(3)
 
 theme.border_normal = theme.lighter_black
-theme.border_focus  = theme.extra_pink1
+theme.border_focus  = theme.extra_blue1
 theme.border_marked = theme.color9
 
 -- theme.border_radius = 12

@@ -2,7 +2,7 @@
 
 redshift -P -O 3000 &
 
-feh --bg-fill "$HOME/Pictures/backgrounds/thevoid.png" &
+xwallpaper --zoom "$HOME/Pictures/backgrounds/nixos2.png" &
 
 /usr/bin/emacs --daemon &
 # openrazer-daemon -r &
