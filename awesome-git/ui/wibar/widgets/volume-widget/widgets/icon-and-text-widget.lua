@@ -8,7 +8,7 @@ local ICON_DIR = os.getenv("HOME") .. '/.config/awesome/ui/wibar/widgets/volume-
 function widget.get_widget(widgets_args)
     local args = widgets_args or {}
 
-    local font = args.font or beautiful.font_name .. "bold 12"
+    local font = args.font or beautiful.font_name .. "bold 14"
     local icon_dir = args.icon_dir or ICON_DIR
 
     return wibox.widget {

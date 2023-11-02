@@ -50,7 +50,7 @@ local kernel = wibox.widget({
     {
       id = "kernel_role",
       text = " " .. kernel_func(),
-      font = beautiful.font_name .. "bold 12",
+      font = beautiful.font_name .. "bold 14",
       widget = wibox.widget.textbox,
     },
     fg = beautiful.color5,
@@ -152,7 +152,7 @@ screen.connect_signal("request::desktop_decoration", function(s)
         screen  = s,
         filter  = awful.widget.taglist.filter.all,
         style = {
-          font = beautiful.font_name .. "Medium 12",
+          font = beautiful.font_name .. "Medium 14",
           shape = gears.shape.circle,
           -- spacing = 2,
         },
@@ -190,7 +190,7 @@ screen.connect_signal("request::desktop_decoration", function(s)
     s.mywibox = awful.wibar {
         position = "top",
         screen = s,
-        height = 24,
+        height = 26,
         margins = { top = 4, bottom = 0, left = 3, right = 3 },
         shape = gears.shape.rounded_rect,
         widget   = {
@@ -211,12 +211,12 @@ screen.connect_signal("request::desktop_decoration", function(s)
             },
             { -- Right widgets
                 layout = wibox.layout.fixed.horizontal,
-                mykeyboardlayout,
+                -- mykeyboardlayout,
                 separator,
                 kernel,
                 separator,
                 net_wired,
-                -- net_wireless,
+                net_wireless,
                 separator,
                 volume,
                 separator,
