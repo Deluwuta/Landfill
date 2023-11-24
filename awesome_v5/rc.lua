@@ -152,6 +152,8 @@ local textclock = wibox.widget({
   widget = wibox.container.background,
 })
 
+local battery = require("battery")
+
 screen.connect_signal("request::desktop_decoration", function(s)
     -- Each screen has its own tag table.
     awful.tag({ "α", "β", "γ", "Δ", "Ε", "ζ", "λ", "φ", "Ω" }, s, awful.layout.layouts[1])
@@ -228,6 +230,8 @@ screen.connect_signal("request::desktop_decoration", function(s)
                 keyboardlayout,
                 separator,
                 textclock,
+                separator,
+                battery({show_current_level = true}),
                 separator,
                 wibox.widget.systray(),
                 s.mylayoutbox,
@@ -410,7 +414,7 @@ end)
 
 client.connect_signal("request::default_keybindings", function()
     awful.keyboard.append_client_keybindings({
-        awful.key({ mod }, "f", function (c)
+        awful.key({ mod, "Control" }, "m", function (c)
             c.fullscreen = not c.fullscreen
             c:raise()
         end, {description = "toggle fullscreen", group = "client"}),
@@ -432,10 +436,10 @@ client.connect_signal("request::default_keybindings", function()
             c:raise()
         end, {description = "(un)maximize", group = "client"}),
 
-        awful.key({ mod, "Control" }, "m", function (c)
-            c.maximized_vertical = not c.maximized_vertical
-            c:raise()
-        end, {description = "(un)maximize vertically", group = "client"}),
+        --awful.key({ mod, "Control" }, "m", function (c)
+        --    c.maximized_vertical = not c.maximized_vertical
+        --    c:raise()
+        --end, {description = "(un)maximize vertically", group = "client"}),
 
         awful.key({ mod, "Shift" }, "m", function (c)
             c.maximized_horizontal = not c.maximized_horizontal
