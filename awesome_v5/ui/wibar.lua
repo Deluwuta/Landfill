@@ -113,6 +113,9 @@ screen.connect_signal("request::desktop_decoration", function(s)
             { -- Right widgets
                 layout = wibox.layout.fixed.horizontal,
                 separator,
+                -- require("ui.widgets.net"),
+                require("ui.widgets.netless")("enp0s3"),
+                separator,
                 keyboardlayout,
                 separator,
                 -- battery({show_current_level = true}),
