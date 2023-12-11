@@ -11,3 +11,6 @@ Sí, por desgracia este es el quinto intento de hacer un "AwesomeWM" que no me d
 ### 09/12/2023
 + Se ha incluido una taskbar, ahora la build posee 2 wibars
 + Se ha modularizado minimamente el codigo, separando la funcionalidad de las wibar a sus respectivos ficheros
+
+### 11/12/2023
++ Inicio de la creacion de un widget que devuelva el estado de la conexion a internet
