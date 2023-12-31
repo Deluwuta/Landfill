@@ -84,10 +84,10 @@ return require("packer").startup(function(use)
         use ({
             "nvim-lualine/lualine.nvim",
         })
-        -- use ({
-        --     "glepnir/galaxyline.nvim",
-        --     brach = "main",
-        -- })
+        use ({
+            "glepnir/galaxyline.nvim",
+            brach = "main",
+        })
         -- use ({
         --     "nvimdev/whiskyline.nvim",
         --     event = "BufEnter",

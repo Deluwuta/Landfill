@@ -104,6 +104,11 @@ _G.packer_plugins = {
     path = "/home/delta/.local/share/nvim/site/pack/packer/start/friendly-snippets",
     url = "https://github.com/rafamadriz/friendly-snippets"
   },
+  ["galaxyline.nvim"] = {
+    loaded = true,
+    path = "/home/delta/.local/share/nvim/site/pack/packer/start/galaxyline.nvim",
+    url = "https://github.com/glepnir/galaxyline.nvim"
+  },
   harpoon = {
     loaded = true,
     path = "/home/delta/.local/share/nvim/site/pack/packer/start/harpoon",

@@ -22,20 +22,7 @@ vim.keymap.set("n", "<leader>wv", ":vsp<CR>")
 vim.keymap.set("n", "<leader>ws", ":sp<CR>")
 
 -- Toggle terminal
-vim.keymap.set("n", "<leader>ot", ":ToggleTerm<CR>")
-
--- Nvimtree keys
--- vim.keymap.set("n", "<leader>e" , ":NvimTreeFindFileToggle<CR>")
-
--- Neotree keys
-vim.keymap.set("n", "<leader>e" , ":NeoTreeFocusToggle<CR>")
-
--- Telescope keys
-vim.keymap.set("n", "<leader>ff", ":Telescope find_files hidden=true<CR>")
-vim.keymap.set("n", "<leader>fr", ":Telescope oldfiles hidden=true<CR>")
-vim.keymap.set("n", "<leader>." , ":Telescope file_browser hidden=true<CR>")
-vim.keymap.set("n", "<leader>fw", ":Telescope live_grep<CR>")
-vim.keymap.set("n", "<leader>ht", ":Telescope colorscheme<CR>")
+-- vim.keymap.set("n", "<leader>ot", ":ToggleTerm<CR>")
 
 -- Commenting keys
 vim.keymap.set("n", "<leader>l", ":CommentToggle<CR>")

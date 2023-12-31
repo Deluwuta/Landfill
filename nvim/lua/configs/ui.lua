@@ -5,16 +5,16 @@ require("nvim-highlight-colors").setup({
 })
 
 -- Lualine
-require("lualine").setup({
-    options = {
-        icons_enabled = true,
-    },
-    sections = {
-        lualine_a = {
-            {
-                'filename',
-                path = 1,
-            }
-        }
-    }
-})
+--require("lualine").setup({
+--    options = {
+--        icons_enabled = true,
+--    },
+--    sections = {
+--        lualine_a = {
+--            {
+--                'filename',
+--                path = 1,
+--            }
+--        }
+--    }
+--})

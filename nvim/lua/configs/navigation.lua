@@ -15,55 +15,47 @@ require("telescope").setup {
     defaults = {
         vimgrep_arguments = {
             "rg",
-            "-L",
             "--color=never",
             "--no-heading",
             "--with-filename",
             "--line-number",
             "--column",
             "--smart-case",
+            "--trim" -- add this value
         },
-        prompt_prefix = "   ",
-        selection_caret = "  ",
-        entry_prefix = "  ",
-        initial_mode = "insert",
-        selection_strategy = "reset",
-        sorting_strategy = "ascending",
-        layout_strategy = "horizontal",
-        layout_config = {
-            horizontal = {
-                prompt_position = "top",
-                preview_width = 0.55,
-                results_width = 0.8,
-            },
-            vertical = {
-                mirrow = false,
-            },
-            width = 0.87,
-            height = 0.80,
-            preview_cutoff = 120,
+        path_display = "absolute"
+    },
+
+    pickers = {
+        find_files = {
+            theme = "ivy",
         },
-        file_sorter = require("telescope.sorters").get_fuzzy_file,
-        file_ignore_patterns = { "node_modules" },
-        generic_sorter = require("telescope.sorters").get_generic_fuzzy_sorter,
-        path_display = { "truncate" },
-        winblend = 0,
-        border = {},
-        borderchars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
-        color_devicons = true,
-        set_env = { ["COLORTERM"] = "truecolor" }, -- default = nil,
-        file_previewer = require("telescope.previewers").vim_buffer_cat.new,
-        grep_previewer = require("telescope.previewers").vim_buffer_vimgrep.new,
-        qflist_previewer = require("telescope.previewers").vim_buffer_qflist.new,
     },
 
     extensions = {
         file_browser = {
-          theme = "ivy",
-          hidden = true,
-          hijack_netrw = true,
-          prompt_path = true,
+            theme = "ivy",
+            hidden = true,
+            prompt_path = true,
+            dir_icon = "",
+            dir_icon_hl = "Default",
         },
     },
 }
 require("telescope").load_extension("file_browser")
+
+-- Telescope keys
+-- Finding files
+vim.keymap.set("n", "<leader>ff", require("telescope.builtin").find_files, {})
+vim.keymap.set("n", "<leader>fr", require("telescope.builtin").oldfiles, {})
+vim.keymap.set("n", "<leader>." , ":Telescope file_browser hidden=true<CR>")
+vim.keymap.set("n", "<leader>fw", require("telescope.builtin").live_grep, {})
+
+-- Buffers
+vim.keymap.set("n", "<leader>bi", require("telescope.builtin").buffers)
+vim.keymap.set("n", "<leader>bk", ":bd <CR>") -- *Kill current buffer
+vim.keymap.set("n", "<leader>bn", ":bnext <CR>")
+vim.keymap.set("n", "<leader>bp", ":bprev <CR>")
+
+-- Choose colorscheme
+vim.keymap.set("n", "<leader>ht", ":Telescope colorscheme<CR>")
