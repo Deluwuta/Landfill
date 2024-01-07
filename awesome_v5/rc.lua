@@ -40,7 +40,7 @@ awful.spawn.once("/usr/lib/polkit-kde-authentication-agent-1")
 
 -- Virtual machine specific
 awful.spawn.once("xrandr -s 1920x1080")
-awful.spawn.once("setxkbmap gb")
+awful.spawn.once("setxkbmap us intl altGr dead keys")
 
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
@@ -128,7 +128,7 @@ end)
 
 -- UI
 require("ui.wibar")
-require("ui.taskbar")
+-- require("ui.taskbar")
 
 -- {{{ Mouse bindings
 awful.mouse.append_global_mousebindings({

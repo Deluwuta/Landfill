@@ -31,7 +31,7 @@ local textclock = wibox.widget({
     widget = wibox.widget.textclock(),
   },
   bg = beautiful.bg_normal,
-  fg = beautiful.light_blue,
+  fg = beautiful.bg_white2,
   widget = wibox.container.background,
 })
 
@@ -115,6 +115,8 @@ screen.connect_signal("request::desktop_decoration", function(s)
                 separator,
                 -- require("ui.widgets.net"),
                 require("ui.widgets.netless")("enp0s3"),
+                separator,
+                require("ui.widgets.lain.net")({}).net,
                 separator,
                 keyboardlayout,
                 separator,
