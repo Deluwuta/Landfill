@@ -45,7 +45,6 @@ local extensions = {
             "nvim-treesitter/nvim-treesitter",
         },
     },
-    hola = "Hello mum!",
 }
 
 return {

@@ -1,3 +1,4 @@
+-- Lazy Nvim Setup
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({
@@ -18,9 +19,6 @@ local opts = {
 	defaults = {
 		lazy = true,
 	},
-	install = {
-		colorscheme = { "nightfox" }
-	},
 	rtp = {
 		disabled_plugins = {
 			"gzip",
@@ -38,5 +36,4 @@ local opts = {
 		notify = true,
 	},
 }
-
 require("lazy").setup("plugins", opts)

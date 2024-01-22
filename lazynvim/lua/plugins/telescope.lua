@@ -17,7 +17,7 @@ local config = function()
             },
             -- path_display = "absolute"
         },
-    
+
         pickers = {
             find_files = {
                 theme = "ivy",
@@ -28,7 +28,7 @@ local config = function()
                 initial_mode = "normal",
             },
         },
-    
+
         extensions = {
             file_browser = {
                 theme = "ivy",
@@ -57,10 +57,10 @@ local telescope_table = {
         kmap.set("n", "<leader>fr", ":Telescope oldfiles<CR>"),
         kmap.set("n", "<leader>." , ":Telescope file_browser hidden=true<CR>"),
         kmap.set("n", "<leader>fw", ":Telescope live_grep<CR>"),
-        
+
         -- Buffers
-        kmap.set("n", "<leader>bi", ":Telescope buffers<CR>"),
-        
+        kmap.set("n", "<leader>fb", ":Telescope buffers<CR>"),
+
         -- Choose colorscheme
         kmap.set("n", "<leader>ht", ":Telescope colorscheme<CR>"),
     },

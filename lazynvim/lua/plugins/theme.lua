@@ -11,27 +11,25 @@ local function theme_creator(name, colorscheme, background, dependencies)
     }
 end
 
-local nightfox = theme_creator(
-    "EdenEast/nightfox.nvim",
-    "nightfox",
-    "dark"
-)
+local theme = {
+    nightfox = theme_creator(
+        "EdenEast/nightfox.nvim",
+        "nightfox",
+        "dark"
+    ),
 
-local zenbones = theme_creator(
-    "mcchrish/zenbones.nvim",
-    "zenbones",
-    "dark",
-    { "rktjmp/lush.nvim" }
-)
+    zenbones = theme_creator(
+        "mcchrish/zenbones.nvim",
+        "zenbones",
+        "dark",
+        { "rktjmp/lush.nvim" }
+    ),
 
-local melange = theme_creator(
-    "savq/melange-nvim",
-    "melange",
-    "dark"
-)
+    melange = theme_creator(
+        "savq/melange-nvim",
+        "melange",
+        "dark"
+    ),
+}
 
-
-return
-    -- nightfox
-    zenbones
-    -- melange
+return theme.zenbones
