@@ -107,22 +107,22 @@ end)
 
 -- {{{ Wallpaper
 screen.connect_signal("request::wallpaper", function(s)
-  -- awful.spawn("xwallpaper --zoom /home/delta/Pictures/backgrounds/texas-arknights.jpg")
-    awful.wallpaper {
-        screen = s,
-        widget = {
-            {
-                image     = beautiful.wallpaper,
-                upscale   = true,
-                downscale = true,
-                widget    = wibox.widget.imagebox,
-            },
-            valign = "center",
-            halign = "center",
-            tiled  = false,
-            widget = wibox.container.tile,
-        }
-    }
+    awful.spawn("xwallpaper --zoom /home/delta/Pictures/asheWaif2_cropped.jpg")
+    -- awful.wallpaper {
+    --     screen = s,
+    --     widget = {
+    --         {
+    --             image     = beautiful.wallpaper,
+    --             upscale   = true,
+    --             downscale = true,
+    --             widget    = wibox.widget.imagebox,
+    --         },
+    --         valign = "center",
+    --         halign = "center",
+    --         tiled  = false,
+    --         widget = wibox.container.tile,
+    --     }
+    -- }
 end)
 -- }}}
 

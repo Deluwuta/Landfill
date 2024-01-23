@@ -3,28 +3,30 @@ local awful = require("awful")
 local gears = require("gears")
 
 local indicator = {}
-local function worker(args)
-    local args = args or {}
+local function worker(ether, wifi)
+    local ether_iface = ether or ""
+    local wifi_iface = wifi or ""
+
     local widget = wibox.widget.textbox()
     local timeout = 20
 
-    local real = nil
-
     local function get_interfaces()
-        local f = io.popen("ip -o link show")
-        local state = io.popen("/home/delta/.config/awesome/ui/scripts/lewifi.sh"):read("*a")
-        -- local state = 3
-        for line in f:lines() do
-            local iface, state = line:match("(%S+):%s+<(%S+)>")
-            -- State aqui tiene el valor de dentro de los <...>
-            -- Queda meter otro match para sacar la tercera columna
-            if iface and state == "UP" then
-                break
-            end
+        if ether_iface == "" and wifi_iface == "" then
+            return "Empty"
         end
-        f:close()
-        return state
+
+        local ether_state = io.popen("cat /sys/class/net/"..ether_iface.."/operstate"):read("*a")
+        local wifi_state = io.popen("cat /sys/class/net/"..wifi_iface.."/operstate"):read("*a")
+
+        if string.match(ether_state, "up") then
+            return "Ethernet"
+        elseif wifi_state == "up" then
+            return "Wifi"
+        else
+            return "Netless"
+        end
     end
+
 
     local function net_update()
         local state = get_interfaces()
