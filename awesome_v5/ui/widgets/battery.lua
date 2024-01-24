@@ -80,7 +80,7 @@ local function worker(user_args)
         awful.spawn.easy_async([[bash -c 'acpi']],
         function(stdout, _, _, _)
             naughty.destroy(notification)
-            notification = naughty.notify{
+            notification = naughty.notify {
                 text =  stdout,
                 title = "Battery status",
                 icon = path_to_icons .. batteryType .. ".svg",
