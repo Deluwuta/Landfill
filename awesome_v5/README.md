@@ -1,12 +1,6 @@
 # Intento número 5
 Sí, por desgracia este es el quinto intento de hacer un "AwesomeWM" que no me dé asco
 
-## DEPENDENCIAS
-+ amixer: Controlador de audio
-+ brightnessctl: Para controlar el brillo de la pantalla
-+ acpi: Necesario para el widget de la batería
-+ nmcli: Se usa para detectar la conexión a internet 
-
 ## TODO
 + [X] Minimal battery widget (Necesito revisarlo)
 + [X] Minimal internet widget (Va de aquella manera)

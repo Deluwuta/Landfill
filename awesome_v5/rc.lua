@@ -39,8 +39,8 @@ awful.spawn.once("/usr/bin/emacs --daemon")
 awful.spawn.once("/usr/lib/polkit-kde-authentication-agent-1")
 
 -- Virtual machine specific
-awful.spawn.once("xrandr -s 1920x1080")
-awful.spawn.once("setxkbmap us intl altGr dead keys")
+-- awful.spawn.once("xrandr -s 1920x1080")
+-- awful.spawn.once("setxkbmap us intl altGr dead keys")
 
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
@@ -49,7 +49,7 @@ beautiful.init("/home/delta/.config/awesome/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
 local terminal = "alacritty"
-local rofi = "dmenu_run"
+local rofi = "rofi -modi combi -show combi -display-combi 'Rufus ->' -combi-modi run,drun"
 local editor = os.getenv("EDITOR") or "nano"
 local editor_cmd = terminal .. " -e " .. editor
 
@@ -92,22 +92,13 @@ tag.connect_signal("request::default_layouts", function()
         awful.layout.suit.floating,
         awful.layout.suit.tile.bottom,
         awful.layout.suit.max,
-        --awful.layout.suit.tile.top,
-        --awful.layout.suit.tile.left,
-        --awful.layout.suit.fair,
-        --awful.layout.suit.fair.horizontal,
-        --awful.layout.suit.spiral,
-        --awful.layout.suit.spiral.dwindle,
-        --awful.layout.suit.max.fullscreen,
-        --awful.layout.suit.magnifier,
-        --awful.layout.suit.corner.nw,
     })
 end)
 -- }}}
 
 -- {{{ Wallpaper
 screen.connect_signal("request::wallpaper", function(s)
-    awful.spawn("xwallpaper --zoom /home/delta/Pictures/asheWaif2_cropped.jpg")
+    awful.spawn("xwallpaper --zoom /home/delta/Pictures/backgrounds/oshinoko.png")
     -- awful.wallpaper {
     --     screen = s,
     --     widget = {

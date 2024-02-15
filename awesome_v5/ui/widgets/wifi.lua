@@ -41,14 +41,18 @@ local wifi_widget = wibox.widget ({
 -- })
 
 local function update_widget(ssid)
-    wifi_icon.text = "YE"
+    wifi_icon.text = " "
     wifi_name.text = ssid
 end
 
 watch([[ bash -c 
     "nmcli dev status | grep 'connected' | awk '{ print $2 }' | head -n1"
 ]], 20, function (_, stdout)
-    update_widget(stdout)
+    local state = stdout
+    if string.match(state, "loopback") then
+        state = "Netless"
+    end
+    update_widget(state)
     collectgarbage("collect")
 end)
 

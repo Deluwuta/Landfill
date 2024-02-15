@@ -14,6 +14,7 @@ local watch = require("awful.widget.watch")
 local wibox = require("wibox")
 local gfs = require("gears.filesystem")
 local dpi = require('beautiful').xresources.apply_dpi
+local beautiful = require("beautiful")
 
 -- acpi sample outputs
 -- Battery 0: Discharging, 75%, 01:51:38 remaining
@@ -26,7 +27,7 @@ local battery_widget = {}
 local function worker(user_args)
     local args = user_args or {}
 
-    local font = args.font or 'Play 8'
+    local font = args.font or beautiful.font
     local path_to_icons = args.path_to_icons or "/usr/share/icons/Arc/status/symbolic/"
     local show_current_level = args.show_current_level or false
     local margin_left = args.margin_left or 0

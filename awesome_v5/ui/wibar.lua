@@ -8,6 +8,7 @@ local dpi = xresources.apply_dpi
 
 local netting = require("ui.widgets.netless")
 local battery = require("ui.widgets.battery")
+local wifi = require("ui.widgets.wifi")
 
 -- {{{ Wibar
 local separator = wibox.widget {
@@ -116,7 +117,8 @@ screen.connect_signal("request::desktop_decoration", function(s)
             { -- Right widgets
                 layout = wibox.layout.fixed.horizontal,
                 separator,
-                netting({ ether = "enp0s3", wifi = "wlan0" }),
+                -- netting({ ether = "enp0s3", wifi = "wlan0" }),
+                wifi,
                 separator,
                 keyboardlayout,
                 separator,

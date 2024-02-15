@@ -15,18 +15,15 @@
 #
 
 # Comprobamos si hay o no conexion
-# connect="$(cat /sys/class/net/wlan0/operstate)"
+connect="$(cat /sys/class/net/wlan0/operstate)"
 
-random=$(shuf -i  1-100 -n 1)
-echo "$random"
-
-#if [[ $connect == "up" ]]; then
-#	typeCon="$(tail -n+3 /proc/net/wireless)" # We take the third line
-#	if [[ "$(echo $typeCon | wc -c)" == 1 ]]; then # If it is empty
-#		echo "🌐 ^c$wificol^Connected"
-#	else
-#		echo "^c$wificol^ Connected"
-#	fi
-#else
-#	echo "❌^c$wificol^Disconnected"
-#fi
+if [[ $connect == "up" ]]; then
+	typeCon="$(tail -n+3 /proc/net/wireless)" # We take the third line
+	if [[ "$(echo $typeCon | wc -c)" == 1 ]]; then # If it is empty
+		echo "🌐 ^c$wificol^Connected"
+	else
+		echo "^c$wificol^ Connected"
+	fi
+else
+	echo "❌^c$wificol^Disconnected"
+fi
