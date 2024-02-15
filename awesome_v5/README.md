@@ -23,7 +23,11 @@ Sí, por desgracia este es el quinto intento de hacer un "AwesomeWM" que no me d
 + Inicio de la creación de un widget que devuelva el estado de la conexión a internet
 
 ### 24/01/2024
-+ Se logró hacer el widget que de muestra la conexión que se posee tomando además dos parámetros, uno para la interfaz ethernet y otro para la de wifi.
++ Se logró hacer el widget que muestra la conexión que se posee tomando además dos parámetros, uno para la interfaz ethernet y otro para la de wifi.
 + Se hacen uso de llamadas asíncronas (debido a que io.popen es peligroso), pero eso hace que crear un widget como el que yo quiero posea limitaciones al necesitar comparar los valores obtenido de la propia llamada asíncrona.
-+ Se debe revisar y mejorar para poder usar dos timers y mejorar aún más la eficiencia, pero de momento logra su cometido (En VM con ethernet).
 + También fue eliminada la segunda wibar (en algún momento anterior a este), puede que vuelva, aunque ahora busco un enfoque más funcional y "minimal". "Primero que funcione todo, luego se hace bonito".
+
+### 15/02/2024
++ Se posee el widget de conexión a internet. Este usa _nmcli_ para detectar el tipo de conexión que hay.
++ Se ha modificado mínimamente la apareciencia de las notificaciones
++ Se comienza a crear el popup del volumen y la batería
