@@ -48,8 +48,8 @@
 
   services.xserver = {
     enable = true;
-    layout = "us";
-    xkbVariant = "altgr-intl";
+    layout = "es";
+    # xkbVariant = "altgr-intl";
     desktopManager.cinnamon.enable = true;
     displayManager.lightdm.enable = true;
     windowManager.i3 = {
@@ -107,9 +107,8 @@
       git
       lsd
       luarocks
-      neovim
+      # neovim
       nodejs_21
-      gnumake
       python3
       unzip
       # vim
@@ -128,6 +127,7 @@
   environment.systemPackages = with pkgs; [
       libgcc
       llvmPackages_9.clang-unwrapped
+      gnumake
       openrazer-daemon
       vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
       wget

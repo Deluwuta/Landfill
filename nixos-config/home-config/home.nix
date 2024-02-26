@@ -26,6 +26,7 @@ in
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = [
+    pkgs.neovim
     # # Adds the 'hello' command to your environment. It prints a friendly
     # # "Hello, world!" when run.
     # pkgs.hello
@@ -57,6 +58,11 @@ in
     #   org.gradle.console=verbose
     #   org.gradle.daemon.idletimeout=3600000
     # '';
+
+    "./.config/nvim/" = {
+      source = ./nvim-all;
+      recursive = true;
+    };
   };
 
   # Home Manager can also manage your environment variables through
@@ -74,15 +80,15 @@ in
     # EDITOR = "emacs";
   };
 
-    programs.bash = {
-        enable = true;
-        shellAliases = shell-aliases;
-    };
+  programs.bash = {
+      enable = true;
+      shellAliases = shell-aliases;
+  };
 
-    programs.zsh = {
-        enable = true;
-        shellAliases = shell-aliases;
-    };
+  programs.zsh = {
+      enable = true;
+      shellAliases = shell-aliases;
+  };
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
