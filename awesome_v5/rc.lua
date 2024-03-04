@@ -6,17 +6,21 @@ pcall(require, "luarocks.loader")
 -- Standard awesome library
 local gears = require("gears")
 local awful = require("awful")
-require("awful.autofocus")
+
 -- Widget and layout library
 local wibox = require("wibox")
 -- Theme handling library
 local beautiful = require("beautiful")
+
 -- Notification library
 local naughty = require("naughty")
+
 -- Declarative object management
 local ruled = require("ruled")
 local menubar = require("menubar")
 local hotkeys_popup = require("awful.hotkeys_popup")
+
+require("awful.autofocus")
 -- Enable hotkeys help widget for VIM and other apps
 -- when client with a matching name is opened:
 require("awful.hotkeys_popup.keys")
@@ -34,7 +38,8 @@ end)
 -- }}}
 
 -- Initial spawns
-awful.spawn.once("redshift -P -O 3000")
+awful.spawn.once("redshift -P -O 3400")
+awful.spawn("xwallpaper --zoom /home/delta/Pictures/backgrounds/alphacw_pgr.png")
 awful.spawn.once("/usr/bin/emacs --daemon")
 awful.spawn.once("/usr/lib/polkit-kde-authentication-agent-1")
 
@@ -96,42 +101,18 @@ tag.connect_signal("request::default_layouts", function()
 end)
 -- }}}
 
--- {{{ Wallpaper
-screen.connect_signal("request::wallpaper", function(s)
-    awful.spawn("xwallpaper --zoom /home/delta/Pictures/backgrounds/oshinoko.png")
-    -- awful.wallpaper {
-    --     screen = s,
-    --     widget = {
-    --         {
-    --             image     = beautiful.wallpaper,
-    --             upscale   = true,
-    --             downscale = true,
-    --             widget    = wibox.widget.imagebox,
-    --         },
-    --         valign = "center",
-    --         halign = "center",
-    --         tiled  = false,
-    --         widget = wibox.container.tile,
-    --     }
-    -- }
-end)
--- }}}
-
 -- UI
 require("ui.wibar")
 -- require("ui.taskbar")
 
--- {{{ Mouse bindings
+-- Mouse bindings
 awful.mouse.append_global_mousebindings({
     awful.button({ }, 3, function () mymainmenu:toggle() end),
     -- awful.button({ }, 4, awful.tag.viewprev),
     -- awful.button({ }, 5, awful.tag.viewnext),
 })
--- }}}
 
--- {{{ Key bindings
-
--- Awesome keys :sunglasses:
+-- Key bindings
 awful.keyboard.append_global_keybindings({
     awful.key({ mod }, "s", hotkeys_popup.show_help,{description="show help", group="awesome"}),
     awful.key({ mod }, "w", function () mymainmenu:show() end, {description = "show main menu", group = "awesome"}),
@@ -327,9 +308,7 @@ client.connect_signal("request::default_keybindings", function()
     })
 end)
 
--- }}}
-
--- {{{ Rules
+-- Rules
 -- Rules to apply to new clients.
 ruled.client.connect_signal("request::rules", function()
     -- All clients will match this rule.
@@ -380,9 +359,8 @@ ruled.client.connect_signal("request::rules", function()
     --     properties = { screen = 1, tag = "2" }
     -- }
 end)
--- }}}
 
--- {{{ Titlebars
+-- Titlebars
 -- Add a titlebar if titlebars_enabled is set to true in the rules.
 client.connect_signal("request::titlebars", function(c)
     -- buttons for the titlebar
@@ -420,10 +398,8 @@ client.connect_signal("request::titlebars", function(c)
         layout = wibox.layout.align.horizontal
     }
 end)
--- }}}
 
--- {{{ Notifications
-
+-- Notifications
 ruled.notification.connect_signal('request::rules', function()
     -- All notifications will match this rule.
     ruled.notification.append_rule {
@@ -439,8 +415,6 @@ naughty.connect_signal("request::display", function(n)
     naughty.layout.box { notification = n }
 end)
 
--- }}}
-
 -- Enable sloppy focus, so that focus follows mouse.
 client.connect_signal("mouse::enter", function(c)
     c:activate { context = "mouse_enter", raise = false }
@@ -449,7 +423,6 @@ end)
  -- ** Garbage Collector ** --
 -- Enable for lower memory consumption
 -- Taken from https://github.com/rxyhn/yoru
-
 collectgarbage("incremental", 110, 1000, 0) -- Awesome no me deja usarlo xd
 -- collectgarbage("setpause", 110)
 -- collectgarbage("setstepmul", 1000)
