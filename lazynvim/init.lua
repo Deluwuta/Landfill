@@ -1,1 +1,1 @@
-require("lazy_bootstrap")
+require("lazy-bootstrap")
