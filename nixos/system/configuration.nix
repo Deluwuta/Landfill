@@ -50,40 +50,19 @@
     LC_TIME = "es_ES.UTF-8";
   };
 
-  services = {
-    printing.enable = false;
-
+  services.xserver = {
     # Enable the X11 windowing system.
-    xserver = {
-      enable = true;
-      libinput.enable = true; # Touchpad support
+    enable = true;
+    layout = "es";
+    # kbdVariant = "intl-altgr";
 
-      # Laptop
-      layout = "es";
-      xkbVariant = "";
+    displayManager.sddm.enable = true;
+    desktopManager.xfce.enable = true;
 
-      # Desktop
-#      layout = "us";
-#      xkbVariant = "intl-altgr";
-
-      displayManager.sddm.enable = true;
-      desktopManager.xfce.enable = true;
-
-    };
-
-    pipewire = {
-      enable = true;
-      alsa.enable = true;
-      alsa.support32Bit = true;
-      pulse.enable = true;
-      # If you want to use JACK applications, uncomment this
-      #jack.enable = true;
-
-      # use the example session manager (no others are packaged yet so this is enabled by default,
-      # no need to redefine it in your config for now)
-      #media-session.enable = true;
-    };
+    libinput.enable = true; # Touchpad support
   };
+
+  services.printing.enable = false;
 
   # Configure console keymap
   console.keyMap = "es";
@@ -92,6 +71,20 @@
   sound.enable = true;
   hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
+
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+    # If you want to use JACK applications, uncomment this
+    #jack.enable = true;
+
+    # use the example session manager (no others are packaged yet so this is enabled by default,
+    # no need to redefine it in your config for now)
+    #media-session.enable = true;
+
+  };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.delta = {
