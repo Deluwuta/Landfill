@@ -13,19 +13,24 @@
   # Flakes
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
-  # Bootloader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+  # Boot
+  boot = {
+    kernelPackages = pkgs.linuxPackages_hardened;
+    loader = {
+      systemd-boot.enable = true;
+      efi.canTouchEfiVariables = true;
+    };
+  };
 
-  networking.hostName = "nixos"; # Define your hostname.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+  # Network minimal
+  networking = {
+    hostName = "nixos";
+    networkmanager.enable = true;
 
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
-  # Enable networking
-  networking.networkmanager.enable = true;
+    # Configure network proxy if necessary
+    # networking.proxy.default = "http://user:password@proxy:port/";
+    # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
+  };
 
   # Set your time zone.
   time.timeZone = "Europe/Madrid";
@@ -106,6 +111,7 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     curl
+    fastfetch
     gcc
     libgcc
     lua
