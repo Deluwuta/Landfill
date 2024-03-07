@@ -58,6 +58,7 @@
 
     displayManager.sddm.enable = true;
     desktopManager.xfce.enable = true;
+    windowManager.qtile.enable = true;
 
     libinput.enable = true; # Touchpad support
   };
@@ -93,12 +94,26 @@
     extraGroups = [
       "networkmanager"
       "wheel"
+      "plugdev"
     ];
 
     packages = with pkgs; [
+      alacritty
+      dmenu
+      # emacs # Version 28.2 xd
+      emacs29
+      fastfetch
       firefox
-    #  thunderbird
+      git
+      xwallpaper
+      zoxide
     ];
+  };
+
+  # Openrazer daemon
+  hardware.openrazer = {
+    enable = true;
+    users = ["delta"];
   };
 
   # Allow unfree packages
@@ -108,14 +123,17 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     curl
-    fastfetch
     gcc
+    gnumake
+    jdk17
     libgcc
     lua
     luarocks
-    gnumake
+    python3
+    rustup
     vim
     wget
+    xclip
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
