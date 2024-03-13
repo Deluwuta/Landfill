@@ -18,8 +18,29 @@
     kernelPackages = pkgs.linuxPackages_hardened;
     loader = {
       systemd-boot.enable = true;
+      systemd-boot.configurationLimit = 4;
       efi.canTouchEfiVariables = true;
     };
+  };
+
+
+  # Autoupgrades with flakes :D
+  system.autoUpgrade = {
+    enable = true;
+    flake = inputs.self.outPath;
+    flags = [
+      "--update-input"
+      "nixpkgs"
+      "-L" # Build logs
+    ];
+    dates = "02:00";
+    randomizedDelaySec = "30min";
+  };
+
+  # Store optimization
+  nix.optimise = {
+    automatic = true;
+    # dates = [ "08:00" ];
   };
 
   # Network minimal
@@ -86,6 +107,11 @@
     #media-session.enable = true;
 
   };
+
+  # Default Shells
+  environment.shells = with pkgs; [ bash zsh ];
+  users.defaultUserShell = pkgs.zsh;
+  programs.zsh.enable = true; 
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.delta = {
@@ -154,19 +180,6 @@
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
-
-  # Autoupgrades with flakes :D
-  system.autoUpgrade = {
-    enable = true;
-    flake = inputs.self.outPath;
-    flags = [
-      "--update-input"
-      "nixpkgs"
-      "-L" # Build logs
-    ];
-    dates = "01:00";
-    randomizedDelaySec = "30min";
-  };
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
