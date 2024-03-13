@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ config, pkgs, inputs, ... }:
 
 {
   imports =
@@ -10,23 +10,48 @@
       ./hardware-configuration.nix
     ];
 
-  # Bootloader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-  boot.kernelPackages = pkgs.linuxPackages_zen;
-
   # Flakes
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
-  networking.hostName = "nixos"; # Define your hostname.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+  # Boot
+  boot = {
+    kernelPackages = pkgs.linuxPackages_hardened;
+    loader = {
+      systemd-boot.enable = true;
+      systemd-boot.configurationLimit = 4;
+      efi.canTouchEfiVariables = true;
+    };
+  };
 
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
-  # Enable networking
-  networking.networkmanager.enable = true;
+  # Autoupgrades with flakes :D
+  system.autoUpgrade = {
+    enable = true;
+    flake = inputs.self.outPath;
+    flags = [
+      "--update-input"
+      "nixpkgs"
+      "-L" # Build logs
+    ];
+    dates = "02:00";
+    randomizedDelaySec = "30min";
+  };
+
+  # Store optimization
+  nix.optimise = {
+    automatic = true;
+    # dates = [ "08:00" ];
+  };
+
+  # Network minimal
+  networking = {
+    hostName = "nixos";
+    networkmanager.enable = true;
+
+    # Configure network proxy if necessary
+    # networking.proxy.default = "http://user:password@proxy:port/";
+    # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
+  };
 
   # Set your time zone.
   time.timeZone = "Europe/Madrid";
@@ -47,28 +72,28 @@
   };
 
   services.xserver = {
+    # Enable the X11 windowing system.
     enable = true;
     layout = "es";
-    # xkbVariant = "altgr-intl";
-    desktopManager.cinnamon.enable = true;
-    displayManager.lightdm.enable = true;
-    windowManager.i3 = {
-      enable = true;
-      extraPackages = with pkgs; [
-        i3status
-        i3lock
-        i3blocks
-      ];
-    };
+    # kbdVariant = "intl-altgr";
+
+    displayManager.sddm.enable = true;
+    desktopManager.xfce.enable = true;
+    windowManager.qtile.enable = true;
+
+    libinput.enable = true; # Touchpad support
   };
 
-  # Enable CUPS to print documents.
   services.printing.enable = false;
+
+  # Configure console keymap
+  console.keyMap = "es";
 
   # Enable sound with pipewire.
   sound.enable = true;
   hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
+
   services.pipewire = {
     enable = true;
     alsa.enable = true;
@@ -80,43 +105,41 @@
     # use the example session manager (no others are packaged yet so this is enabled by default,
     # no need to redefine it in your config for now)
     #media-session.enable = true;
+
   };
 
-  hardware.openrazer.enable = true;
-
-  # Default shell
+  # Default Shells
   environment.shells = with pkgs; [ bash zsh ];
   users.defaultUserShell = pkgs.zsh;
-  programs.zsh.enable = true;
-
-  # Enable touchpad support (enabled default in most desktopManager).
-  # services.xserver.libinput.enable = true;
+  programs.zsh.enable = true; 
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.delta = {
     isNormalUser = true;
     description = "delta";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+      "plugdev"
+    ];
+
     packages = with pkgs; [
       alacritty
-      bat
-      chromium
       dmenu
+      # emacs # Version 28.2 xd
+      emacs29
       fastfetch
       firefox
       git
-      lsd
-      luarocks
-      # neovim
-      nodejs_21
-      python3
-      unzip
-      # vim
-      xclip
       xwallpaper
-      zip
-      # thunderbird
+      zoxide
     ];
+  };
+
+  # Openrazer daemon
+  hardware.openrazer = {
+    enable = true;
+    users = ["delta"];
   };
 
   # Allow unfree packages
@@ -125,12 +148,18 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-      libgcc
-      llvmPackages_9.clang-unwrapped
-      gnumake
-      openrazer-daemon
-      vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-      wget
+    curl
+    gcc
+    gnumake
+    jdk17
+    libgcc
+    lua
+    luarocks
+    python3
+    rustup
+    vim
+    wget
+    xclip
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
