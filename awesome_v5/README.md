@@ -5,7 +5,9 @@ Sí, por desgracia este es el quinto intento de hacer un "AwesomeWM" que no me d
 + amixer: Controlador de audio
 + brightnessctl: Para controlar el brillo de la pantalla
 + acpi: Necesario para el widget de la batería
-+ nmcli: Se usa para detectar la conexión a internet 
++ nmcli: Se usa para detectar la conexión a internet
++ xwallpaper: Para establecer un fondo de pantalla (se puede usar el wallpaper drawer de awesome, pero tiene limitaciones
++ redshift: Night light
 
 
 ## TODO
