@@ -1,11 +1,12 @@
 local servers = {
     "bashls",        -- bash
     "clangd",        -- C, C--
-    -- "hls",        -- haskell
+    "hls",        -- haskell
     "html",          -- html
     "lua_ls",        -- lua
     "pyright",       -- pyton
     "rust_analyzer", -- rust
+    "tsserver",      -- JS / TS
     -- "texlab",     -- latex
 }
 

@@ -32,4 +32,4 @@ local theme = {
     ),
 }
 
-return theme.melange
+return theme.nightfox

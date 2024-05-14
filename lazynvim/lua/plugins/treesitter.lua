@@ -14,6 +14,8 @@ local config = function ()
             "haskell",
             "hare",
             "html",
+            "java",
+            "javascript",
             "json",
             "lua",
             "markdown",
