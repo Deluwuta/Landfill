@@ -30,6 +30,12 @@ local theme = {
         "melange",
         "dark"
     ),
+
+    aurora = theme_creator(
+        "rafalbromirski/vim-aurora",
+        "aurora",
+        "dark"
+    ),
 }
 
-return theme.nightfox
+return theme.aurora
