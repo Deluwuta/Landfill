@@ -6,16 +6,15 @@ local beautiful = require("beautiful")
 local xresources = require("beautiful.xresources")
 local dpi = xresources.apply_dpi
 
-local netting = require("ui.widgets.netless")
 local battery = require("ui.widgets.battery")
-local wifi = require("ui.widgets.wifi")
+local net = require("ui.widgets.wifi")
 
 -- {{{ Wibar
 local separator = wibox.widget {
     {
         id = "separator",
         text = " | ",
-        font = beautiful.font_name .. "bold 11",
+        font = beautiful.font,
         widget = wibox.widget.textbox,
     },
     bg = beautiful.bg_normal,
@@ -117,8 +116,7 @@ screen.connect_signal("request::desktop_decoration", function(s)
             { -- Right widgets
                 layout = wibox.layout.fixed.horizontal,
                 separator,
-                -- netting({ ether = "enp0s3", wifi = "wlan0" }),
-                wifi,
+                net,
                 separator,
                 keyboardlayout,
                 separator,

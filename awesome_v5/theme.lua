@@ -4,10 +4,10 @@
 
 local theme_assets = require("beautiful.theme_assets")
 local xresources = require("beautiful.xresources")
-local rnotification = require("ruled.notification")
+-- local rnotification = require("ruled.notification")
 local dpi = xresources.apply_dpi
 
-local gears = require("gears")
+-- local gears = require("gears")
 local gfs = require("gears.filesystem")
 local themes_path = gfs.get_themes_dir()
 
@@ -75,7 +75,7 @@ theme.menu_width  = dpi(100)
 theme.notification_max_width = dpi(350)
 theme.notification_margin = dpi(16)
 theme.notification_font = theme.font
-theme.notification_shape = gears.shape.rounded_rect
+-- theme.notification_shape = gears.shape.rounded_rect
 
 -- Define the image to load
 theme.titlebar_close_button_normal = themes_path.."default/titlebar/close_normal.png"
@@ -135,12 +135,12 @@ theme.awesome_icon = theme_assets.awesome_icon(
 theme.icon_theme = nil
 
 -- Set different colors for urgent notifications.
-rnotification.connect_signal('request::rules', function()
-    rnotification.append_rule {
-        rule       = { urgency = 'critical' },
-        properties = { bg = '#ff0000', fg = theme.pure_white }
-    }
-end)
+-- rnotification.connect_signal('request::rules', function()
+--     rnotification.append_rule {
+--         rule       = { urgency = 'critical' },
+--         properties = { bg = '#ff0000', fg = theme.pure_white }
+--     }
+-- end)
 
 return theme
 
