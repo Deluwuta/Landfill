@@ -15,14 +15,13 @@
 
   # Boot
   boot = {
-    kernelPackages = pkgs.linuxPackages_hardened;
+    kernelPackages = pkgs.linuxPackages;
     loader = {
       systemd-boot.enable = true;
-      systemd-boot.configurationLimit = 4;
+      # systemd-boot.configurationLimit = 4;
       efi.canTouchEfiVariables = true;
     };
   };
-
 
   # Autoupgrades with flakes :D
   system.autoUpgrade = {
@@ -71,23 +70,32 @@
     LC_TIME = "es_ES.UTF-8";
   };
 
-  services.xserver = {
-    # Enable the X11 windowing system.
-    enable = true;
-    layout = "es";
-    # kbdVariant = "intl-altgr";
+  services = { 
+    xserver = {
+      # Enable the X11 windowing system.
+      enable = true;
+      
+      # Configure keymap in X11
+      xkb = {
+        # layout = "es";
+        layout = "us";
+        variant = "altgr-intl";
+      };
+
+      desktopManager.xfce.enable = true;
+      windowManager.qtile.enable = true;
+    };
 
     displayManager.sddm.enable = true;
-    desktopManager.xfce.enable = true;
-    windowManager.qtile.enable = true;
 
-    libinput.enable = true; # Touchpad support
+    # Enable CUPS to print documents.
+    printing.enable = false;
+
+    # libinput.enable = true; # Touchpad support
   };
 
-  services.printing.enable = false;
-
   # Configure console keymap
-  console.keyMap = "es";
+  console.keyMap = "us";
 
   # Enable sound with pipewire.
   sound.enable = true;
@@ -99,19 +107,23 @@
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
+
     # If you want to use JACK applications, uncomment this
     #jack.enable = true;
 
     # use the example session manager (no others are packaged yet so this is enabled by default,
     # no need to redefine it in your config for now)
     #media-session.enable = true;
-
   };
 
-  # Default Shells
-  environment.shells = with pkgs; [ bash zsh ];
-  users.defaultUserShell = pkgs.zsh;
-  programs.zsh.enable = true; 
+  # Allow unfree packages
+  nixpkgs.config.allowUnfree = true;
+
+  # Openrazer daemon
+  hardware.openrazer = {
+    enable = true;
+    users = [ "delta" ];
+  };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.delta = {
@@ -124,43 +136,45 @@
     ];
 
     packages = with pkgs; [
-      alacritty
       dmenu
-      # emacs # Version 28.2 xd
-      emacs29
+      # emacs
       fastfetch
       firefox
-      git
+      kitty
+      neovim
+      p7zip
+      unzip
       xwallpaper
       zoxide
+      zip
     ];
   };
-
-  # Openrazer daemon
-  hardware.openrazer = {
-    enable = true;
-    users = ["delta"];
-  };
-
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+    cargo
     curl
     gcc
+    git
     gnumake
-    jdk17
     libgcc
     lua
     luarocks
     python3
-    rustup
-    vim
+    rustc
+    vim 
     wget
     xclip
   ];
+
+  programs.thunar = {
+    enable = true;
+    plugins = with pkgs.xfce; [
+      thunar-archive-plugin
+      thunar-volman
+    ];
+  };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -187,6 +201,6 @@
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "23.11"; # Did you read the comment?
+  system.stateVersion = "23.05"; # Did you read the comment?
 
 }
