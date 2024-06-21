@@ -125,6 +125,11 @@
     users = [ "delta" ];
   };
 
+  # Default shell
+  environment.shells = with pkgs; [ bash zsh ];
+  users.defaultUserShell = pkgs.zsh;
+  programs.zsh.enable = true;
+
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.delta = {
     isNormalUser = true;
@@ -136,13 +141,17 @@
     ];
 
     packages = with pkgs; [
+      alacritty
+      bat
       dmenu
       # emacs
       fastfetch
       firefox
+      gnome.file-roller
       kitty
       neovim
-      p7zip
+      starship
+      trash-cli
       unzip
       xwallpaper
       zoxide
@@ -153,6 +162,7 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+    bash-completion
     cargo
     curl
     gcc
@@ -161,11 +171,23 @@
     libgcc
     lua
     luarocks
+    nodejs
     python3
     rustc
     vim 
     wget
     xclip
+  ];
+
+  fonts.packages = with pkgs; [
+    envypn-font
+
+    (nerdfonts.override {
+      fonts = [
+        "Inconsolata"
+      ];
+    })
+
   ];
 
   programs.thunar = {
@@ -175,6 +197,13 @@
       thunar-volman
     ];
   };
+
+  # To enable dynamic libraries
+  programs.nix-ld.enable = true;
+  programs.nix-ld.libraries = with pkgs; [
+    # Add any missing dynamic libraries for unpackaged
+    # programs here, NOT in environment.systemPackages
+  ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
