@@ -36,6 +36,12 @@ local theme = {
         "aurora",
         "dark"
     ),
+
+    catppuccin = theme_creator(
+        "catppuccin/nvim",
+        "catppuccin-macchiato",
+        "dark"
+    )
 }
 
-return theme.aurora
+return theme.catppuccin

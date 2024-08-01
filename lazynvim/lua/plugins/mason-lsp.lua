@@ -1,7 +1,7 @@
 local servers = {
     "bashls",        -- bash
     "clangd",        -- C, C--
-    "hls",        -- haskell
+    -- "hls",        -- haskell
     "html",          -- html
     "lua_ls",        -- lua
     "pyright",       -- pyton
