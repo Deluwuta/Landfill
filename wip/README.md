@@ -13,12 +13,23 @@ This is subject to change because of the activity involved at this point (26/08/
 + **redshift**
 
 ## TODO
-
-- [ ] Battery widget (wanna do something cute, but the objective is functional minimalism)
+### Must be done
+- [x] Battery widget (wanna do something cute, but the objective is functional minimalism)
 - [ ] Internet widget (same idea as with the battery)
 - [ ] Brightness and volume popups on change
-- [ ] Pretty tags (1-9 are nice tho)
 - [ ] Clean readable code (long term objective)
+
+### QoL
+- [ ] Pretty tags
+- [ ] Good floating capabilities
+- [ ] Screen locker
+- [ ] Useful notifications
+
+### Fun
+- [ ] Dashboard
+- [ ] Notification center
+- [ ] Theme switcher
+- [ ] Custom logout popup
 
 ## Special thanks
 
@@ -33,3 +44,9 @@ This is subject to change because of the activity involved at this point (26/08/
 Creation of this file and the config as a whole. Right now is pretty functional, but lacks some features like battery or internet connection state on wibar (those are a must for QoL).
 
 It is using the default awesome config with modified keybinding from my old configs and the theme config as been built from the ground up again, not finished yet.
+
+### 27/08/2024
+
+Today I focused on the wibar and the folder structure. I've modularized the wibar code and changed almost all of it. I also added two custom widgets, one of an icon that could be used to show a dashboard and the battery widget. I'd like to modify this one but it works right now.
+
+The next day I would like to focus on the notifications styling or maybe I'll keep modularing the wibar code. I also have to make a proper theme file and use it as a base for the rest of the configs.

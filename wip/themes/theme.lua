@@ -73,7 +73,7 @@ theme.taglist_fg_emtpy = theme.fg
 theme.taglist_bg_occupied = theme.bg
 theme.taglist_fg_occupied = theme.fg
 
-theme.taglist_bg_focus = "#5c3f4f"
+theme.taglist_bg_focus = "#48584e"
 theme.taglist_fg_focus = theme.fg
 
 theme.taglist_spacing = 4
