@@ -47,7 +47,7 @@ local function worker(user_args)
 
     local enable_battery_warning = args.enable_battery_warning
     if enable_battery_warning == nil then
-        enable_battery_warning = true
+        enable_battery_warning = false 
     end
 
     local text = wibox.widget {

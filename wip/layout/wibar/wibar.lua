@@ -145,8 +145,6 @@ screen.connect_signal("request::desktop_decoration", function(s)
                     -- Right widgets
                     layout = wibox.layout.fixed.horizontal,
                     separator,
-                    -- network,
-                    -- separator,
                     mykeyboardlayout,
                     separator,
                     spacer,
@@ -158,6 +156,7 @@ screen.connect_signal("request::desktop_decoration", function(s)
                         notification_position = 'bottom_right',
                     }),
                     spacer,
+                    separator,
                     wibox.widget.systray(),
                 },
             },

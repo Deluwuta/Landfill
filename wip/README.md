@@ -15,8 +15,8 @@ This is subject to change because of the activity involved at this point (26/08/
 ## TODO
 ### Must be done
 - [x] Battery widget (wanna do something cute, but the objective is functional minimalism)
-- [ ] Internet widget (same idea as with the battery)
-- [ ] Brightness and volume popups on change
+- [x] Internet widget (same idea as with the battery)
+- [-] Brightness and volume popups on change
 - [ ] Clean readable code (long term objective)
 
 ### QoL
@@ -49,4 +49,8 @@ It is using the default awesome config with modified keybinding from my old conf
 
 Today I focused on the wibar and the folder structure. I've modularized the wibar code and changed almost all of it. I also added two custom widgets, one of an icon that could be used to show a dashboard and the battery widget. I'd like to modify this one but it works right now.
 
-The next day I would like to focus on the notifications styling or maybe I'll keep modularing the wibar code. I also have to make a proper theme file and use it as a base for the rest of the configs.
+The next day I would like to focus on the notifications styling or maybe I'll continue modularising the wibar code. I also have to make a proper theme file and use it as a base for the rest of the configs.
+
+### 30/08/2024
+
+nm-applet is used for internet handling. A volume osd popup has been added with a color.lua as a template. The binding for the volume is also a template just for testing. The next day I'll do the osd for the brightness, fix the bindings, add the icons (maybe) and maybe keep working on the wibar / modularising the code.

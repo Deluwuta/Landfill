@@ -17,9 +17,14 @@ local naughty = require("naughty")
 local ruled = require("ruled")
 local menubar = require("menubar")
 local hotkeys_popup = require("awful.hotkeys_popup")
+
+local HOME = os.getenv("HOME")
+
 -- Enable hotkeys help widget for VIM and other apps
 -- when client with a matching name is opened:
 require("awful.hotkeys_popup.keys")
+
+local volume_osd = require("popups.osd.volume_osd")
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
@@ -36,7 +41,7 @@ end)
 -- Initial spawns
 -- awful.spawn.once("redshift -P -O 3000")
 -- awful.spawn.once("/usr/bin/emacs --daemon")
--- awful.spawn.once("/usr/lib/polkit-kde-authentication-agent-1")
+awful.spawn.once("nm-applet")
 
 -- Virtual machine specific
 awful.spawn.once("xrandr -s 1920x1080")
@@ -45,7 +50,7 @@ awful.spawn.once("setxkbmap us intl altGr dead keys")
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
 -- beautiful.init(gears.filesystem.get_themes_dir() .. "default/theme.lua")
-beautiful.init("/home/delta/.config/awesome/themes/theme.lua")
+beautiful.init(HOME .. "/.config/awesome/themes/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
 local terminal = "kitty"
@@ -98,7 +103,7 @@ end)
 
 -- {{{ Wallpaper
 screen.connect_signal("request::wallpaper", function(s)
-    awful.spawn("xwallpaper --zoom /home/delta/Pictures/nicole_demara_anby_demara_amillion_and_billy_kid_officialArt.png")
+    awful.spawn("xwallpaper --zoom " .. HOME .. "/Pictures/nicole_demara_anby_demara_amillion_and_billy_kid_0jae_.jpg")
     -- awful.wallpaper {
     --     screen = s,
     --     widget = {
@@ -128,6 +133,23 @@ awful.mouse.append_global_mousebindings({
     -- awful.button({ }, 5, awful.tag.viewnext),
 })
 -- }}}
+
+local volume_timer = gears.timer {
+    timeout = 2,
+    autostart = true,
+    callback = function()
+        volume_osd.visible = false
+    end
+}
+
+volume_osd:connect_signal("mouse::enter", function()
+    volume_timer:stop()
+    volume_osd.visible = true
+end)
+
+volume_osd:connect_signal("mouse::leave", function()
+    volume_timer:again()
+end)
 
 -- {{{ Key bindings
 
@@ -159,6 +181,16 @@ awful.keyboard.append_global_keybindings({
     -- Multimedia keys
     awful.key({ }, "XF86AudioRaiseVolume" , function () awful.spawn("amixer -D pulse set Master 5%+ unmute > /dev/null") end),
     awful.key({ }, "XF86AudioLowerVolume" , function () awful.spawn("amixer -D pulse set Master 5%- unmute > /dev/null") end),
+
+    awful.key {
+        modifiers = { alt },
+        key = "n",
+        on_press = function ()
+            -- awful.spawn("")
+            volume_osd.visible = true
+            volume_timer:again()
+        end,
+    },
 
     awful.key({ }, "XF86MonBrightnessUp"  , function () awful.spawn("brightnessctl s 5%+") end),
     awful.key({ }, "XF86MonBrightnessDown", function () awful.spawn("brightnessctl s 5%-") end),
