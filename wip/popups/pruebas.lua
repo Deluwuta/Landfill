@@ -22,7 +22,7 @@ separator.forced_width = dpi(50)
 local volume_slider = wibox.widget({
     widget = wibox.widget.slider,
     bar_shape = function (cr, width, height)
-        gears.shape.rounded_rect(cr, width, height, 15)
+        gears.shape.rounded_rect(cr, width, height, 20)
     end,
     bar_height = dpi(10),
     bar_color = "#232a2e",
@@ -44,7 +44,7 @@ volume_slider:connect_signal("property::value", function (slider)
 end)
 
 local volume_text = wibox.widget ({
-    markup = '<span color="' .. "#d3c6aa" .. '" font="Ubuntu Nerd Font bold 12">' .. 'Volume' .. '</span>'
+    markup = '<span color="' .. "#d3c6aa" .. '" font="Ubuntu Nerd Font bold 14">' .. 'Volume' .. '</span>'
     ,
     widget = wibox.widget.textbox,
     fg = "#FFFFFF",
@@ -52,7 +52,7 @@ local volume_text = wibox.widget ({
 
 local volume_percentage = wibox.widget {
 	markup = '<span color="' ..
-		"#d3c6aa" .. '" font="Ubuntu Nerd Font bold 12">' .. volume_slider.value .. '</span>'
+		"#d3c6aa" .. '" font="Ubuntu Nerd Font bold 14">' .. volume_slider.value .. '</span>'
 	,
 	widget = wibox.widget.textbox,
 	fg = "#FFFFFF",
@@ -63,16 +63,29 @@ local update_volume_slider = function()
 		local volume = tonumber(string.match(stdout, "(%d?%d?%d)%%"))
 		volume_slider.value = volume or 0
 		volume_percentage.markup = '<span color="' ..
-			"#d3c6aa" .. '" font="Ubuntu Nerd Font bold 12">' .. volume .. '</span>'
+			"#d3c6aa" .. '" font="Ubuntu Nerd Font bold 14">' .. volume .. '</span>'
 	end)
 end
 
-local volume_slider_timer = gears.timer({
-	timeout = 1,
-	call_now = true,
-	autostart = true,
-	callback = update_volume_slider,
-})
+local slider_timer = gears.timer {
+    call_now = true,
+    autostart = true,
+    callback = function ()
+        awful.spawn.easy_async("amixer sget Master", function(stdout)
+            local volume = tonumber(string.match(stdout, "(%d?%d?%d)%%"))
+            volume_slider.value = volume or 0
+            volume_percentage.markup = '<span color="' ..
+            "#d3c6aa" .. '" font="Ubuntu Nerd Font bold 14">' .. volume .. '</span>'
+        end)
+    end
+}
+
+-- local volume_slider_timer = gears.timer({
+-- 	timeout = 1,
+-- 	call_now = true,
+-- 	autostart = true,
+-- 	callback = update_volume_slider,
+-- })
 
 -- Main popup
 local osd_box = awful.popup {
@@ -85,7 +98,7 @@ local osd_box = awful.popup {
         awful.placement.bottom(c,
             { margins = {
                 top = dpi(0),
-                bottom = dpi(100),
+                bottom = dpi(120),
                 left = 0,
                 right = dpi(0),
             }})
@@ -140,7 +153,7 @@ osd_box:setup {
     widget = wibox.container.background,
 	bg = "#3d484d",
 	shape = function(cr, width, height)
-		gears.shape.rounded_rect(cr, width, height, 30)
+		gears.shape.rounded_rect(cr, width, height, 0)
 	end,
 }
 

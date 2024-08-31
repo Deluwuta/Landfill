@@ -136,14 +136,6 @@ awful.mouse.append_global_mousebindings({
 })
 -- }}}
 
-local volume_timer = gears.timer {
-    timeout = 2,
-    autostart = true,
-    callback = function()
-        volume_osd.visible = false
-    end
-}
-
 local pruebas_timer = gears.timer {
     timeout = 2,
     autostart = true,
@@ -151,15 +143,6 @@ local pruebas_timer = gears.timer {
         pruebas.visible = false
     end
 }
-
-volume_osd:connect_signal("mouse::enter", function()
-    volume_timer:stop()
-    volume_osd.visible = true
-end)
-
-volume_osd:connect_signal("mouse::leave", function()
-    volume_timer:again()
-end)
 
 pruebas:connect_signal("mouse::enter", function()
     pruebas_timer:stop()
@@ -205,7 +188,17 @@ awful.keyboard.append_global_keybindings({
         modifiers = { alt },
         key = "n",
         on_press = function ()
-            -- awful.spawn("")
+            awful.spawn("amixer set Master 5%+ unmute")
+            pruebas.visible = true
+            pruebas_timer:again()
+        end,
+    },
+
+    awful.key {
+        modifiers = { alt },
+        key = "m",
+        on_press = function ()
+            awful.spawn("amixer set Master 5%- unmute")
             pruebas.visible = true
             pruebas_timer:again()
         end,
