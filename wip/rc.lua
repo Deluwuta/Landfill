@@ -24,7 +24,7 @@ local HOME = os.getenv("HOME")
 -- when client with a matching name is opened:
 require("awful.hotkeys_popup.keys")
 
-local volume_osd = require("popups.osd.volume_osd")
+local volume_osd = require("popups.volume_osd")
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
@@ -37,6 +37,8 @@ naughty.connect_signal("request::display_error", function(message, startup)
     }
 end)
 -- }}}
+
+local pruebas = require("popups.pruebas")
 
 -- Initial spawns
 -- awful.spawn.once("redshift -P -O 3000")
@@ -142,6 +144,14 @@ local volume_timer = gears.timer {
     end
 }
 
+local pruebas_timer = gears.timer {
+    timeout = 2,
+    autostart = true,
+    callback = function()
+        pruebas.visible = false
+    end
+}
+
 volume_osd:connect_signal("mouse::enter", function()
     volume_timer:stop()
     volume_osd.visible = true
@@ -149,6 +159,15 @@ end)
 
 volume_osd:connect_signal("mouse::leave", function()
     volume_timer:again()
+end)
+
+pruebas:connect_signal("mouse::enter", function()
+    pruebas_timer:stop()
+    pruebas.visible = true
+end)
+
+pruebas:connect_signal("mouse::leave", function()
+    pruebas_timer:again()
 end)
 
 -- {{{ Key bindings
@@ -187,8 +206,8 @@ awful.keyboard.append_global_keybindings({
         key = "n",
         on_press = function ()
             -- awful.spawn("")
-            volume_osd.visible = true
-            volume_timer:again()
+            pruebas.visible = true
+            pruebas_timer:again()
         end,
     },
 
