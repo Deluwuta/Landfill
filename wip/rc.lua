@@ -7,47 +7,33 @@ pcall(require, "luarocks.loader")
 local gears = require("gears")
 local awful = require("awful")
 require("awful.autofocus")
+
 -- Widget and layout library
 local wibox = require("wibox")
+
 -- Theme handling library
 local beautiful = require("beautiful")
+
 -- Notification library
 local naughty = require("naughty")
+
 -- Declarative object management
 local ruled = require("ruled")
 local menubar = require("menubar")
 local hotkeys_popup = require("awful.hotkeys_popup")
 
+-- Commonly used paths
 local HOME = os.getenv("HOME")
 
 -- Enable hotkeys help widget for VIM and other apps
 -- when client with a matching name is opened:
 require("awful.hotkeys_popup.keys")
 
-local volume_osd = require("popups.volume_osd")
+-- Error handling
+require("modules.error_handling")
 
--- {{{ Error handling
--- Check if awesome encountered an error during startup and fell back to
--- another config (This code will only ever execute for the fallback config)
-naughty.connect_signal("request::display_error", function(message, startup)
-    naughty.notification {
-        urgency = "critical",
-        title   = "Oops, an error happened"..(startup and " during startup!" or "!"),
-        message = message
-    }
-end)
--- }}}
-
-local pruebas = require("popups.pruebas")
-
--- Initial spawns
--- awful.spawn.once("redshift -P -O 3000")
--- awful.spawn.once("/usr/bin/emacs --daemon")
-awful.spawn.once("nm-applet")
-
--- Virtual machine specific
-awful.spawn.once("xrandr -s 1920x1080")
-awful.spawn.once("setxkbmap us intl altGr dead keys")
+local _aux = require("widgets.pruebas")
+local volume_osd, update_volume = table.unpack(_aux)
 
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
@@ -91,21 +77,17 @@ local mylauncher = awful.widget.launcher({
 menubar.utils.terminal = terminal -- Set the terminal for applications that require it
 -- }}}
 
--- {{{ Tag layout
--- Table of layouts to cover with awful.layout.inc, order matters.
-tag.connect_signal("request::default_layouts", function()
-    awful.layout.append_default_layouts({
-        awful.layout.suit.tile,
-        awful.layout.suit.floating,
-        awful.layout.suit.tile.bottom,
-        awful.layout.suit.max,
-    })
-end)
--- }}}
+-- Layouts
+awful.layout.layouts = {
+    awful.layout.suit.tile,
+    awful.layout.suit.tile.bottom,
+    awful.layout.suit.floating,
+    awful.layout.suit.max,
+}
 
 -- {{{ Wallpaper
 screen.connect_signal("request::wallpaper", function(s)
-    awful.spawn("xwallpaper --zoom " .. HOME .. "/Pictures/nicole_demara_anby_demara_amillion_and_billy_kid_0jae_.jpg")
+    awful.spawn("xwallpaper --zoom " .. HOME .. "/Pictures/nicole_demara_anby_demara_amillion_and_billy_kid_officialArt.png")
     -- awful.wallpaper {
     --     screen = s,
     --     widget = {
@@ -125,8 +107,7 @@ end)
 -- }}}
 
 -- UI
-require("layout.wibar.wibar")
--- require("ui.taskbar")
+require("modules.wibar")
 
 -- {{{ Mouse bindings
 awful.mouse.append_global_mousebindings({
@@ -136,21 +117,21 @@ awful.mouse.append_global_mousebindings({
 })
 -- }}}
 
-local pruebas_timer = gears.timer {
+local volume_timer = gears.timer {
     timeout = 2,
     autostart = true,
     callback = function()
-        pruebas.visible = false
+        volume_osd.visible = false
     end
 }
 
-pruebas:connect_signal("mouse::enter", function()
-    pruebas_timer:stop()
-    pruebas.visible = true
+volume_osd:connect_signal("mouse::enter", function()
+    volume_timer:stop()
+    volume_osd.visible = true
 end)
 
-pruebas:connect_signal("mouse::leave", function()
-    pruebas_timer:again()
+volume_osd:connect_signal("mouse::leave", function()
+    volume_timer:again()
 end)
 
 -- {{{ Key bindings
@@ -189,8 +170,9 @@ awful.keyboard.append_global_keybindings({
         key = "n",
         on_press = function ()
             awful.spawn("amixer set Master 5%+ unmute")
-            pruebas.visible = true
-            pruebas_timer:again()
+            update_volume()
+            volume_timer:again()
+            volume_osd.visible = true
         end,
     },
 
@@ -199,8 +181,9 @@ awful.keyboard.append_global_keybindings({
         key = "m",
         on_press = function ()
             awful.spawn("amixer set Master 5%- unmute")
-            pruebas.visible = true
-            pruebas_timer:again()
+            update_volume()
+            volume_timer:again()
+            volume_osd.visible = true
         end,
     },
 
@@ -254,7 +237,7 @@ awful.keyboard.append_global_keybindings({
     awful.key({ mod }, "l", function () awful.tag.incmwfact( 0.05) end, {description = "increase master width factor", group = "layout"}),
     awful.key({ mod }, "h", function () awful.tag.incmwfact(-0.05) end, {description = "decrease master width factor", group = "layout"}),
 
-    awful.key({ mod }         , "Tab", function () awful.layout.inc(-1) end, {description = "select next", group = "layout"}),
+    awful.key({ mod }         , "Tab", function () awful.layout.inc(1) end, {description = "select next", group = "layout"}),
     awful.key({ mod, "Shift" }, "Tab", function () awful.layout.inc(-1) end, {description = "select previous", group = "layout"}),
 })
 
@@ -479,6 +462,13 @@ ruled.notification.connect_signal('request::rules', function()
     }
 end)
 
+-- Rounded borders
+client.connect_signal("manage", function(c)
+	c.shape = function(cr, w, h)
+		gears.shape.rounded_rect(cr, w, h, 0)
+	end
+end)
+
 -- naughty.connect_signal("request::display", function(n)
 --     naughty.layout.box { notification = n }
 -- end)
@@ -489,6 +479,15 @@ end)
 client.connect_signal("mouse::enter", function(c)
     c:activate { context = "mouse_enter", raise = false }
 end)
+
+-- Initial spawns
+-- awful.spawn.once("redshift -P -O 3000")
+-- awful.spawn.once("/usr/bin/emacs --daemon")
+awful.spawn.once("nm-applet")
+
+-- Virtual machine specific
+awful.spawn.once("xrandr -s 1920x1080")
+awful.spawn.once("setxkbmap us intl altGr dead keys")
 
  -- ** Garbage Collector ** --
 -- Enable for lower memory consumption

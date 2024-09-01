@@ -54,3 +54,13 @@ The next day I would like to focus on the notifications styling or maybe I'll co
 ### 30/08/2024
 
 nm-applet is used for internet handling. A volume osd popup has been added with a color.lua as a template. The binding for the volume is also a template just for testing. The next day I'll do the osd for the brightness, fix the bindings, add the icons (maybe) and maybe keep working on the wibar / modularising the code.
+
+### 02/09/2024
+
+Remade the folder structure (last time with some luck). I have moved to its own file the error_handling code and the layouts, but the laters is not used in rc.lua because I don't know if I'll keep the file. I also improved the volume osd widget, being updated only on command. Still has some delay, but it works.
+
+The widgets/temporal folder is used to hold the templates or files that I'm using to test stuff, just code to be copied '-'.
+
+Finally I cloned the bling repo because I like some things, may or may not use it but there it is (it may not be included in the commit)
+
+The next thing I wanna do is keep moving code out of the main file, focusing on keybinding and signals. I also have to make the osd for brightness and keyboard brightness.
