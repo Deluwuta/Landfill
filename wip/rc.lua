@@ -117,29 +117,11 @@ awful.mouse.append_global_mousebindings({
 })
 -- }}}
 
--- local volume_timer = gears.timer {
---     timeout = 2,
---     autostart = true,
---     callback = function()
---         volume_osd.visible = false
---     end
--- }
---
--- volume_osd:connect_signal("mouse::enter", function()
---     volume_timer:stop()
---     volume_osd.visible = true
--- end)
---
--- volume_osd:connect_signal("mouse::leave", function()
---     volume_timer:again()
--- end)
-
 -- {{{ Key bindings
 require("modules.global_keys")
 
 -- Awesome keys :sunglasses:
 awful.keyboard.append_global_keybindings({
-    -- awful.key({ mod }, "s", hotkeys_popup.show_help,{description="show help", group="awesome"}),
     awful.key({ mod }, "w", function () mymainmenu:show() end, {description = "show main menu", group = "awesome"}),
 
     awful.key({ mod }, "x",
@@ -152,95 +134,6 @@ awful.keyboard.append_global_keybindings({
                   }
               end,
               {description = "lua execute prompt", group = "awesome"}),
-
-    -- Quit and restarting, in that order 
-    -- awful.key({ mod, "Control" }, "q", awesome.quit, {description = "quit awesome", group = "awesome"}),
-    -- awful.key({ mod, "Control" }, "r", awesome.restart, {description = "reload awesome", group = "awesome"}),
-    --
-    -- awful.key({ mod }         , "Return", function () awful.spawn(terminal) end),
-    -- awful.key({ mod }         , "p"     , function () awful.spawn(launcher) end),
-    -- awful.key({ mod }         , "b"     , function () awful.spawn("firefox-nightly") end),
-    -- awful.key({ mod }         , "f"     , function () awful.spawn("pcmanfm") end),
-    -- awful.key({ mod, "Shift" }, "s"     , function () awful.spawn("flameshot gui") end),
-    --
-    -- -- Multimedia keys
-    -- awful.key({ }, "XF86AudioRaiseVolume" , function () awful.spawn("amixer -D pulse set Master 5%+ unmute > /dev/null") end),
-    -- awful.key({ }, "XF86AudioLowerVolume" , function () awful.spawn("amixer -D pulse set Master 5%- unmute > /dev/null") end),
-    --
-    -- awful.key {
-    --     modifiers = { alt },
-    --     key = "n",
-    --     on_press = function ()
-    --         awful.spawn("amixer set Master 5%+ unmute")
-    --         update_volume()
-    --         volume_timer:again()
-    --         volume_osd.visible = true
-    --     end,
-    -- },
-    --
-    -- awful.key {
-    --     modifiers = { alt },
-    --     key = "m",
-    --     on_press = function ()
-    --         awful.spawn("amixer set Master 5%- unmute")
-    --         update_volume()
-    --         volume_timer:again()
-    --         volume_osd.visible = true
-    --     end,
-    -- },
-
-    awful.key({ }, "XF86MonBrightnessUp"  , function () awful.spawn("brightnessctl s 5%+") end),
-    awful.key({ }, "XF86MonBrightnessDown", function () awful.spawn("brightnessctl s 5%-") end),
-
-    awful.key({ }, "XF86KbdBrightnessUp"  , function () awful.spawn("/home/delta/.config/scripts/kbdbacklight.sh up") end),
-    awful.key({ }, "XF86KbdBrightnessDown", function () awful.spawn("/home/delta/.config/scripts/kbdbacklight.sh down") end),
-
-    -- Keyboard language changer
-    awful.key({ mod }, "space", function () awful.spawn("/home/delta/.config/scripts/keyboardChanger.sh") end),
-
-    awful.key({ mod }, "r", function () awful.screen.focused().mypromptbox:run() end, {description = "run prompt", group = "launcher"}),
-    -- awful.key({ mod }, "p", function() menubar.show() end, {description = "show the menubar", group = "launcher"}),
-
-    -- Tags related keybindings
-    awful.key({ mod }, "Left"  , awful.tag.viewprev, {description = "view previous", group = "tag"}),
-    awful.key({ mod }, "Right" , awful.tag.viewnext, {description = "view next", group = "tag"}),
-    awful.key({ mod }, "Escape", awful.tag.history.restore, {description = "go back", group = "tag"}),
-
-    -- Focus related keybindings
-    awful.key({ mod }, "j", function () awful.client.focus.byidx( 1) end, {description = "focus next by index", group = "client"}),
-    awful.key({ mod }, "k", function () awful.client.focus.byidx(-1) end, {description = "focus previous by index", group = "client"}),
-
-    awful.key({ alt }, "Tab",
-        function ()
-            awful.client.focus.history.previous()
-            if client.focus then
-                client.focus:raise()
-            end
-        end, {description = "go back", group = "client"}),
-
-    -- Multimonitor bindings?
-    awful.key({ mod, "Control" }, "j", function () awful.screen.focus_relative(1) end, {description = "focus the next screen", group = "screen"}),
-    awful.key({ mod, "Control" }, "k", function () awful.screen.focus_relative(-1) end, {description = "focus the previous screen", group = "screen"}),
-
-    awful.key({ mod, "Control" }, "n",
-              function ()
-                  local c = awful.client.restore()
-                  -- Focus restored client
-                  if c then
-                    c:activate { raise = true, context = "key.unminimize" }
-                  end
-              end,
-              {description = "restore minimized", group = "client"}),
-    -- Layout related bindings
-    awful.key({ mod, "Shift" }, "j", function () awful.client.swap.byidx( 1) end, {description = "swap with next client by index", group = "client"}),
-    awful.key({ mod, "Shift" }, "k", function () awful.client.swap.byidx(-1) end, {description = "swap with previous client by index", group = "client"}),
-
-    awful.key({ mod }, "u", awful.client.urgent.jumpto, {description = "jump to urgent client", group = "client"}),
-    awful.key({ mod }, "l", function () awful.tag.incmwfact( 0.05) end, {description = "increase master width factor", group = "layout"}),
-    awful.key({ mod }, "h", function () awful.tag.incmwfact(-0.05) end, {description = "decrease master width factor", group = "layout"}),
-
-    awful.key({ mod }         , "Tab", function () awful.layout.inc(1) end, {description = "select next", group = "layout"}),
-    awful.key({ mod, "Shift" }, "Tab", function () awful.layout.inc(-1) end, {description = "select previous", group = "layout"}),
 })
 
 awful.keyboard.append_global_keybindings({
