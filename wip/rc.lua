@@ -117,28 +117,29 @@ awful.mouse.append_global_mousebindings({
 })
 -- }}}
 
-local volume_timer = gears.timer {
-    timeout = 2,
-    autostart = true,
-    callback = function()
-        volume_osd.visible = false
-    end
-}
-
-volume_osd:connect_signal("mouse::enter", function()
-    volume_timer:stop()
-    volume_osd.visible = true
-end)
-
-volume_osd:connect_signal("mouse::leave", function()
-    volume_timer:again()
-end)
+-- local volume_timer = gears.timer {
+--     timeout = 2,
+--     autostart = true,
+--     callback = function()
+--         volume_osd.visible = false
+--     end
+-- }
+--
+-- volume_osd:connect_signal("mouse::enter", function()
+--     volume_timer:stop()
+--     volume_osd.visible = true
+-- end)
+--
+-- volume_osd:connect_signal("mouse::leave", function()
+--     volume_timer:again()
+-- end)
 
 -- {{{ Key bindings
+require("modules.global_keys")
 
 -- Awesome keys :sunglasses:
 awful.keyboard.append_global_keybindings({
-    awful.key({ mod }, "s", hotkeys_popup.show_help,{description="show help", group="awesome"}),
+    -- awful.key({ mod }, "s", hotkeys_popup.show_help,{description="show help", group="awesome"}),
     awful.key({ mod }, "w", function () mymainmenu:show() end, {description = "show main menu", group = "awesome"}),
 
     awful.key({ mod }, "x",
@@ -151,41 +152,42 @@ awful.keyboard.append_global_keybindings({
                   }
               end,
               {description = "lua execute prompt", group = "awesome"}),
+
     -- Quit and restarting, in that order 
-    awful.key({ mod, "Control" }, "q", awesome.quit, {description = "quit awesome", group = "awesome"}),
-    awful.key({ mod, "Control" }, "r", awesome.restart, {description = "reload awesome", group = "awesome"}),
-
-    awful.key({ mod }         , "Return", function () awful.spawn(terminal) end),
-    awful.key({ mod }         , "p"     , function () awful.spawn(launcher) end),
-    awful.key({ mod }         , "b"     , function () awful.spawn("firefox-nightly") end),
-    awful.key({ mod }         , "f"     , function () awful.spawn("pcmanfm") end),
-    awful.key({ mod, "Shift" }, "s"     , function () awful.spawn("flameshot gui") end),
-
-    -- Multimedia keys
-    awful.key({ }, "XF86AudioRaiseVolume" , function () awful.spawn("amixer -D pulse set Master 5%+ unmute > /dev/null") end),
-    awful.key({ }, "XF86AudioLowerVolume" , function () awful.spawn("amixer -D pulse set Master 5%- unmute > /dev/null") end),
-
-    awful.key {
-        modifiers = { alt },
-        key = "n",
-        on_press = function ()
-            awful.spawn("amixer set Master 5%+ unmute")
-            update_volume()
-            volume_timer:again()
-            volume_osd.visible = true
-        end,
-    },
-
-    awful.key {
-        modifiers = { alt },
-        key = "m",
-        on_press = function ()
-            awful.spawn("amixer set Master 5%- unmute")
-            update_volume()
-            volume_timer:again()
-            volume_osd.visible = true
-        end,
-    },
+    -- awful.key({ mod, "Control" }, "q", awesome.quit, {description = "quit awesome", group = "awesome"}),
+    -- awful.key({ mod, "Control" }, "r", awesome.restart, {description = "reload awesome", group = "awesome"}),
+    --
+    -- awful.key({ mod }         , "Return", function () awful.spawn(terminal) end),
+    -- awful.key({ mod }         , "p"     , function () awful.spawn(launcher) end),
+    -- awful.key({ mod }         , "b"     , function () awful.spawn("firefox-nightly") end),
+    -- awful.key({ mod }         , "f"     , function () awful.spawn("pcmanfm") end),
+    -- awful.key({ mod, "Shift" }, "s"     , function () awful.spawn("flameshot gui") end),
+    --
+    -- -- Multimedia keys
+    -- awful.key({ }, "XF86AudioRaiseVolume" , function () awful.spawn("amixer -D pulse set Master 5%+ unmute > /dev/null") end),
+    -- awful.key({ }, "XF86AudioLowerVolume" , function () awful.spawn("amixer -D pulse set Master 5%- unmute > /dev/null") end),
+    --
+    -- awful.key {
+    --     modifiers = { alt },
+    --     key = "n",
+    --     on_press = function ()
+    --         awful.spawn("amixer set Master 5%+ unmute")
+    --         update_volume()
+    --         volume_timer:again()
+    --         volume_osd.visible = true
+    --     end,
+    -- },
+    --
+    -- awful.key {
+    --     modifiers = { alt },
+    --     key = "m",
+    --     on_press = function ()
+    --         awful.spawn("amixer set Master 5%- unmute")
+    --         update_volume()
+    --         volume_timer:again()
+    --         volume_osd.visible = true
+    --     end,
+    -- },
 
     awful.key({ }, "XF86MonBrightnessUp"  , function () awful.spawn("brightnessctl s 5%+") end),
     awful.key({ }, "XF86MonBrightnessDown", function () awful.spawn("brightnessctl s 5%-") end),
@@ -310,6 +312,7 @@ awful.keyboard.append_global_keybindings({
     }
 })
 
+-- Client bindings
 client.connect_signal("request::default_mousebindings", function()
     awful.mouse.append_client_mousebindings({
         awful.button({ }    , 1, function (c) c:activate { context = "mouse_click" } end),
@@ -462,23 +465,10 @@ ruled.notification.connect_signal('request::rules', function()
     }
 end)
 
--- Rounded borders
-client.connect_signal("manage", function(c)
-	c.shape = function(cr, w, h)
-		gears.shape.rounded_rect(cr, w, h, 0)
-	end
-end)
-
--- naughty.connect_signal("request::display", function(n)
---     naughty.layout.box { notification = n }
--- end)
-
 -- }}}
 
--- Enable sloppy focus, so that focus follows mouse.
-client.connect_signal("mouse::enter", function(c)
-    c:activate { context = "mouse_enter", raise = false }
-end)
+-- Signals
+require("modules.signals")
 
 -- Initial spawns
 -- awful.spawn.once("redshift -P -O 3000")

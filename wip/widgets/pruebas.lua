@@ -58,6 +58,7 @@ local volume_percentage = wibox.widget {
 	fg = "#FFFFFF",
 }
 
+-- Handling of the widget update on change
 local update_volume_slider = function()
 	awful.spawn.easy_async("amixer sget Master", function(stdout)
 		local volume = tonumber(string.match(stdout, "(%d?%d?%d)%%"))
@@ -150,4 +151,4 @@ osd_box:setup {
 	end,
 }
 
-return { osd_box, schedule_update}
+return { osd_box, schedule_update }
