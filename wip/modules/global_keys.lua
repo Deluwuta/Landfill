@@ -11,85 +11,20 @@ local osds = require("utils.osd_helpers")
 local _a = require("widgets.pruebas")
 local volume_osd, update_volume = table.unpack(_a)
 
--- {{ Template
--- modifiers = { },
--- key = "",
--- description = "",
--- group = "",
--- on_press = function(),
--- }}
-
 local mod = vars.mod
 local alt = vars.alt
 
 awful.keyboard.append_global_keybindings({
     -- Quit and restarting
-    awful.key({
-        modifiers = { mod, "Control" },
-        key = "q",
-        description = "quit awesome",
-        group = "awesome",
-        on_press = awesome.quit,
-    }),
-
-    awful.key({
-        modifiers = { mod, "Control" },
-        key = "r",
-        description = "reload awesome",
-        group = "awesome",
-        on_press = awesome.restart,
-    }),
+    awful.key({ mod, "Control" }, "q", awesome.quit,    { description = "quit awesome", group = "awesome" }),
+    awful.key({ mod, "Control" }, "r", awesome.restart, { description = "reload awesome", group = "awesome" }),
 
     -- Common apps
-    awful.key({
-        modifiers = { mod },
-        key = "Return",
-        description = "launch terminal",
-        group = "apps",
-        on_press = function()
-            awful.spawn(vars.terminal)
-        end,
-    }),
-
-    awful.key({
-        modifiers = { mod },
-        key = "p",
-        description = "app launcher",
-        group = "launcher",
-        on_press = function()
-            awful.spawn(vars.launcher)
-        end,
-    }),
-
-    awful.key({
-        modifiers = { mod },
-        key = "b",
-        description = "internet browser",
-        group = "apps",
-        on_press = function()
-            awful.spawn(vars.browser)
-        end,
-    }),
-
-    awful.key({
-        modifiers = { mod },
-        key = "f",
-        description = "file manager",
-        group = "apps",
-        on_press = function()
-            awful.spawn(vars.file_manager)
-        end,
-    }),
-
-    awful.key({
-        modifiers = { mod, "Shift" },
-        key = "s",
-        description = "screenshoter",
-        group = "apps",
-        on_press = function()
-            awful.spawn("flameshot gui")
-        end,
-    }),
+    awful.key({ mod }, "Return"    , function() awful.spawn(vars.terminal)     end, { description = "launch terminal", group = "apps" }),
+    awful.key({ mod }, "p"         , function() awful.spawn(vars.launcher)     end, { description = "app launcher", group = "launcher" }),
+    awful.key({ mod }, "b"         , function() awful.spawn(vars.browser)      end, { description = "internet browser", group = "apps" }),
+    awful.key({ mod }, "f"         , function() awful.spawn(vars.file_manager) end, { description = "file manager", group = "apps" }),
+    awful.key({ mod, "Shift" }, "s", function() awful.spawn("flameshot gui")   end, { description = "screenshoter", group = "apps" }),
 
     -- Multimedia
     awful.key({
@@ -395,4 +330,79 @@ awful.keyboard.append_global_keybindings({
     --         }
     --     end,
     -- })
+})
+
+-- Tag related bindings. Modifier(s)+number
+awful.keyboard.append_global_keybindings({
+    awful.key {
+        modifiers = { mod },
+        keygroup = "numrow",
+        description = "only view tag",
+        group = "tag",
+        on_press = function (index)
+            local screen = awful.screen.focused()
+            local tag = screen.tags[index]
+            if tag then
+                tag:view_only()
+            end
+        end,
+    },
+
+    awful.key {
+        modifiers = { mod, "Control" },
+        keygroup = "numrow",
+        description = "toggle tag",
+        group = "tag",
+        on_press = function (index)
+            local screen = awful.screen.focused()
+            local tag = screen.tags[index]
+            if tag then
+                awful.tag.viewtoggle(tag)
+            end
+        end,
+    },
+
+    awful.key {
+        modifiers = { mod, "Shift" },
+        keygroup = "numrow",
+        description = "move focused client to tag",
+        group = "tag",
+        on_press = function (index)
+            if client.focus then
+                local tag = client.focus.screen.tags[index]
+                if tag then
+                    client.focus:move_to_tag(tag)
+                end
+            end
+        end,
+    },
+
+    awful.key {
+        modifiers = { mod, "Control", "Shift" },
+        keygroup = "numrow",
+        description = "toggle focused client on tag",
+        group = "tag",
+        on_press = function (index)
+            if client.focus then
+                local tag = client.focus.screen.tags[index]
+                if tag then
+                    client.focus:toggle_tag(tag)
+                end
+            end
+        end,
+    },
+
+    -- This is cool. I don't have a numpad
+    awful.key {
+        modifiers   = { mod },
+        keygroup    = "numpad",
+        description = "select layout directly",
+        group       = "layout",
+        on_press    = function (index)
+            local t = awful.screen.focused().selected_tag
+            if t then
+                t.layout = t.layouts[index] or t.layout
+            end
+        end,
+    }
 })

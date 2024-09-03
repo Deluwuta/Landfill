@@ -38,10 +38,6 @@ local volume_slider = wibox.widget({
 })
 
 -- Signals
-volume_slider:connect_signal("property::value", function (slider)
-    local volume_level = math.floor(slider.value)
-    awful.spawn("amixer set Master " .. volume_level .. "%")
-end)
 
 local volume_text = wibox.widget ({
     markup = '<span color="' .. "#d3c6aa" .. '" font="Ubuntu Nerd Font bold 14">' .. 'Volume' .. '</span>'
@@ -57,6 +53,13 @@ local volume_percentage = wibox.widget {
 	widget = wibox.widget.textbox,
 	fg = "#FFFFFF",
 }
+
+volume_slider:connect_signal("property::value", function (slider)
+    local volume_level = math.floor(slider.value)
+    awful.spawn("amixer set Master " .. volume_level .. "%")
+    volume_percentage.markup = '<span color="' ..
+    "#d3c6aa" .. '" font="Ubuntu Nerd Font bold 14">' .. volume_level .. '</span>'
+end)
 
 -- Handling of the widget update on change
 local update_volume_slider = function()
