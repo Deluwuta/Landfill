@@ -57,10 +57,20 @@ nm-applet is used for internet handling. A volume osd popup has been added with 
 
 ### 02/09/2024
 
-Remade the folder structure (last time with some luck). I have moved to its own file the error_handling code and the layouts, but the laters is not used in rc.lua because I don't know if I'll keep the file. I also improved the volume osd widget, being updated only on command. Still has some delay, but it works.
+Remade the folder structure (last time with some luck). I have moved to its own file the error_handling code and the layouts, but the later is not used in rc.lua because I don't know if I'll keep the file. I also improved the volume osd widget, being updated only on command. Still has some delay, but it works.
 
 The widgets/temporal folder is used to hold the templates or files that I'm using to test stuff, just code to be copied '-'.
 
 Finally I cloned the bling repo because I like some things, may or may not use it but there it is (it may not be included in the commit)
 
 The next thing I wanna do is keep moving code out of the main file, focusing on keybinding and signals. I also have to make the osd for brightness and keyboard brightness.
+
+### 04/09/2024
+
+I've made the global and client binding files where all the key and mouse bindings are compiled. I don't want to **over**modularize the configs, so I don't differentiate between key (key) and mouse (button) bindings. I think is simplier this way.
+
+I also changed a bit of the code of the volume slider to update the number when using the slider to change the volume (I hope it works, not tested). I also added an appropiate icon :D.
+
+Next day, both brightness and keyboard brightness osd. Luckily it will not only be straightforward, but I also will be able to generalise the osd code to just call a function that does everything.
+
+When the osd's are completed, I guess I'll focus on the taskbars or maybe I'll tweak the wibar again, mainly the tags.

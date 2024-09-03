@@ -4,13 +4,15 @@ local wibox = require("wibox")
 local beautiful = require("beautiful")
 local dpi =  beautiful.xresources.apply_dpi
 
+local ICON_DIR = os.getenv("HOME") .. '/.config/awesome/utils/icons/'
+
 -- Colors idk
 local image = wibox.widget {
-	image = os.getenv("HOME") .. '/Pictures/nixos-icon.svg',
+	image = ICON_DIR .. "volume-up.png",
 	widget = wibox.widget.imagebox,
 	resize = true,
-	forced_height = dpi(20),
-	forced_width = dpi(20),
+	forced_height = dpi(24),
+	forced_width = dpi(24),
 	halign = 'center'
 }
 
@@ -144,13 +146,15 @@ osd_box:setup {
         },
         -- separator,
         widget = wibox.container.margin,
-        top = dpi(8),
-        bottom = dpi(8),
+        top = dpi(6),
+        bottom = dpi(6),
+        left = dpi(3),
+        right = dpi(3),
     },
     widget = wibox.container.background,
 	bg = "#3d484d",
 	shape = function(cr, width, height)
-		gears.shape.rounded_rect(cr, width, height, 0)
+		gears.shape.rounded_rect(cr, width, height, 30)
 	end,
 }
 

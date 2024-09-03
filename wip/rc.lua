@@ -109,19 +109,11 @@ end)
 -- UI
 require("modules.wibar")
 
--- {{{ Mouse bindings
-awful.mouse.append_global_mousebindings({
-    awful.button({ }, 3, function () mymainmenu:toggle() end),
-    -- awful.button({ }, 4, awful.tag.viewprev),
-    -- awful.button({ }, 5, awful.tag.viewnext),
-})
--- }}}
+-- Awesome bindings :sunglasses:
+require("modules.global_binds")
 
--- Global Key bindings :sunglasses:
-require("modules.global_keys")
-
--- Client bindings (Both keys and mouse)
-require("modules.client_keys")
+-- Client bindings
+require("modules.client_binds")
 
 -- {{{ Rules
 -- Rules to apply to new clients.
@@ -234,14 +226,15 @@ end)
 -- Signals
 require("modules.signals")
 
--- Initial spawns
+-- Autostart
 -- awful.spawn.once("redshift -P -O 3000")
 -- awful.spawn.once("/usr/bin/emacs --daemon")
 awful.spawn.once("nm-applet")
 
--- Virtual machine specific
+--- Virtual machine specifics
 awful.spawn.once("xrandr -s 1920x1080")
 awful.spawn.once("setxkbmap us intl altGr dead keys")
+
 
  -- ** Garbage Collector ** --
 -- Enable for lower memory consumption
