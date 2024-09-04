@@ -74,3 +74,5 @@ I also changed a bit of the code of the volume slider to update the number when 
 Next day, both brightness and keyboard brightness osd. Luckily it will not only be straightforward, but I also will be able to generalise the osd code to just call a function that does everything.
 
 When the osd's are completed, I guess I'll focus on the taskbars or maybe I'll tweak the wibar again, mainly the tags.
+
+I believe I completed the brightness osd. It is SO messy that I'll try cleaning the code before making the last osd. But yeah, that's it for today.
