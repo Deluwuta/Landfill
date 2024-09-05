@@ -76,3 +76,7 @@ Next day, both brightness and keyboard brightness osd. Luckily it will not only 
 When the osd's are completed, I guess I'll focus on the taskbars or maybe I'll tweak the wibar again, mainly the tags.
 
 I believe I completed the brightness osd. It is SO messy that I'll try cleaning the code before making the last osd. But yeah, that's it for today.
+
+### 06/09/2024
+
+Osd template file done. The idea was to just call the functions inside of the global_binds file, but its better to have their own files and I just took out the general code. Anyway, I have to revisit the osd_helper file and see if it all makes sense or if I can merge both files or something.

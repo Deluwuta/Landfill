@@ -62,10 +62,10 @@ awful.keyboard.append_global_keybindings({
         description = "Raise volume",
         group = "multimedia",
         on_press = function ()
-            awful.spawn("brightnessctl s 5%+")
-            update_bright()
-            osds.brightness:again()
-            brightness_osd.visible = true
+            awful.spawn("amixer set Master 5%+ unmute")
+            update_volume()
+            osds.volume:again()
+            volume_osd.visible = true
         end,
     }),
 
@@ -75,10 +75,10 @@ awful.keyboard.append_global_keybindings({
         description = "Raise volume",
         group = "multimedia",
         on_press = function ()
-            awful.spawn("brightnessctl s 5%-")
-            update_bright()
-            osds.brightness:again()
-            brightness_osd.visible = true
+            awful.spawn("amixer set Master 5%- unmute")
+            update_volume()
+            osds.volume:again()
+            volume_osd.visible = true
         end,
     }),
 
@@ -237,7 +237,7 @@ awful.keyboard.append_global_keybindings({
         description = "swap the next client by index",
         group = "client",
         on_press = function ()
-            awful.screen.swap.byidx(1)
+            awful.client.swap.byidx(1)
         end,
     }),
 
@@ -247,7 +247,7 @@ awful.keyboard.append_global_keybindings({
         description = "swap the previous client by index",
         group = "client",
         on_press = function ()
-            awful.screen.swap.byidx(-1)
+            awful.client.swap.byidx(-1)
         end,
     }),
 
