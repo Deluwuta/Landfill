@@ -32,9 +32,6 @@ require("awful.hotkeys_popup.keys")
 -- Error handling
 require("modules.error_handling")
 
-local _aux = require("widgets.pruebas")
-local volume_osd, update_volume = table.unpack(_aux)
-
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
 -- beautiful.init(gears.filesystem.get_themes_dir() .. "default/theme.lua")
@@ -42,13 +39,9 @@ beautiful.init(HOME .. "/.config/awesome/themes/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
 local terminal = "kitty"
-local launcher = "dmenu_run"
 local editor = os.getenv("EDITOR") or "nvim"
 local editor_cmd = terminal .. " -e " .. editor
 
--- Modkeys. Alt = Mod1; WinKey = Mod4
-local mod = "Mod4"
-local alt = "Mod1"
 -- }}}
 
 -- {{{ Menu
@@ -107,7 +100,7 @@ end)
 -- }}}
 
 -- UI
-require("modules.wibar")
+require("modules.wibar.wibar")
 
 -- Awesome bindings :sunglasses:
 require("modules.global_binds")

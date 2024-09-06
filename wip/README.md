@@ -16,7 +16,7 @@ This is subject to change because of the activity involved at this point (26/08/
 ### Must be done
 - [x] Battery widget (wanna do something cute, but the objective is functional minimalism)
 - [x] Internet widget (same idea as with the battery)
-- [-] Brightness and volume popups on change
+- [x] Brightness and volume popups on change
 - [ ] Clean readable code (long term objective)
 
 ### QoL

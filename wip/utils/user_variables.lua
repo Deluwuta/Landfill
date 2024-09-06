@@ -1,6 +1,6 @@
 local _M = {
     -- Define!
-    terminal = "kitty",
+    terminal = "alacritty",
     launcher = "dmenu_run",
     browser = "firefox",
     file_manager = "caja",

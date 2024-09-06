@@ -1,4 +1,3 @@
--- Lets see how it goes
 local gears = require("gears")
 local awful = require("awful")
 local wibox = require("wibox")
@@ -9,7 +8,6 @@ local separator = wibox.widget.textbox("   ")
 separator.forced_height = dpi(50)
 separator.forced_width = dpi(50)
 
--- Signals
 local osd_text = wibox.widget({
     markup = '<span color="' .. "#d3c6aa" .. '" font="Ubuntu Nerd Font bold 14">' .. 'bottom text' .. '</span>'
     ,
@@ -75,6 +73,17 @@ function _maker.make_scheduler(update_slider)
             end)
         end
     end
+end
+
+-- Timer
+function _maker.make_timer(osd_box)
+    return gears.timer {
+        timeout = 2,
+        autostart = true,
+        callback = function ()
+            osd_box.visible = false
+        end
+    }
 end
 
 -- Function that takes all the widgets and puts them in the osd

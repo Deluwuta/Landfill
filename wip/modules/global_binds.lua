@@ -5,14 +5,13 @@ local hotkeys_popup = require("awful.hotkeys_popup")
 local HOME = os.getenv("HOME")
 
 local vars = require("utils.user_variables")
-local osds = require("utils.osd_helpers")
 
 -- Volume change
-local _a = require("widgets.pruebas")
-local volume_osd, update_volume = table.unpack(_a)
+local _a = require("widgets.volume_osd")
+local volume_osd, update_volume, volume_timer = table.unpack(_a)
 
 local _b = require("widgets.brightness_osd")
-local brightness_osd, update_bright = table.unpack(_b)
+local brightness_osd, update_bright, brightness_timer = table.unpack(_b)
 
 local mod = vars.mod
 local alt = vars.alt
@@ -38,7 +37,7 @@ awful.keyboard.append_global_keybindings({
         on_press = function ()
             awful.spawn("amixer set Master 5%+ unmute")
             update_volume()
-            osds.volume:again()
+            volume_timer:again()
             volume_osd.visible = true
         end,
     }),
@@ -51,7 +50,7 @@ awful.keyboard.append_global_keybindings({
         on_press = function ()
             awful.spawn("amixer set Master 5%- unmute")
             update_volume()
-            osds.volume:again()
+            volume_timer:again()
             volume_osd.visible = true
         end,
     }),
@@ -64,7 +63,7 @@ awful.keyboard.append_global_keybindings({
         on_press = function ()
             awful.spawn("amixer set Master 5%+ unmute")
             update_volume()
-            osds.volume:again()
+            volume_timer:again()
             volume_osd.visible = true
         end,
     }),
@@ -77,7 +76,7 @@ awful.keyboard.append_global_keybindings({
         on_press = function ()
             awful.spawn("amixer set Master 5%- unmute")
             update_volume()
-            osds.volume:again()
+            volume_timer:again()
             volume_osd.visible = true
         end,
     }),
@@ -87,8 +86,11 @@ awful.keyboard.append_global_keybindings({
         key = "XF86MonBrightnessUp",
         description = "Raise brightness",
         group = "multimedia",
-        on_pres = function ()
+        on_press = function ()
             awful.spawn("brightnessctl s 5%+")
+            update_bright()
+            brightness_timer:again()
+            brightness_osd.visible = true
         end,
     }),
 
@@ -97,8 +99,11 @@ awful.keyboard.append_global_keybindings({
         key = "XF86MonBrightnessDown",
         description = "Lower brightness",
         group = "multimedia",
-        on_pres = function ()
+        on_press = function ()
             awful.spawn("brightnessctl s 5%-")
+            update_bright()
+            brightness_timer:again()
+            brightness_osd.visible = true
         end,
     }),
 
