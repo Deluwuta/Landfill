@@ -20,6 +20,20 @@ local separator = wibox.widget({
     widget = wibox.container.background,
 })
 
+--  
+local left_arrow = wibox.widget({
+    {
+        id = "left_arrow",
+        text = "",
+        font = beautiful.font,
+        widget = wibox.widget.textbox,
+    },
+    bg = beautiful.bg_normal,
+    fg = "#74c7ec",
+    widget = wibox.container.background,
+})
+local right_arrow = wibox.widget.textbox("")
+
 -- Main widgets
 
 -- Keyboard map indicator and switcher
@@ -55,7 +69,7 @@ local clock = wibox.widget({
 
 screen.connect_signal("request::desktop_decoration", function(s)
     -- Each screen has its own tag table.
-    awful.tag({ "1", "2", "3", "4", "5", "6", "7", "8", "9" }, s, awful.layout.layouts[1])
+    awful.tag({ "1", "2", "3", "4", "5", "6", }, s, awful.layout.layouts[1])
 
     -- Create a promptbox for each screen
     s.mypromptbox = awful.widget.prompt()
@@ -75,26 +89,6 @@ screen.connect_signal("request::desktop_decoration", function(s)
     -- Create a taglist widget
     -- local taglist = require("modules.wibar.rounded_tags")(s)
     local taglist = require("modules.wibar.iconed_tags")(s)
-    s.mytaglist = awful.widget.taglist {
-        screen  = s,
-        filter  = awful.widget.taglist.filter.all,
-        buttons = {
-            awful.button({ }, 1, function(t) t:view_only() end),
-            awful.button({ mod }, 1, function(t)
-                                            if client.focus then
-                                                client.focus:move_to_tag(t)
-                                            end
-                                        end),
-            awful.button({ }, 3, awful.tag.viewtoggle),
-            awful.button({ mod }, 3, function(t)
-                                            if client.focus then
-                                                client.focus:toggle_tag(t)
-                                            end
-                                        end),
-            awful.button({ }, 4, function(t) awful.tag.viewprev(t.screen) end),
-            awful.button({ }, 5, function(t) awful.tag.viewnext(t.screen) end),
-        }
-    }
 
     -- Create a tasklist widget
     s.mytasklist = awful.widget.tasklist {
@@ -135,12 +129,7 @@ screen.connect_signal("request::desktop_decoration", function(s)
                     spacer,
                     fancy_button,
                     spacer,
-                    -- s.mytaglist,
                     taglist,
-                    separator,
-                    s.mypromptbox,
-                    s.mylayoutbox,
-                    separator,
                 },
                 nil,
                 {

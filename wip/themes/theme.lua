@@ -1,31 +1,34 @@
 -- This shit ain't the default theme lol
-
 local beautiful = require("beautiful")
 local theme_assets = require("beautiful.theme_assets")
 local rnotification = require("ruled.notification")
 local dpi = beautiful.xresources.apply_dpi
 
+local gears = require("gears")
 local gfs = require("gears.filesystem")
 local themes_path = gfs.get_themes_dir()
 
+local colors = require("themes.biscuit_dark")
+
 local theme = {}
+
 
 theme.font_name = "Hack "
 theme.font = theme.font_name .. "Medium 10"
 
-theme.bg = "#1e2326"
-theme.fg = "#D3C6AA"
+theme.bg = colors.bg_dark
+theme.fg = colors.mid_light
 
 theme.bg_normal = theme.bg
 theme.fg_normal = theme.fg
 
-theme.bg_focus = "#3a464c"
+theme.bg_focus = colors.bg_normal
 theme.fg_focus = theme.fg
 
 theme.bg_urgent = "#543a48"
 theme.fg_urgent = theme.fg
 
-theme.bg_minimize = "#272e33"
+theme.bg_minimize = colors.bg_dim
 theme.fg_minimize = theme.fg
 
 theme.bg_systray = theme.bg_normal
@@ -34,8 +37,8 @@ theme.bg_systray = theme.bg_normal
 theme.border_width = dpi(2)
 
 theme.border_normal = theme.bg
-theme.border_focus = "#83c092"
-theme.border_marked = "#e67e80"
+theme.border_focus = "#f2cdcd" -- Flamingo from catppuccin
+theme.border_marked = colors.red
 
 -- theme.gap_single_client = false
 theme.useless_gap = dpi(2)
@@ -55,8 +58,8 @@ theme.wallpaper = themes_path.."default/background.png"
 -- Example:
 --theme.taglist_bg_focus = "#ff0000"
 
--- Generate taglist squares:
-local taglist_square_size = dpi(4)
+-- Generate taglist squares (the thing that appears when a window is opened):
+local taglist_square_size = dpi(0)
 theme.taglist_squares_sel = theme_assets.taglist_squares_sel(
     taglist_square_size, theme.fg_normal
 )
@@ -65,20 +68,20 @@ theme.taglist_squares_unsel = theme_assets.taglist_squares_unsel(
 )
 
 -- Taglist (This one IS useful)
-theme.taglist_font = theme.font_name .. "bold 10"
-
-theme.taglist_bg_emtpy = theme.bg
-theme.taglist_fg_emtpy = theme.fg
-
-theme.taglist_bg_occupied = theme.bg
-theme.taglist_fg_occupied = theme.fg
-
-theme.taglist_bg_focus = "#48584e"
-theme.taglist_fg_focus = theme.fg
-
-theme.taglist_spacing = 4
-theme.taglist_shape_border_width = 1
-theme.taglist_shape_border_radius = 20
+-- theme.taglist_font = theme.font_name .. "bold 10"
+--
+-- theme.taglist_bg_emtpy = theme.bg
+-- theme.taglist_fg_emtpy = theme.fg
+--
+-- theme.taglist_bg_occupied = theme.bg
+-- theme.taglist_fg_occupied = theme.fg
+--
+-- theme.taglist_bg_focus = "#48584e"
+-- theme.taglist_fg_focus = theme.fg
+--
+-- theme.taglist_spacing = 4
+-- theme.taglist_shape_border_width = 1
+-- theme.taglist_shape_border_radius = 20
 -- theme.taglist_shape_border_color = "#00000040"
 
 -- Tasklist config (I won't use one (For now lol))
@@ -97,14 +100,15 @@ theme.tasklist_shape_border_width = 0
 
 theme.notification_font = theme.font
 
-theme.notification_bg = "#434f55"
+theme.notification_bg = colors.bg_dim
 theme.notification_fg = theme.fg
 
 theme.notification_position = 'top_right'
 theme.notification_margin = dpi(10)
 
-theme.notification_border_width = 0
--- theme.notification_border_color = "#5d6b66"
+theme.notification_border_width = 6
+theme.notification_border_color = colors.bg_dark
+theme.notification_shape = gears.shape.rounded_rect
 
 theme.notification_max_width = dpi(350)
 

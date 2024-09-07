@@ -14,19 +14,19 @@ local function create_taglist(s)
     local update_tag = function (self, c3, _)
         if c3.selected then
             -- self:get_children_by_id('tags')[1].forced_height = dpi(45)
-            self:get_children_by_id('tags')[1].forced_width = dpi(36)
+            self:get_children_by_id('tags')[1].forced_width = dpi(24)
             self:get_children_by_id('tags')[1].bg = "#FFF"
 
         elseif #c3:clients() == 0 then
-            self:get_children_by_id('tags')[1].forced_width = dpi(18)
+            self:get_children_by_id('tags')[1].forced_width = dpi(10)
             self:get_children_by_id('tags')[1].bg = "#343"
 
         else
             if c3.urgent then
-                self:get_children_by_id('tags')[1].forced_width = dpi(24)
+                self:get_children_by_id('tags')[1].forced_width = dpi(10)
                 self:get_children_by_id('tags')[1].bg = "#FA0"
             else
-                self:get_children_by_id('tags')[1].forced_width = dpi(24)
+                self:get_children_by_id('tags')[1].forced_width = dpi(10)
                 self:get_children_by_id('tags')[1].bg = "#84A"
             end
         end
@@ -56,7 +56,7 @@ local function create_taglist(s)
         filter = awful.widget.taglist.filter.all,
         layout = {
             layout = wibox.layout.fixed.horizontal,
-            spacing = dpi(100),
+            spacing = dpi(4),
             shape = gears.shape.circle,
         },
         -- style = { font = "Ubuntu nerd font 16 bold" }
@@ -64,8 +64,8 @@ local function create_taglist(s)
             id = 'tags',
             widget = wibox.container.background,
             bg = "#2e2e2f",
-            forced_height = dpi(10),
-            forced_width = dpi(20),
+            forced_height = dpi(8),
+            -- forced_width = dpi(20),
             shape = gears.shape.rounded_bar,
             create_callback = function (self, c3, _)
                 update_tag(self, c3, _)
@@ -91,7 +91,7 @@ local function create_taglist(s)
                 margin = dpi(15)
             },
             widget = wibox.container.background,
-            bg = "#1f1f1f",
+            bg = beautiful.bg,
             shape = helpers.rrect(dpi(4))
         },
         5, 5, 5, 5)
