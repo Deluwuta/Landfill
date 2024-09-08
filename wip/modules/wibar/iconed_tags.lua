@@ -17,29 +17,35 @@ local function create_taglist(s)
         local tagicon = self:get_children_by_id('tags')[1]
         if c3.selected then
             tagicon.text = c3.name
-            self.forced_width = dpi(20)
-            self.bg = colors.lightblue
+            self:get_children_by_id('tags')[1].forced_width = dpi(30)
             self.fg = colors.mid_light
+
         elseif #c3:clients() == 0 then
             tagicon.text = c3.name
+            self:get_children_by_id('tags')[1].forced_width = dpi(30)
+            self.fg = colors.bg_light
+
         else
             tagicon.text = c3.name
-            self.bg = colors.mid_light
-            self.fg = colors.lightblue
+            self:get_children_by_id('tags')[1].forced_width = dpi(30)
+            self.fg = colors.mid_light
         end
     end
 
     local tags_template = {
         {
-            id = "tags",
-            widget = wibox.widget.textbox,
+            {
+                id = "tags",
+                halign = "center",
+                font = beautiful.font_name .. "Bold 10",
+                widget = wibox.widget.textbox,
+            },
+            widget = wibox.container.margin,
         },
         id = "background_role",
         widget = wibox.container.background,
         bg = colors.bg_dim,
-        shape = gears.shape.rounded_rect,
-        -- forced_height = dpi(18),
-        forced_width = dpi(18),
+        shape = gears.shape.rounded_bar,
         create_callback = function (self, c3, _)
             update_tags(self, c3, _)
         end,
@@ -76,39 +82,26 @@ local function create_taglist(s)
                     filter = awful.widget.taglist.filter.all,
                     layout = {
                         layout = wibox.layout.fixed.horizontal,
-                        spacing = dpi(6),
+                        -- spacing = dpi(6),
                         shape = gears.shape.circle,
                     },
                     style = {
-                        shape = gears.shape.circle,
+                        shape = gears.shape.rounded_bar,
 
-                        font = beautiful.font_name .. "Bold 10",
-                        spacing = 2,
+                        -- font = beautiful.font_name .. "Bold 10",
+                        -- spacing = dpi(1),
 
-                        bg_focus = colors.lightblue,
-                        fg_focus = colors.mid_light,
+                        bg_focus = colors.blue,
+                        -- fg_focus = colors.mid_light,
 
-                        bg_occupied = colors.bg_dim,
-                        fg_occupied = colors.lightblue,
+                        -- bg_occupied = colors.bg_dim,
+                        -- fg_occupied = colors.lightblue,
                     },
                     widget_template = tags_template,
-                    -- widget_template = {
-                    --     id = "tags",
-                    --     widget = wibox.container.background,
-                    --     bg = colors.bg_dim,
-                    --     shape = gears.shape.rounded_rect,
-                    --     forced_height = dpi(10),
-                    --     create_callback = function (self, c3, _)
-                    --         update_tags(self, c3, _)
-                    --     end,
-                    --     update_callback = function (self, c3, _)
-                    --         update_tags(self, c3, _)
-                    --     end
-                    -- },
                     buttons = buttons_table,
                 },
-                -- left = dpi(6),
-                -- right = dpi(6),
+                -- left = dpi(3),
+                -- right = dpi(3),
                 widget = wibox.container.margin,
             },
             bg = colors.bg_dim,
@@ -116,8 +109,8 @@ local function create_taglist(s)
             shape = gears.shape.rounded_rect,
             widget = wibox.container.background,
         },
-        -- top = dpi(3),
-        -- bottom = dpi(3),
+        top = dpi(3),
+        bottom = dpi(3),
         widget = wibox.container.margin,
     })
 

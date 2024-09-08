@@ -80,3 +80,7 @@ I believe I completed the brightness osd. It is SO messy that I'll try cleaning 
 ### 06/09/2024
 
 Osd template file done. The idea was to just call the functions inside of the global_binds file, but its better to have their own files and I just took out the general code. Anyway, I have to revisit the osd_helper file and see if it all makes sense or if I can merge both files or something.
+
+### 08/09/2024
+
+I think I can say the taglist is done (88888). Next is the notifications, I want to move their code to its own file (for theme and shape) and I'll start with the notification center I guess, but yeah this is almost done. I also created the biscuit theme file and I'll try to keep it consistent if I make (steal) more themes.

@@ -9,6 +9,11 @@ local _M = {
     -- Modifier keys
     mod = "Mod4",
     alt = "Mod1",
+
+    -- Theme table
+    themes = {
+
+    }
 }
 
 return _M
