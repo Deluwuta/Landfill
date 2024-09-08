@@ -11,9 +11,7 @@ local _M = {
     alt = "Mod1",
 
     -- Theme table
-    themes = {
-
-    }
+    theme = "biscuit_dark",
 }
 
 return _M

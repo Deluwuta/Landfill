@@ -15,7 +15,7 @@ local wibox = require("wibox")
 local beautiful = require("beautiful")
 
 -- Notification library
-local naughty = require("naughty")
+-- local naughty = require("naughty")
 
 -- Declarative object management
 local ruled = require("ruled")
@@ -201,20 +201,8 @@ client.connect_signal("request::titlebars", function(c)
 end)
 -- }}}
 
--- {{{ Notifications
-
-ruled.notification.connect_signal('request::rules', function()
-    -- All notifications will match this rule.
-    ruled.notification.append_rule {
-        rule       = { },
-        properties = {
-            screen           = awful.screen.preferred,
-            implicit_timeout = 3,
-        }
-    }
-end)
-
--- }}}
+-- Notifications
+require("modules.notifications")
 
 -- Signals
 require("modules.signals")

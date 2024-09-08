@@ -98,23 +98,23 @@ theme.tasklist_shape_border_width = 0
 -- notification_[width|height|margin]
 -- notification_[border_color|border_width|shape|opacity]
 
-theme.notification_font = theme.font
-
-theme.notification_bg = colors.bg_dim
-theme.notification_fg = theme.fg
-
-theme.notification_position = 'top_right'
-theme.notification_margin = dpi(10)
-
-theme.notification_border_width = 6
-theme.notification_border_color = colors.bg_dark
-theme.notification_shape = gears.shape.rounded_rect
-
-theme.notification_max_width = dpi(350)
-
-theme.notification_spacing = dpi(15)
-theme.notification_icon_resize_strategy = 'center'
-theme.notification_icon_size = dpi(300)
+-- theme.notification_font = theme.font
+--
+-- theme.notification_bg = colors.bg_dim
+-- theme.notification_fg = theme.fg
+--
+-- theme.notification_position = 'top_right'
+-- theme.notification_margin = dpi(10)
+--
+-- theme.notification_border_width = 6
+-- theme.notification_border_color = colors.bg_dark
+-- theme.notification_shape = gears.shape.rounded_rect
+--
+-- theme.notification_max_width = dpi(350)
+--
+-- theme.notification_spacing = dpi(15)
+-- theme.notification_icon_resize_strategy = 'center'
+-- theme.notification_icon_size = dpi(300)
 
 -- Variables set for theming the menu:
 -- menu_[bg|fg]_[normal|focus]
@@ -183,12 +183,12 @@ theme.awesome_icon = theme_assets.awesome_icon(
 theme.icon_theme = nil
 
 -- Set different colors for urgent notifications.
-rnotification.connect_signal('request::rules', function()
-    rnotification.append_rule {
-        rule       = { urgency = 'critical' },
-        properties = { bg = theme.bg_urgent, fg = theme.fg_urgent }
-    }
-end)
+-- rnotification.connect_signal('request::rules', function()
+--     rnotification.append_rule {
+--         rule       = { urgency = 'critical' },
+--         properties = { bg = theme.bg_urgent, fg = theme.fg_urgent }
+--     }
+-- end)
 
 return theme
 

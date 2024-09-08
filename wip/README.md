@@ -20,10 +20,10 @@ This is subject to change because of the activity involved at this point (26/08/
 - [ ] Clean readable code (long term objective)
 
 ### QoL
-- [ ] Pretty tags
+- [x] Pretty tags
 - [ ] Good floating capabilities
 - [ ] Screen locker
-- [ ] Useful notifications
+- [-] Useful notifications
 
 ### Fun
 - [ ] Dashboard
