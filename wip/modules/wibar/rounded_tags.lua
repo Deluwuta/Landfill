@@ -10,6 +10,8 @@ local helpers = require("utils.helpers")
 local vars = require("utils.user_variables")
 local mod = vars.mod
 
+local colors = require("themes." .. vars.theme)
+
 local function create_taglist(s)
     local update_tag = function (self, c3, _)
         if c3.selected then

@@ -1,23 +1,27 @@
 -- This shit ain't the default theme lol
 local beautiful = require("beautiful")
 local theme_assets = require("beautiful.theme_assets")
-local rnotification = require("ruled.notification")
+-- local rnotification = require("ruled.notification")
 local dpi = beautiful.xresources.apply_dpi
 
 local gears = require("gears")
 local gfs = require("gears.filesystem")
 local themes_path = gfs.get_themes_dir()
 
-local colors = require("themes.biscuit_dark")
+local user = require("utils.user_variables")
+local colors = require("themes." .. user.theme)
 
 local theme = {}
 
+theme.extra_colors = {
+    pinkish_white = "#faedff",
+}
 
 theme.font_name = "Hack "
 theme.font = theme.font_name .. "Medium 10"
 
 theme.bg = colors.bg_dark
-theme.fg = colors.mid_light
+theme.fg = colors.fg_normal
 
 theme.bg_normal = theme.bg
 theme.fg_normal = theme.fg
@@ -108,7 +112,7 @@ theme.tasklist_shape_border_width = 0
 --
 -- theme.notification_border_width = 6
 -- theme.notification_border_color = colors.bg_dark
--- theme.notification_shape = gears.shape.rounded_rect
+theme.notification_shape = gears.shape.rounded_rect
 --
 -- theme.notification_max_width = dpi(350)
 --

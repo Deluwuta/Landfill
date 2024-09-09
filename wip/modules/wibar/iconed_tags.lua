@@ -6,10 +6,11 @@ local beautiful = require("beautiful")
 local dpi = beautiful.xresources.apply_dpi
 
 local helpers = require("utils.helpers")
-local colors = require("themes.biscuit_dark")
 
 local vars = require("utils.user_variables")
 local mod = vars.mod
+
+local colors = require("themes." .. vars.theme)
 
 local function create_taglist(s)
     -- Function to update tags
@@ -18,17 +19,17 @@ local function create_taglist(s)
         if c3.selected then
             tagicon.text = c3.name
             self:get_children_by_id('tags')[1].forced_width = dpi(30)
-            self.fg = colors.mid_light
+            self.fg = colors.bg_normal
 
         elseif #c3:clients() == 0 then
             tagicon.text = c3.name
             self:get_children_by_id('tags')[1].forced_width = dpi(30)
-            self.fg = colors.bg_light
+            self.fg = colors.mid_dark
 
         else
             tagicon.text = c3.name
             self:get_children_by_id('tags')[1].forced_width = dpi(30)
-            self.fg = colors.mid_light
+            self.fg = colors.fg_normal
         end
     end
 
@@ -44,7 +45,7 @@ local function create_taglist(s)
         },
         id = "background_role",
         widget = wibox.container.background,
-        bg = colors.bg_dim,
+        bg = colors.bg_normal,
         shape = gears.shape.rounded_bar,
         create_callback = function (self, c3, _)
             update_tags(self, c3, _)
@@ -91,7 +92,7 @@ local function create_taglist(s)
                         -- font = beautiful.font_name .. "Bold 10",
                         -- spacing = dpi(1),
 
-                        bg_focus = colors.blue,
+                        bg_focus = beautiful.extra_colors.pinkish_white,
                         -- fg_focus = colors.mid_light,
 
                         -- bg_occupied = colors.bg_dim,

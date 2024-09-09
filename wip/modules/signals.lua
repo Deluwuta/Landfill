@@ -2,9 +2,9 @@ local awful = require("awful")
 local gears = require("gears")
 local naughty = require("naughty")
 
-naughty.connect_signal("request::display", function(n)
-    naughty.layout.box { notification = n }
-end)
+-- naughty.connect_signal("request::display", function(n)
+--     naughty.layout.box { notification = n }
+-- end)
 
 -- Rounded borders
 client.connect_signal("request::manage", function(c)

@@ -2,6 +2,9 @@ local awful = require("awful")
 
 local ICON_DIR = os.getenv("HOME") .. '/.config/awesome/utils/icons/'
 
+local user = require("utils.user_variables")
+local colors = require("themes." .. user.theme)
+
 local osd_maker = require("utils.osd_template")
 
 -- Image of the osd
@@ -19,7 +22,7 @@ local update_osd_slider = function ()
         local val = tonumber(stdout)
         brightness_slider.value = val or 0
         brightness_percentage.markup = '<span color="' ..
-    "#d3c6aa" .. '" font="Ubuntu Nerd Font bold 14">' .. val .. '</span>'
+    colors.fg_normal .. '" font="Ubuntu Nerd Font bold 14">' .. val .. '</span>'
     end)
 end
 
@@ -36,7 +39,7 @@ brightness_slider:connect_signal("property::value", function (slider)
     local osd_level = math.floor(slider.value)
     awful.spawn("brightnessctl s" .. osd_level)
     brightness_percentage.markup = '<span color="' ..
-    "#d3c6aa" .. '" font="Ubuntu Nerd Font bold 14">' .. osd_level .. '</span>'
+    colors.fg_normal .. '" font="Ubuntu Nerd Font bold 14">' .. osd_level .. '</span>'
 end)
 
 osd_box:connect_signal("mouse::enter", function ()

@@ -4,27 +4,31 @@ local wibox = require("wibox")
 local beautiful = require("beautiful")
 local dpi =  beautiful.xresources.apply_dpi
 
+local user = require("utils.user_variables")
+local colors = require("themes." .. user.theme)
+
 local separator = wibox.widget.textbox("   ")
 separator.forced_height = dpi(50)
 separator.forced_width = dpi(50)
 
 local osd_text = wibox.widget({
-    markup = '<span color="' .. "#d3c6aa" .. '" font="Ubuntu Nerd Font bold 14">' .. 'bottom text' .. '</span>'
+    markup = '<span color="' .. colors.bg_dim .. '" font="Ubuntu Nerd Font bold 14">' .. 'bottom text' .. '</span>'
     ,
     widget = wibox.widget.textbox,
-    fg = "#FFFFFF",
+    fg = colors.bg_dim,
 })
 
 local _maker = {}
 
 function _maker.make_image(filepath)
     return wibox.widget {
-        image = filepath,
+        image = gears.color.recolor_image(filepath, colors.fg_normal),
         widget = wibox.widget.imagebox,
         resize = true,
         forced_height = dpi(24),
         forced_width = dpi(24),
         halign = 'center',
+        valign = 'center',
     }
 end
 
@@ -35,8 +39,8 @@ function _maker.make_slider(max_value)
             gears.shape.rounded_rect(cr, width, height, 20)
         end,
         bar_height = dpi(10),
-        bar_color = "#232a2a",
-        bar_active_color = "#d3c6aa",
+        bar_color = colors.mid_dark,
+        bar_active_color = beautiful.extra_colors.pinkish_white,
 
         handle_width = 0,
         handle_shape = nil,
@@ -53,10 +57,10 @@ end
 function _maker.make_percentage(slider)
     return wibox.widget {
         markup = '<span color="' ..
-            "#d3c6aa" .. '" font="Ubuntu Nerd Font bold 14">' .. slider.value .. '</span>'
+            colors.bg_dim .. '" font="Ubuntu Nerd Font bold 14">' .. slider.value .. '</span>'
         ,
         widget = wibox.widget.textbox,
-        fg = "#FFFFFF",
+        fg = colors.bg_dim,
     }
 end
 
@@ -137,7 +141,7 @@ function _maker.make_osd(image, slider, percentage)
                         layout = wibox.layout.align.horizontal
                     },
                     widget = wibox.container.margin,
-                left = dpi(6),
+                    left = dpi(6),
                     right = dpi(6),
                     -- top = dpi(0),
                     -- bottom = dpi(15)
@@ -154,7 +158,9 @@ function _maker.make_osd(image, slider, percentage)
             right = dpi(3),
         },
         widget = wibox.container.background,
-        bg = "#3d484d",
+        bg = colors.bg_dim,
+        border_width = dpi(1),
+        border_color = colors.mid_light,
         shape = function(cr, width, height)
             gears.shape.rounded_rect(cr, width, height, 30)
         end,

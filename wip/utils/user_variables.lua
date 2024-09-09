@@ -11,6 +11,7 @@ local _M = {
     alt = "Mod1",
 
     -- Theme table
+    -- Available themes = { biscuit_dark, oxocarbon }
     theme = "biscuit_dark",
 }
 
