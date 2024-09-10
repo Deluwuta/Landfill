@@ -75,13 +75,9 @@ naughty.connect_signal("request::display", function (n)
                             {
                                 {
                                     {
-                                        {
-                                            font = beautiful.font_name .. "Bold 30",
-                                            naughty.widget.title,
-                                            layout = wibox.layout.align.horizontal,
-                                        },
                                         font = beautiful.font_name .. "Bold 30",
-                                        widget = wibox.widget.textbox,
+                                        naughty.widget.title,
+                                        layout = wibox.layout.align.horizontal,
                                     },
                                     bottom = dpi(6),
                                     widget = wibox.container.margin,
