@@ -23,7 +23,7 @@ This is subject to change because of the activity involved at this point (26/08/
 - [x] Pretty tags
 - [ ] Good floating capabilities
 - [ ] Screen locker
-- [-] Useful notifications
+- [x] Useful notifications
 
 ### Fun
 - [ ] Dashboard
@@ -84,3 +84,9 @@ Osd template file done. The idea was to just call the functions inside of the gl
 ### 08/09/2024
 
 I think I can say the taglist is done (88888). Next is the notifications, I want to move their code to its own file (for theme and shape) and I'll start with the notification center I guess, but yeah this is almost done. I also created the biscuit theme file and I'll try to keep it consistent if I make (steal) more themes.
+
+### 10/09/2024
+
+Today I can say this is in an "stable" phase, where everything important should work and is, in general, usable. I have to fix some keybindings and make the kbdBrightness switch script, but right know I have everything I wanted and I think is pretty.
+
+Next would be better titlebars, control center and some things like using Bling modules and maybe keep tinkering with the wibar.

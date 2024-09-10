@@ -17,19 +17,6 @@ naughty.config.defaults.margin = dpi(16)
 naughty.config.defaults.border_width = dpi(2)
 naughty.config.defaults.position = "top_right"
 
--- Properties template
-local template_properties = function (_timeout, _border_color)
-    return 
-        {
-            bg = color.bg_dim,
-            fg = color.fg_normal,
-            timeout = _timeout,
-            border_color = _border_color,
-            shape = gears.shape.rounded_rect,
-            opacity = 1,
-        }
-end
-
 -- Rules---------------
 ruled.notification.connect_signal('request::rules', function()
 	-- Critical
@@ -75,46 +62,53 @@ naughty.connect_signal("request::display", function (n)
         type = "notification",
         bg = color.bg_dim,
         shape = gears.shape.rounded_rect,
-        -- widget_template = {
-        --         naughty.widget.title,
-        --         naughty.widget.message,
-        -- },
         widget_template = {
             {
                 {
                     {
+
                         {
-                            naughty.widget.title,
-                            font = beautiful.font,
-                            -- forced_height = dpi(20),
-                            layout = wibox.layout.align.horizontal,
-                        },
-                        -- left = dpi(8),
-                        -- top = dpi(8),
-                        widget = wibox.container.margin,
-                    },
-                    {
-                        {
-                            resize_strategy = 'center',
-                            widget = naughty.widget.icon or "/home/delta/.config/awesome/utils/icons/volume-up.png",
+                            resize_strategy = "center",
+                            widget = naughty.widget.icon or "/home/delta/.config/awesome/utils/icons/volume-up.png"
                         },
                         {
                             {
-                                naughty.widget.message,
-                                spacing = 4,
-                                layout  = wibox.layout.align.horizontal,
+                                {
+                                    {
+                                        {
+                                            font = beautiful.font_name .. "Bold 30",
+                                            naughty.widget.title,
+                                            layout = wibox.layout.align.horizontal,
+                                        },
+                                        font = beautiful.font_name .. "Bold 30",
+                                        widget = wibox.widget.textbox,
+                                    },
+                                    bottom = dpi(6),
+                                    widget = wibox.container.margin,
+                                },
+                                {
+                                    naughty.widget.message,
+                                    layout = wibox.layout.align.horizontal,
+                                },
+                                layout = wibox.layout.align.vertical,
                             },
-                            -- left = dpi(8),
-                            -- bottom = dpi(8),
-                            -- right = dpi(8),
+                            margins = dpi(8),
                             widget = wibox.container.margin,
                         },
+                        layout = wibox.layout.align.horizontal
+                    },
+                    margins = dpi(6),
+                    widget = wibox.container.margin,
+                },
+                {
+                    {
+                        naughty.list.actions,
                         layout = wibox.layout.align.horizontal,
                     },
-                    layout = wibox.layout.align.vertical,
+                    left = dpi(0),
+                    widget = wibox.container.margin,
                 },
-                margins = dpi(12),
-                widget  = wibox.container.margin,
+                layout = wibox.layout.align.vertical,
             },
             id = "background_role",
             bg = color.fg_normal,
