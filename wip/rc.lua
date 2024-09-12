@@ -80,7 +80,7 @@ awful.layout.layouts = {
 
 -- {{{ Wallpaper
 screen.connect_signal("request::wallpaper", function(s)
-    awful.spawn("xwallpaper --zoom " .. HOME .. "/Pictures/nicole_demara_anby_demara_amillion_and_billy_kid_officialArt.png")
+    awful.spawn("xwallpaper --zoom " .. HOME .. "/Pictures/fright-night-zeri-prestige-lol.jpg")
     -- awful.wallpaper {
     --     screen = s,
     --     widget = {

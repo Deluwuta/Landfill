@@ -8,9 +8,14 @@ local dpi = beautiful.xresources.apply_dpi
 local helpers = require("utils.helpers")
 
 local vars = require("utils.user_variables")
-local mod = vars.mod
-
 local colors = require("themes." .. vars.theme)
+
+local mod = vars.mod
+local focused_ws_color = beautiful.extra_colors.pinkish_white
+
+if string.find(vars.theme, "light") then
+    focused_ws_color = colors.mid_dark
+end
 
 local function create_taglist(s)
     -- Function to update tags
@@ -19,12 +24,12 @@ local function create_taglist(s)
         if c3.selected then
             tagicon.text = c3.name
             self:get_children_by_id('tags')[1].forced_width = dpi(30)
-            self.fg = colors.bg_normal
+            self.fg = colors.bg_dim
 
         elseif #c3:clients() == 0 then
             tagicon.text = c3.name
             self:get_children_by_id('tags')[1].forced_width = dpi(30)
-            self.fg = colors.mid_dark
+            self.fg = colors.bg_light
 
         else
             tagicon.text = c3.name
@@ -92,7 +97,7 @@ local function create_taglist(s)
                         -- font = beautiful.font_name .. "Bold 10",
                         -- spacing = dpi(1),
 
-                        bg_focus = beautiful.extra_colors.pinkish_white,
+                        bg_focus = focused_ws_color,
                         -- fg_focus = colors.mid_light,
 
                         -- bg_occupied = colors.bg_dim,

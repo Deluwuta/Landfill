@@ -1,8 +1,12 @@
 local awful = require("awful")
 local wibox = require("wibox")
 local gears = require("gears")
+
 local beautiful = require("beautiful")
 local dpi = beautiful.xresources.apply_dpi
+
+local user = require("utils.user_variables")
+local colors = require("themes." .. user.theme)
 
 local battery = require("widgets.batteryarc")
 local fancy_button = require("widgets.fancy_button")
@@ -33,6 +37,22 @@ local left_arrow = wibox.widget({
     widget = wibox.container.background,
 })
 local right_arrow = wibox.widget.textbox("")
+
+local battery_args = {
+    show_current_level = true,
+    size = 26,
+    arc_thickness = 3,
+    timeout = 60,
+
+    notification_position = 'bottom_right',
+    warning_msg_position = "bottom_right",
+
+    main_color = colors.fg_normal,
+    bg_color = colors.mid_light,
+    low_level_color = colors.red,
+    medium_level_color = colors.yellow,
+    charging_color = colors.green,
+}
 
 -- Main widgets
 
@@ -106,8 +126,8 @@ screen.connect_signal("request::desktop_decoration", function(s)
 
     -- Create the wibox
     s.mywibox = awful.wibar {
-        position = "top",
-        margins = { top = 0, bottom = 0, left = 0, right = 0 },
+        position = "bottom",
+        margins = { top = 0, bottom = 6, left = 3, right = 3 },
         height = 30,
         opacity = 1,
 
@@ -139,13 +159,7 @@ screen.connect_signal("request::desktop_decoration", function(s)
                     mykeyboardlayout,
                     separator,
                     spacer,
-                    battery({
-                        show_current_level = true,
-                        size = 26,
-                        arc_thickness = 3,
-                        timeout = 60,
-                        notification_position = 'bottom_right',
-                    }),
+                    battery(battery_args),
                     spacer,
                     separator,
                     wibox.widget.systray(),

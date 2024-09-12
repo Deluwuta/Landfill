@@ -14,6 +14,9 @@ local colors = require("themes." .. user.theme)
 local theme = {}
 
 theme.extra_colors = {
+    catppuccin_surface0 = "#313244",
+    catppuccin_flamingo = "#f2cdcd",
+
     pinkish_white = "#faedff",
 }
 
@@ -40,8 +43,8 @@ theme.bg_systray = theme.bg_normal
 -- Window border
 theme.border_width = dpi(2)
 
-theme.border_normal = theme.bg
-theme.border_focus = "#f2cdcd" -- Flamingo from catppuccin
+theme.border_normal = theme.extra_colors.catppuccin_surface0 -- Surface0 from catppuccin mocha
+theme.border_focus = "#94e2d5"
 theme.border_marked = colors.red
 
 -- theme.gap_single_client = false
