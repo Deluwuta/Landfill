@@ -80,7 +80,7 @@ awful.layout.layouts = {
 
 -- {{{ Wallpaper
 screen.connect_signal("request::wallpaper", function(s)
-    awful.spawn("xwallpaper --zoom " .. HOME .. "/Pictures/fright-night-zeri-prestige-lol.jpg")
+    awful.spawn("xwallpaper --zoom " .. HOME .. "/Pictures/wallpapers/ER_garnet_kenneth.jfif")
     -- awful.wallpaper {
     --     screen = s,
     --     widget = {
@@ -208,13 +208,13 @@ require("modules.notifications")
 require("modules.signals")
 
 -- Autostart
--- awful.spawn.once("redshift -P -O 3000")
+awful.spawn.once("redshift -P -O 3000")
 -- awful.spawn.once("/usr/bin/emacs --daemon")
 awful.spawn.once("nm-applet")
 
 --- Virtual machine specifics
-awful.spawn.once("xrandr -s 1920x1080")
-awful.spawn.once("setxkbmap us intl altGr dead keys")
+-- awful.spawn.once("xrandr -s 1920x1080")
+-- awful.spawn.once("setxkbmap us intl altGr dead keys")
 
 
  -- ** Garbage Collector ** --

@@ -23,17 +23,17 @@ local function create_taglist(s)
         local tagicon = self:get_children_by_id('tags')[1]
         if c3.selected then
             tagicon.text = c3.name
-            self:get_children_by_id('tags')[1].forced_width = dpi(30)
+            self:get_children_by_id('tags')[1].forced_width = dpi(36)
             self.fg = colors.bg_dim
 
         elseif #c3:clients() == 0 then
             tagicon.text = c3.name
-            self:get_children_by_id('tags')[1].forced_width = dpi(30)
+            self:get_children_by_id('tags')[1].forced_width = dpi(36)
             self.fg = colors.bg_light
 
         else
             tagicon.text = c3.name
-            self:get_children_by_id('tags')[1].forced_width = dpi(30)
+            self:get_children_by_id('tags')[1].forced_width = dpi(36)
             self.fg = colors.fg_normal
         end
     end
@@ -43,7 +43,7 @@ local function create_taglist(s)
             {
                 id = "tags",
                 halign = "center",
-                font = beautiful.font_name .. "Bold 10",
+                font = beautiful.font_name .. "Bold 12",
                 widget = wibox.widget.textbox,
             },
             widget = wibox.container.margin,

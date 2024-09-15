@@ -11,7 +11,7 @@ local osd_maker = require("utils.osd_template")
 local image = osd_maker.make_image("/home/delta/Pictures/nixos-icon.svg")
 
 -- Slider
-local brightness_slider = osd_maker.make_slider(1)
+local brightness_slider = osd_maker.make_slider(100)
 
 -- Percentage 
 local brightness_percentage = osd_maker.make_percentage(brightness_slider)

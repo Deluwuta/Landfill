@@ -12,7 +12,7 @@ local _M = {
 
     -- Theme table
     -- Available themes = { biscuit_dark, biscuit_light, oxocarbon }
-    theme = "biscuit_light",
+    theme = "biscuit_dark",
 }
 
 return _M

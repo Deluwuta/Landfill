@@ -39,6 +39,7 @@ local left_arrow = wibox.widget({
 local right_arrow = wibox.widget.textbox("")
 
 local battery_args = {
+    font = beautiful.font_name .. "Medium 9",
     show_current_level = true,
     size = 26,
     arc_thickness = 3,
@@ -48,7 +49,7 @@ local battery_args = {
     warning_msg_position = "bottom_right",
 
     main_color = colors.fg_normal,
-    bg_color = colors.mid_light,
+    bg_color = colors.bg_normal,
     low_level_color = colors.red,
     medium_level_color = colors.yellow,
     charging_color = colors.green,

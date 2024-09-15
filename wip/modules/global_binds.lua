@@ -87,7 +87,7 @@ awful.keyboard.append_global_keybindings({
         description = "Raise brightness",
         group = "multimedia",
         on_press = function ()
-            awful.spawn("brightnessctl s 5%+")
+            awful.spawn("brightnessctl s 5+")
             update_bright()
             brightness_timer:again()
             brightness_osd.visible = true
@@ -100,7 +100,7 @@ awful.keyboard.append_global_keybindings({
         description = "Lower brightness",
         group = "multimedia",
         on_press = function ()
-            awful.spawn("brightnessctl s 5%-")
+            awful.spawn("brightnessctl s 5-")
             update_bright()
             brightness_timer:again()
             brightness_osd.visible = true

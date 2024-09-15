@@ -21,7 +21,7 @@ theme.extra_colors = {
 }
 
 theme.font_name = "Hack "
-theme.font = theme.font_name .. "Medium 10"
+theme.font = theme.font_name .. "Medium 12"
 
 theme.bg = colors.bg_dark
 theme.fg = colors.fg_normal
@@ -41,14 +41,14 @@ theme.fg_minimize = theme.fg
 theme.bg_systray = theme.bg_normal
 
 -- Window border
-theme.border_width = dpi(2)
+theme.border_width = dpi(3)
 
 theme.border_normal = theme.extra_colors.catppuccin_surface0 -- Surface0 from catppuccin mocha
 theme.border_focus = "#94e2d5"
 theme.border_marked = colors.red
 
 -- theme.gap_single_client = false
-theme.useless_gap = dpi(2)
+theme.useless_gap = dpi(3)
 
 -- Wallpaper
 theme.wallpaper = themes_path.."default/background.png"
