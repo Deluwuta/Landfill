@@ -12,35 +12,36 @@
 import XMonad
 import Data.Monoid
 import System.Exit
-import System.IO (hPutStrLn)
 
 import qualified XMonad.StackSet as W
 import qualified Data.Map        as M
 
 -- Utils
 import XMonad.Util.SpawnOnce
-import XMonad.Util.Run (spawnPipe)
+import XMonad.Util.Run (spawnPipe, runProcessWithInput, safeSpawn)
 import XMonad.Util.EZConfig (additionalKeysP)
-import XMonad.Util.Hacks (windowedFullscreenFixEventHook)
+-- import XMonad.Util.Hacks (windowedFullscreenFixEventHook)
 
 -- Layout
+import XMonad.Layout.Simplest
+import XMonad.Layout.SimplestFloat
+
+-- Layout modifiers
 import XMonad.Layout.LayoutModifier
 import XMonad.Layout.MultiToggle (mkToggle, EOT(EOT), (??))
 import XMonad.Layout.MultiToggle.Instances (StdTransformers(NBFULL, MIRROR, NOBORDERS))
 import XMonad.Layout.NoBorders
 import XMonad.Layout.Renamed
 import XMonad.Layout.ResizableTile
-import XMonad.Layout.Simplest
-import XMonad.Layout.SimplestFloat
 import XMonad.Layout.Spacing
 
 import qualified XMonad.Layout.ToggleLayouts as T (toggleLayouts, ToggleLayout(Toggle))
 import qualified XMonad.Layout.MultiToggle as MT (Toggle(..))
 
 -- Hooks
-import XMonad.Hooks.DynamicLog (dynamicLogWithPP, xmobarColor, filterOutWsPP, xmobarPP, shorten, wrap, PP(..))
+import XMonad.Hooks.DynamicLog (dynamicLogWithPP, wrap, PP(..))
 import XMonad.Hooks.EwmhDesktops
-import XMonad.Hooks.ManageDocks
+import XMonad.Hooks.ManageDocks (avoidStruts, docks, ToggleStruts(..))
 import XMonad.Hooks.ManageHelpers (isFullscreen, doRectFloat, doFullFloat)
 -- import XMonad.Hooks.StatusBar
 import XMonad.Hooks.WindowSwallowing
@@ -48,9 +49,18 @@ import XMonad.Hooks.WindowSwallowing
 -- Data 
 import Data.Maybe (fromJust)
 
+-- Polybar exclusive
+import qualified DBus as D
+import qualified DBus.Client as D
+import qualified Codec.Binary.UTF8.String as UTF8
+
 
 myTerminal :: String
 myTerminal = "alacritty"
+
+myLauncher :: String
+myLauncher = "rofi -modi combi -show combi -display-combi 'Rufos ~>>' -combi-modi run,drun -show-icons"
+-- myLauncher = "exe=`dmenu_path | dmenu` && eval \"exec $exe\""
 
 myFocusFollowsMouse :: Bool
 myFocusFollowsMouse = True
@@ -66,16 +76,9 @@ modKey = mod4Mask
 altKey :: KeyMask
 altKey = mod1Mask
 
-
 -- myWorkspaces = ["web", "irc", "code" ] ++ map show [4..9]
 -- myWorkspaces = ["1","2","3","4","5","6","7","8","9"]
 myWorkspaces = ["α","β","γ","Δ","λ","Κ","η","Ψ","Ω"]
-
--- (I think) Useful if you want Xmobar to be clickable (needs clickable)
-myWorkspaceIndices = M.fromList $ zipWith (,) myWorkspaces [1..] -- (,) == \x y -> (x,y)
-
-clickable ws = "<action=xdotool key super+"++show i++">"++ws++"</action>"
-    where i = fromJust $ M.lookup ws myWorkspaceIndices
 
 -- Border colors for unfocused and focused windows, respectively.
 myNormalBorderColor :: String
@@ -102,10 +105,8 @@ myKeys = [
 
   -- Common
   ("M-<Return>", spawn (myTerminal)),
-  ("M-p"       , spawn ("exe=`dmenu_path | dmenu` && eval \"exec $exe\"")),
-  ("M-b"       , spawn ("brave --password-store=kwallet5")),
-  ("M-S-b"     , spawn ("chromium")),
-  ("M-f"       , spawn ("pcmanfm")),
+  ("M-p"       , spawn (myLauncher)),
+  ("M-f"       , spawn ("thunar")),
   ("M-S-s"     , spawn ("flameshot gui")),
 
   -- Multimedia keys
@@ -144,12 +145,15 @@ myKeys = [
  
   ("M1-<Tab>", sendMessage NextLayout), -- Rotate through layouts
 
-  ("M-C-m", sendMessage (MT.Toggle NBFULL) >> sendMessage ToggleStruts), -- Full screen
+  ("M-m", sendMessage (MT.Toggle NBFULL) >> sendMessage ToggleStruts), -- Full screen
  
   -- Toggle the status bar gap
   -- Use this binding with avoidStruts from Hooks.ManageDocks.
   -- See also the statusBar function from Hooks.DynamicLog.
-  ("M1-S-h", sendMessage ToggleStruts) -- Hides bar
+
+  -- Hides bar (xmobar) ignores bar (polybar)
+  ("M1-S-h", sendMessage ToggleStruts),
+  ("M-C-p", spawn "$HOME/.config/polybar/launch.sh") -- Reload polybar
 
   --  Reset the layouts on the current workspace to default
   -- , ((modm .|. shiftMask, xK_space ), setLayout $ XMonad.layoutHook conf)
@@ -202,12 +206,12 @@ mySpacing :: Integer -> l a -> XMonad.Layout.LayoutModifier.ModifiedLayout Spaci
 mySpacing i = spacingRaw False (Border i i i i) True (Border i i i i) True
 
 tall = renamed [Replace "tall"]
-        $ smartBorders
+        -- $ smartBorders
         $ mySpacing 4
         $ ResizableTall 1 (3/100) (1/2) []
 
 floats = renamed [Replace "floats"]
-        $ smartBorders
+        -- $ smartBorders
         $ simplestFloat
 
 myLayoutHook = avoidStruts
@@ -266,6 +270,24 @@ myEventHook = mempty
 --
 -- myLogHook = return ()
 
+-- Colors for polybar
+color1, color2, color3, color4 :: String
+color1 = "#7F7F7F"
+color2 = "#c792ea"
+color3 = "#900000"
+color4 = "#2E9AFE"
+
+myLogHook :: D.Client -> PP
+myLogHook dbus = def
+    { ppOutput  = dbusOutput dbus
+    , ppCurrent = wrap ("%{F" ++ color4 ++ "} ") "%{F-}"
+    , ppVisible = wrap ("%{F" ++ color1 ++ "} ") "%{F-}"
+    , ppUrgent  = wrap ("%{F" ++ color3 ++ "} ") "%{F-}"
+    , ppHidden  = wrap ("%{F" ++ color1 ++ "} ") "%{F-}"
+    , ppTitle   = wrap ("%{F" ++ color2 ++ "}")"%{F-}"
+    , ppSep     = "  |  "
+    }
+
 ------------------------------------------------------------------------
 -- Startup hook
 
@@ -280,28 +302,53 @@ myEventHook = mempty
 -- It will add initialization of EWMH support to your custom startup
 -- hook by combining it with ewmhDesktopsStartup.
 --
+myStartupHook :: X ()
 myStartupHook = do 
-  spawnOnce "xrandr -s 1920x1080 && sleep 1"
-  spawnOnce "xwallpaper --zoom $HOME/Pictures/evernix.png"
+  spawnOnce "redshift -P -O 2800"
+  spawnOnce "xwallpaper --zoom $HOME/Pictures/wallpapers/ascalon_aa_aster.png"
+  spawnOnce "$HOME/.config/polybar/launch.sh &"
+
+  -- For VM only
+  -- spawnOnce "xrandr -s 1920x1080 && sleep 1"
+  -- spawnOnce "setxkbmap us intl altGr dead keys"
+
+
+-- Emit a DBus signal on log updates
+dbusOutput :: D.Client -> String -> IO ()
+dbusOutput dbus str = do
+    let signal = (D.signal objectPath interfaceName memberName) {
+        D.signalBody = [D.toVariant $ UTF8.decodeString str]
+    }
+    D.emit dbus signal
+    where
+        objectPath = D.objectPath_ "/org/xmonad/Log"
+        interfaceName = D.interfaceName_ "org.xmonad.Log"
+        memberName = D.memberName_ "Update"
 
 ------------------------------------------------------------------------
 -- Now run xmonad with all the defaults we set up.
 -- Run xmonad with the settings you specify. [No] Need to modify this.
-
 main :: IO ()
 main = do 
   -- xmproc0 <- spawnPipe "xmobar -x 0 $HOME/.config/xmobar/xmobarrc"
   -- xmproc1 <- spawnPipe "xmobar -x 1 $HOME/.config/xmobar/xmobarrc1"
 
-  handle <- spawnPipe "/home/delta/.config/polybar/launch.sh"
+    dbus <- D.connectSession
+    -- Request access to the DBus name
+    D.requestName dbus (D.busName_ "org.xmonad.Log")
+        [D.nameAllowReplacement, D.nameReplaceExisting, D.nameDoNotQueue]
 
-  xmonad $ ewmhFullscreen . ewmh $ docks $ def {
+    -- The xmonad, ya know...what the window manager is named after.
+    xmonad $ ewmhFullscreen . ewmh $ docks $ defaults { logHook = dynamicLogWithPP (myLogHook dbus) }
+
+  -- xmonad $ ewmhFullscreen . ewmh $ docks $ def {
+defaults = def {
     -- Simple stuff
+    modMask            = modKey,
     terminal           = myTerminal,
     focusFollowsMouse  = myFocusFollowsMouse,
-    borderWidth        = myBorderWidth,
-    modMask            = modKey,
     workspaces         = myWorkspaces,
+    borderWidth        = myBorderWidth,
     normalBorderColor  = myNormalBorderColor,
     focusedBorderColor = myFocusedBorderColor,
 
@@ -310,21 +357,9 @@ main = do
     mouseBindings      = myMouseBindings,
 
     -- hooks, layouts
-    layoutHook         = myLayoutHook,
-    manageHook         = myManageHook <+> (isFullscreen --> doFullFloat),
-    handleEventHook    = myEventHook,
-    startupHook        = myStartupHook,
-    logHook = dynamicLogWithPP $ xmobarPP {
-      -- ppOutput = \x -> hPutStrLn xmproc0 x
-                    -- >> hPutStrLn xmproc1 x
-     ppCurrent         = xmobarColor "#45D0FE" "" . wrap "[" "]",
-      ppVisible         = xmobarColor "#81c19b" "" . wrap "<" ">",
-      ppHidden          = xmobarColor "#bc83e3" "" . wrap "*" "" . clickable,
-      ppHiddenNoWindows = xmobarColor "#b3afc2" "" . clickable,
-      ppTitle           = xmobarColor "#b3afc2" "" . shorten 60,
-      ppSep             = "<fc=#f2f4f5> <fn=1>|</fn> </fc>",
-      ppUrgent          = xmobarColor "#e8646a" "" . wrap "!" "!",
-      -- ppExtras          = [windowCount],
-      ppOrder           = \(ws:l:t:ex) -> [ws,l]++ex++[t]
-    }
-} `additionalKeysP` myKeys
+    layoutHook         = smartBorders $ myLayoutHook,
+    -- manageHook         = myManageHook <+> (isFullscreen --> doFullFloat),
+    manageHook = myManageHook <+> manageHook def,
+    handleEventHook = myEventHook,
+    startupHook = myStartupHook
+    } `additionalKeysP` myKeys
