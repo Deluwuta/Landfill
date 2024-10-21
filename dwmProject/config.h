@@ -11,58 +11,34 @@
 Delta's Δωμ config file. 
 */
 
+#define STATUSBAR "dwmblocks"
+
 // Theme
 #include "theme.h"
 
 // Autostarting
 static const char *const autostart[] = {
-	// "alacritty", NULL,
-	"sh", "-c", "xwallpaper --maximize $HOME/Pictures/huTao_shakingHands.png", NULL,
-  "sh", "-c", "redshift -P -O 3200 &", NULL,
-  "sh", "-c", "exec /usr/lib/polkit-kde-authentication-agent-1 &", NULL,
-	"sh", "-c", "killall -q dwmblocks; while pgrep -u $UID -x dwmblocks >/dev/null; do sleep 1; done; dwmblocks &", NULL,
-
-    // VM Specifics
-    "sh", "-c", "xrandr -s 1920x1080", NULL,
-    "sh", "-c", "setxkbmap us intl altGr dead keys", NULL,
+    "$HOME/.config/dwm/autostart.sh &",
 	NULL /* terminate */
 };
 
+/* Systray */
+static const unsigned int systraypinning = 0; /* 0: sloppy systray follows selected monitor, >0: pin systray to monitor X */
+static const unsigned int systrayonleft  = 0; /* 0: systray in the right corner, >0: systray on left of status text */
+static const unsigned int systrayspacing = 6; /* systray spacing */
+static const int systraypinningfailfirst = 1; /* 1: if pinning fails, display systray on the first monitor, False: display systray on the last monitor*/
+static const int showsystray = 1; /* 0 means no systray */
+
 /* appearance */
 static const unsigned int borderpx = 3;  /* border pixel of windows */
-static const unsigned int gappx    = 12; /* Gaps between windows */
+static const unsigned int gappx    = 6; /* Gaps between windows */
 static const unsigned int snap     = 32; /* snap pixel */
 
-static const int showbar           = 1;  /* 0 means no bar */
-static const int topbar            = 1;  /* 0 means bottom bar */
+static const int showbar = 1;  /* 0 means no bar */
+static const int topbar  = 1;  /* 0 means bottom bar */
 
-static const char *fonts[]         = { "FiraCode Nerd Font:size=11" };
-static const char dmenufont[]      = "FiraCode Nerd Font:size=11";
-
-/* static const char col_gray1[] = "#222222"; */
-/* static const char col_gray2[] = "#444444"; */
-
-/* static const char darkest_dark[] = "#131313"; */
-/* static const char darker_black[] = "#161616"; */
-/* static const char black[]        = "#262626"; */
-/* static const char grey[]         = "#393939"; */
-/* static const char light_grey[]   = "#525252"; */
-/* static const char soft_white[]   = "#dde1e6"; */
-/* static const char white2[]       = "#faedff"; */
-/* static const char white[]        = "#f2f4f8"; */
-/* static const char pure_white[]   = "#ffffff"; */
-/*  */
-/* static const char teal_blue[]    = "#08bdba"; */
-/* static const char blue[]         = "#33b1ff"; */
-/* static const char lighter_blue[] = "#3ddbd9"; */
-/* static const char light_blue[]   = "#82cfff"; */
-/*  */
-/* static const char green[]        = "#42be65"; */
-/*  */
-/* static const char purple[]       = "#be95ff"; */
-/*  */
-/* static const char strong_pink[]  = "#ee5396"; */
-/* static const char pink[]         = "#ff7eb6"; */
+static const char *fonts[] = { "Hack:size=14" };
+static const char dmenufont[] = "FiraCode Nerd Font:size=11";
 
 // #faedff #eeeeee //#454545
 static const char *colors[][3]      = {
@@ -116,6 +92,8 @@ static const Layout layouts[] = {
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
 /* commands */
+
+// Dmenu launcher lol
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { 
 	"dmenu_run", 
@@ -127,12 +105,17 @@ static const char *dmenucmd[] = {
 	"-sf", darkest_dark, 
 	NULL };
 
+static const char launcher[] = {
+    "rofi -modi combi -show combi -display-combi 'Rufos ~>>' -combi-modi run,drun -show-icons"
+};
+
 static const char *termcmd[]  = { "alacritty", NULL };
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
 	// Yeee
-	{ MODKEY, XK_p	   , spawn, {.v = dmenucmd } },
+	/* { MODKEY, XK_p	   , spawn, {.v = launcher } }, */
+	{ MODKEY, XK_p	   , spawn, SHCMD(launcher) },
 	{ MODKEY, XK_Return, spawn, {.v = termcmd } },
 
 	// Quiting and restarting
@@ -145,13 +128,13 @@ static const Key keys[] = {
 	// Basic stuff
 	/* { MODKEY, XK_b, spawn, SHCMD("brave --password-store=kwallet5")}, */
 	{ MODKEY, XK_b, spawn, SHCMD("thorium-browser")},
-  { MODKEY|ShiftMask, XK_s, spawn, SHCMD("flameshot gui")},
+    { MODKEY|ShiftMask, XK_s, spawn, SHCMD("flameshot gui")},
 
   // Multimedia
-  {0, XF86XK_AudioRaiseVolume, spawn, SHCMD("amixer -D pulse set Master 5%+ unmute > /dev/null; pkill -RTMIN+6 dwmblocks")},
-	{0, XF86XK_AudioLowerVolume, spawn, SHCMD("amixer -D pulse set Master 5%- unmute > /dev/null; pkill -RTMIN+6 dwmblocks")},
+    {0, XF86XK_AudioRaiseVolume, spawn, SHCMD("amixer -D pulse set Master 5%+ unmute > /dev/null; pkill -RTMIN+6 dwmblocks")},
+    {0, XF86XK_AudioLowerVolume, spawn, SHCMD("amixer -D pulse set Master 5%- unmute > /dev/null; pkill -RTMIN+6 dwmblocks")},
 
-  {0, XF86XK_MonBrightnessUp, spawn, SHCMD("brightnessctl s 5%+ ; pkill -RTMIN+8 dwmblocks")},
+    {0, XF86XK_MonBrightnessUp, spawn, SHCMD("brightnessctl s 5%+ ; pkill -RTMIN+8 dwmblocks")},
 	{0, XF86XK_MonBrightnessDown, spawn, SHCMD("brightnessctl s 5%- ; pkill -RTMIN+8 dwmblocks")},
 
 	// Force to tile | Hide bar
@@ -168,10 +151,13 @@ static const Key keys[] = {
 	{ MODKEY, XK_l, setmfact, {.f = +0.05} },
 
 	{ MODKEY, XK_Tab  , view, {0} },
-	{ MODKEY, XK_t    , setlayout, {.v = &layouts[0]} },
-	{ MODKEY, XK_f    , setlayout, {.v = &layouts[1]} },
-	{ MODKEY, XK_m    , setlayout, {.v = &layouts[2]} },
-	{ MODKEY, XK_space, setlayout, {0} },
+
+	/* { MODKEY, XK_t    , setlayout, {.v = &layouts[0]} }, */
+	/* { MODKEY, XK_f    , setlayout, {.v = &layouts[1]} }, */
+	/* { MODKEY, XK_m    , setlayout, {.v = &layouts[2]} }, */
+
+    // Reset layout
+	{ MODKEY, XK_Escape, setlayout, {0} },
 
 	{ MODKEY, XK_0, view, {.ui = ~0 } },
 	{ MODKEY|ShiftMask, XK_0, tag, {.ui = ~0 } },
