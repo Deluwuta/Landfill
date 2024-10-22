@@ -1,15 +1,15 @@
 ## FIRST LINE/ROW: Info & Status
-# First param ─┌
+#   First param ─┌
 [username]
 format = " [╭─$user]($style)@"
-style_user = "bold red"
-style_root = "bold red"
+style_user = "#89dceb"
+style_root = "#eba0ac"
 show_always = true
 
 # Second param
 [hostname]
 format = "[$hostname]($style) in "
-style = "bold dimmed red"
+style = "#89b4fa"
 trim_at = "-"
 ssh_only = false
 disabled = false
@@ -35,7 +35,6 @@ min_time = 1
 format = "took [$duration]($style)"
 disabled = false
 
-
 ## SECOND LINE/ROW: Prompt
 # Somethere at the beginning
 
@@ -46,10 +45,12 @@ time_format = "%T"
 style = "bright-white"
 disabled = true
 
+#   󰅂   
 # Prompt: param 2 └─
 [character]
-success_symbol = " [╰─λ](bold red)"
-error_symbol = " [╰─X](bold green)"
+# success_symbol = " [╰─λ](#89dceb)"
+success_symbol = " [╰─ ](#89dceb)"
+error_symbol = " [╰─X](#f38ba8)"
 
 # SYMBOLS
 #[status]
@@ -67,8 +68,8 @@ symbol = " "
 [dart]
 symbol = " "
 
-#[docker]
-#symbol = " "
+# [docker]
+# symbol = " "
 
 [elixir]
 symbol = " "
