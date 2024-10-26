@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+xrandr -s 1920x1080
+sleep 0.5
+
+xwallpaper --zoom $HOME/Pictures/okita.jpg
