@@ -7,7 +7,7 @@
 #
 
 import os, re, socket, subprocess
-
+from libqtile import bar, layout, qtile, widget, hook
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
 from libqtile.config import EzKey as Key
 from libqtile.lazy import lazy
@@ -21,6 +21,18 @@ home = os.path.expanduser('~')
 
 # Functions for the widgets. If Qtile does not do it, I will, lol
 ## Volume
+def get_current_volume():
+    result = subprocess.run(
+        ["amixer", "-D", "pulse", "get", "Master"],
+        capture_output = True,
+        text = True,
+    ).stdout
+
+    volume = int(result.split("[")[1].split("%")[0])
+    muted = "off" in result # Check if muted
+
+    return volume, muted
+
 @lazy.function
 def volume_update(qtile, vol_box, action="get"):
     try:
@@ -42,55 +54,18 @@ def volume_update(qtile, vol_box, action="get"):
             subprocess.run(command, stdout = subprocess.DEVNULL,
                            stderr = subprocess.DEVNULL)
 
-        # Retrieve current volume
-        vol_output = subprocess.run(
-            ["amixer", "get", "Master"],
-            capture_output = True,
-            text = True,
-        ).stdout
-
         # Parse the output to find the current volume level
-        volume = "N/A"
-        if "off" in vol_output:
-            volume = "Muted"
-        else:
-            # Extract vol percentage. e.g., 55%
-            volume = vol_output.split("[")[1].split("%")[0] + "%"
+        volume, muted = get_current_volume()
 
         # Update the widget
         if vol_box in qtile.widgets_map:
-            qtile.widgets_map[vol_box].update(f"Vol: {volume}")
+            volume = "Muted" if muted else volume
+            qtile.widgets_map[vol_box].update(f"Vol: {volume}%")
         else:
             logger.warning(f"Widget {vol_box} not found!")
 
     except Exception as e: 
         logger.warning(f"Error updating volume widget {vol_box}: {e}")
-
-
-## Testing function
-@lazy.function
-def dummy_update_textbox(qtile, boxname, comando):
-    text = "N/A"
-    try:
-        with open(home + "/.config/qtile/notread.txt", "r") as f:
-            text = int(f.read()) # This is pure gaming
-
-        if comando == "up":
-            text += 10
-        elif comando == "down":
-            text -= 10 if text >= 10 else 0
-        else:
-            text = "Algo raro"
-
-        with open(home + "/.config/qtile/notread.txt", "w") as f:
-            f.write(str(text))
-
-    except Exception:
-        logger.warning(f"{Exception}")
-        text = f"ERROR"
-
-    finally:
-        qtile.widgets_map[boxname].update(str(text))
 
 mod = "mod4"
 alt = "mod1"
@@ -145,10 +120,6 @@ keys = [
     Key("M-C-<Tab>", lazy.next_layout(), desc="Toggle between layouts"),
     Key("M-m"    , lazy.window.toggle_fullscreen()),
     Key("M-t"    , lazy.window.toggle_floating(), desc="Toggle floating on the focused window"),
-
-    # Testing key
-    # Key("M-C-z", lazy.widget["no"].update("YES WAY")),
-    Key("M-C-z", dummy_update_textbox("no", "down")),
 ]
 
 # Add key bindings to switch VTs in Wayland.
@@ -281,11 +252,11 @@ screens = [
                 widget.Sep(linewidth = 1, padding = 6),
                 widget.TextBox(
                     text = "No way",
-                    name = "no",
+                    name = "vol_box",
                 ),
 
                 widget.Sep(linewidth = 1, padding = 6),
-                widget.Clock(format="%A %d/%m ~ %I:%M %p"),
+                widget.Clock(format="%A %d/%m ~ %H:%M"),
                 widget.Sep(linewidth = 1, padding = 6),
                 widget.Systray(),
                 # NB Systray is incompatible with Wayland, consider using StatusNotifier instead
@@ -302,6 +273,49 @@ screens = [
         # By default we handle these events delayed to already improve performance, however your system might still be struggling
         # This variable is set to None (no cap) by default, but you can set it to 60 to indicate that you limit it to 60 events per second
         # x11_drag_polling_rate = 60,
+    ),
+    Screen(
+        bottom=bar.Bar(
+            [
+                widget.Sep(linewidth = 0),
+                widget.GroupBox(
+                    font = "hack bold",
+                    fontsize = 18,
+
+                    borderwidth = 3,
+
+                    # Letter color
+                    active = current_theme["mid_light"],
+                    inactive = current_theme["bg_light"],
+
+                    highlight_method='line',
+                    highlight_color = current_theme["bg_normal"],
+
+                    # Highlight color
+                    this_current_screen_border = current_theme["yellow"],
+                    this_screen_border = current_theme["red"],
+
+                    # Groups not visible
+                    other_current_screen_border = "#ffFF00",
+                    other_screen_border = "#ff0000",
+
+                    rounded = False,
+                    disable_drag = True,
+                ),
+                widget.Sep(linewidth = 1, padding = 6),
+                widget.CurrentLayoutIcon(
+                    scale = 0.9,
+                    padding = 3,
+                ),
+                widget.CurrentLayout(),
+                widget.Sep(linewidth = 1, padding = 6),
+                widget.WindowName(),
+                widget.Sep(linewidth = 1, padding = 6),
+            ],
+            24,
+            background = current_theme["bg_dim"],
+            foreground = current_theme["fg_normal"],
+        ),
     ),
 ]
 
@@ -348,6 +362,11 @@ wl_xcursor_size = 24
 @hook.subscribe.startup_once
 def start_once():
     subprocess.call([home + '/.config/qtile/autostart.sh'])
+
+@hook.subscribe.startup
+def initialize_volume_widget():
+    volume, _ = get_current_volume()
+    qtile.widgets_map["vol_box"].update(f"Vol: {volume}%")
  
 # XXX: Gasp! We're lying here. In fact, nobody really uses or cares about this
 # string besides java UI toolkits; you can see several discussions on the
