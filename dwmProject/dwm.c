@@ -946,12 +946,11 @@ drawbar(Monitor *m)
 
 	if (!m->showbar)
 		return;
-
     if(showsystray && m == systraytomon(m) && !systrayonleft)
         stw = getsystraywidth();
 
-	/* draw status first so it can be overdrawn by tags later */
-	if (m == selmon) { /* status is only drawn on selected monitor */
+    /* draw status first so it can be overdrawn by tags later */
+    if (m == selmon) { /* status is only drawn on selected monitor */
         char *text, *s, ch;
         drw_setscheme(drw, scheme[SchemeNorm]);
         /* tw = TEXTW(stext) - lrpad + 2; /* 2px right padding */
@@ -1140,7 +1139,7 @@ getatomprop(Client *c, Atom prop)
     if (prop == xatom[XembedInfo])
         req = xatom[XembedInfo];
 
-	if (XGetWindowProperty(dpy, c->win, prop, 0L, sizeof atom, False, req,
+    if (XGetWindowProperty(dpy, c->win, prop, 0L, sizeof atom, False, req,
 		&da, &di, &dl, &dl, &p) == Success && p) {
 		atom = *(Atom *)p;
         if (da == xatom[XembedInfo] && dl == 2)

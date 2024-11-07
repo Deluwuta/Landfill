@@ -106,10 +106,10 @@ static const char *dmenucmd[] = {
 	NULL };
 
 static const char launcher[] = {
-    "rofi -modi combi -show combi -display-combi 'Rufos ~>>' -combi-modi run,drun -show-icons"
+    "rofi -show"
 };
 
-static const char *termcmd[]  = { "alacritty", NULL };
+static const char *termcmd[]  = { "wezterm", NULL };
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */

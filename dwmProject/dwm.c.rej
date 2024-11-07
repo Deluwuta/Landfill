@@ -1,14 +1,65 @@
 --- dwm.c
 +++ dwm.c
-@@ -237,7 +239,11 @@ static int xerrorstart(Display *dpy, XErrorEvent *ee);
- static void zoom(const Arg *arg);
- 
- /* variables */
-+static const char autostartblocksh[] = "autostart_blocking.sh";
-+static const char autostartsh[] = "autostart.sh";
- static const char broken[] = "broken";
-+static const char dwmdir[] = "dwm";
-+static const char localshare[] = ".local/share";
- static char stext[256];
- static int screen;
- static int sw, sh;           /* X display screen geometry width, height */
+@@ -49,7 +49,7 @@
+ #define CLEANMASK(mask)         (mask & ~(numlockmask|LockMask) & (ShiftMask|ControlMask|Mod1Mask|Mod2Mask|Mod3Mask|Mod4Mask|Mod5Mask))
+ #define INTERSECT(x,y,w,h,m)    (MAX(0, MIN((x)+(w),(m)->wx+(m)->ww) - MAX((x),(m)->wx)) \
+                                * MAX(0, MIN((y)+(h),(m)->wy+(m)->wh) - MAX((y),(m)->wy)))
+-#define ISVISIBLE(C)            ((C->tags & C->mon->tagset[C->mon->seltags]))
++#define ISVISIBLE(C, M)         ((C->tags & M->tagset[M->seltags]))
+ #define LENGTH(X)               (sizeof X / sizeof X[0])
+ #define MOUSEMASK               (BUTTONMASK|PointerMotionMask)
+ #define WIDTH(X)                ((X)->w + 2 * (X)->bw)
+@@ -190,7 +196,7 @@ static void maprequest(XEvent *e);
+ static void monocle(Monitor *m);
+ static void motionnotify(XEvent *e);
+ static void movemouse(const Arg *arg);
+-static Client *nexttiled(Client *c);
++static Client *nexttiled(Client *c, Monitor *m);
+ static void pop(Client *);
+ static void propertynotify(XEvent *e);
+ static void quit(const Arg *arg);
+@@ -1972,8 +2070,10 @@ updategeom(void)
+ 		if (n <= nn) { /* new monitors available */
+ 			for (i = 0; i < (nn - n); i++) {
+ 				for (m = mons; m && m->next; m = m->next);
+-				if (m)
++				if (m) {
+ 					m->next = createmon();
++					attachclients(m->next);
++				}
+ 				else
+ 					mons = createmon();
+ 			}
+@@ -1993,16 +2093,13 @@ updategeom(void)
+ 		} else { /* less monitors available nn < n */
+ 			for (i = nn; i < n; i++) {
+ 				for (m = mons; m && m->next; m = m->next);
+-				while ((c = m->clients)) {
+-					dirty = 1;
+-					m->clients = c->next;
+-					detachstack(c);
+-					c->mon = mons;
+-					attach(c);
+-					attachstack(c);
+-				}
+ 				if (m == selmon)
+ 					selmon = mons;
++				for (c = m->cl->clients; c; c = c->next) {
++					dirty = True;
++					if (c->mon == m)
++						c->mon = selmon;
++				}
+ 				cleanupmon(m);
+ 			}
+ 		}
+@@ -2238,8 +2354,8 @@ zoom(const Arg *arg)
+ 	if (!selmon->lt[selmon->sellt]->arrange
+ 	|| (selmon->sel && selmon->sel->isfloating))
+ 		return;
+-	if (c == nexttiled(selmon->clients))
+-		if (!c || !(c = nexttiled(c->next)))
++	if (c == nexttiled(selmon->cl->clients, selmon))
++		if (!c || !(c = nexttiled(c->next, selmon)))
+ 			return;
+ 	pop(c);
+ }

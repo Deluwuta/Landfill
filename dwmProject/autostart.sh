@@ -14,11 +14,11 @@ nm-applet &
 
 # Wallpaper
 WALLPAPER_DIR="$HOME/Pictures/wallpapers"
-WALLPAPER_DEFAULT="$HOME/Pictures/wallpapers/archwall1.jpg"
+WALLPAPER_DEFAULT="$HOME/Pictures/wallpapers/texas_the_omertosa_arknights_ergouzi_echo.jpg"
 
 ## I prefer xwallpaper, but for some reason Fedora does not have it
-feh --bg-fill --randomize "$WALLPAPER_DIR"
-# feh --bg-fill "$WALLPAPER_DEFAULT"
+# feh --bg-fill --randomize "$WALLPAPER_DIR"
+feh --bg-fill "$WALLPAPER_DEFAULT"
 
 # THA BAR (dwmblocks version)
 killall -q dwmblocks
