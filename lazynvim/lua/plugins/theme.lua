@@ -6,6 +6,8 @@ local function theme_creator(name, colorscheme, background, dependencies)
         config = function()
             vim.cmd("set background="..background)
             vim.cmd("colorscheme "..colorscheme)
+            -- Transparent background
+            vim.cmd("highlight Normal ctermbg=NONE guibg= NONE")
         end,
         dependencies = dependencies,
     }
