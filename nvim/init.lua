@@ -1,5 +1,0 @@
-require("set")
-require("remap")
-require("keymaps")
-require("plugins")
-require("configs")
