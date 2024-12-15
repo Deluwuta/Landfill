@@ -1,0 +1,37 @@
+local function color_my_pencils(name, background_type, colorscheme, dependencies)
+    return {
+        name,
+        lazy = false,
+        priority = 1000,
+        config = function ()
+            vim.cmd("set background=" .. background_type)
+            vim.cmd("colorscheme " .. colorscheme)
+
+            -- Transparent background
+            -- vim.cmd("highlight Normal ctermbg=NONE guibg=NONE")
+        end,
+        dependencies = dependencies,
+    }
+end
+
+local colorschemes = {
+    aquarium = color_my_pencils(
+        "frenzyexists/aquarium-vim",
+        "dark",
+        "aquarium"
+    ),
+
+    catppuccin = color_my_pencils(
+        "catppuccin/nvim",
+        "dark",
+        "catppuccin-macchiato"
+    ),
+
+    onedark = color_my_pencils(
+        "navarasu/onedark.nvim",
+        "dark",
+        "onedark"
+    )
+}
+
+return colorschemes.onedark
