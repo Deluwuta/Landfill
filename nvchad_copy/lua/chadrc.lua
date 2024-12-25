@@ -2,15 +2,15 @@ local M = {}
 
 -- Theme and transparency options for Base46
 M.base46 = {
-    theme = "onenord",
+    theme = "doomchad",
     transparency = false, -- Enable transparency
 }
 
 -- UI customizations
 M.ui = {
     cmp = {
-        icons_left = true,
-        style = "default", -- default / flat_light / flat_dark / atom / atom_colored
+        icons_left = false,
+        style = "flat_dark", -- default / flat_light / flat_dark / atom / atom_colored
         format_colors = {
             tailwind = false,
             icon = "󱓻"

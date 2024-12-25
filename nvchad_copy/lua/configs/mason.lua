@@ -3,7 +3,7 @@ dofile(vim.g.base46_cache .. "mason")
 local M = {}
 
 M.opts = {
-    PATH = "skip", -- skip / prepend
+    PATH = "prepend", -- skip / prepend
     ui = {
         icons = {
             package_pending = " ",
