@@ -43,7 +43,7 @@
             "7": "七",
             "8": "八",
             "9": "九",
-            "10": "十",
+            "10": "十"
         },
         "on-click": "activate",
         "all-outputs": true
@@ -56,7 +56,7 @@
 
     "battery": {
         "format": "{icon} {capacity}%",
-        "format-icons": ["", "", "", "", ""],
+        "format-icons": ["", "", "", "", ""]
         // "full-at": 80
     },
 

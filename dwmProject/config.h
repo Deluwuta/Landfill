@@ -55,6 +55,15 @@ static const char *colors[][3]      = {
 /* tagging */
 static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
 
+
+/* Tag colors stuff */
+/*static const int tagschemes[] = { SchemeTag1, SchemeTag2, SchemeTag3,*/
+/*                                  SchemeTag4, SchemeTag5, SchemeTag6,*/
+/*                                  SchemeTag7, SchemeTag8, SchemeTag9 };*/
+/*static const int titleschemes[] = { SchemeTitle1, SchemeTitle2, SchemeTitle3,*/
+/*                                    SchemeTitle4, SchemeTitle5, SchemeTitle6,*/
+/*                                    SchemeTitle7, SchemeTitle8, SchemeTitle9 };*/
+
 static const Rule rules[] = {
 	/* xprop(1):
 	 *	WM_CLASS(STRING) = instance, class

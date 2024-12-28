@@ -83,6 +83,7 @@ enum {
 }; /* cursor */
 
 enum { 
+    /* Try using SchemeTitle, SchemeTitleFloat and SchemeTag */
     SchemeNorm, 
     SchemeSel,
     SchemeTitleNorm,
