@@ -1,0 +1,19 @@
+[click]
+full_text=Click me!
+command=echo "Got clicked with button $button"
+color=#F79494
+
+[kernel]
+command=uname -r
+interval=-1
+color=#DDBB00
+
+[greeting]
+command=echo "Hello, $USER!"
+interval=-1
+color=#A4C2F4
+
+[time]
+command=date +'%a %d/%m/%Y ~ %I:%M %P %Z'
+color= #FFFFFF
+interval=1
