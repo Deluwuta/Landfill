@@ -1,0 +1,46 @@
+--- dwm.c
++++ dwm.c
+@@ -1278,6 +1307,16 @@ propertynotify(XEvent *e)
+ void
+ quit(const Arg *arg)
+ {
++	size_t i;
++
++	/* kill child processes */
++	for (i = 0; i < autostart_len; i++) {
++		if (0 < autostart_pids[i]) {
++			kill(autostart_pids[i], SIGTERM);
++			waitpid(autostart_pids[i], NULL, 0);
++		}
++	}
++
+ 	running = 0;
+ }
+ 
+@@ -1661,9 +1700,25 @@ showhide(Client *c)
+ void
+ sigchld(int unused)
+ {
++	pid_t pid;
++
+ 	if (signal(SIGCHLD, sigchld) == SIG_ERR)
+ 		die("can't install SIGCHLD handler:");
+-	while (0 < waitpid(-1, NULL, WNOHANG));
++	while (0 < (pid = waitpid(-1, NULL, WNOHANG))) {
++		pid_t *p, *lim;
++
++		if (!(p = autostart_pids))
++			continue;
++		lim = &p[autostart_len];
++
++		for (; p < lim; p++) {
++			if (*p == pid) {
++				*p = -1;
++				break;
++			}
++		}
++
++	}
+ }
+ 
+ void
