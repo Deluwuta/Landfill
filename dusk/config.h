@@ -329,40 +329,40 @@ static const BarDef bars[] = {
  */
 #define PWRL PwrlForwardSlash
 static const BarRule barrules[] = {
-	/* monitor  bar    scheme   lpad rpad value  alignment               sizefunc                  drawfunc                 clickfunc                 hoverfunc                 name */
-	{ -1,       0,     0,       0,   0,   PWRL,  BAR_ALIGN_LEFT,         size_powerline,           draw_powerline,          NULL,                     NULL,                     "powerline join" },
-	{  0,       0,     0,       5,   5,   7,     BAR_ALIGN_LEFT,         size_status,              draw_status,             click_status,             NULL,                     "status7" },
-	{  0,       0,     0,       0,   0,   PWRL,  BAR_ALIGN_LEFT,         size_powerline,           draw_powerline,          NULL,                     NULL,                     "powerline join" },
-	{ -1,       0,     0,       0,   0,   PWRL,  BAR_ALIGN_LEFT,         size_workspaces,          draw_workspaces,         click_workspaces,         hover_workspaces,         "workspaces" },
-	{  0,       0,     6,       5,   5,   0,     BAR_ALIGN_RIGHT,        size_systray,             draw_systray,            click_systray,            NULL,                     "systray" },
-	{  0,       0,     0,       0,   0,   PWRL,  BAR_ALIGN_RIGHT,        size_powerline,           draw_powerline,          NULL,                     NULL,                     "powerline join" },
-	{ -1,       0,     0,       0,   0,   PWRL,  BAR_ALIGN_LEFT,         size_powerline,           draw_powerline,          NULL,                     NULL,                     "powerline join" },
-	{ -1,       0,     5,       0,   0,   0,     BAR_ALIGN_LEFT,         size_ltsymbol,            draw_ltsymbol,           click_ltsymbol,           NULL,                     "layout" },
-	{ -1,       0,     0,       0,   0,   PWRL,  BAR_ALIGN_LEFT,         size_powerline,           draw_powerline,          NULL,                     NULL,                     "powerline join" },
-	{  0,       0,     0,       5,   5,   0,     BAR_ALIGN_RIGHT,        size_status,              draw_status,             click_status,             NULL,                     "status0" },
-	{  0,       0,     0,       0,   0,   PWRL,  BAR_ALIGN_RIGHT,        size_powerline,           draw_powerline,          NULL,                     NULL,                     "powerline join" },
-	{  0,       0,     0,       5,   5,   1,     BAR_ALIGN_RIGHT,        size_status,              draw_status,             click_status,             NULL,                     "status1" },
-	{  0,       0,     0,       0,   0,   PWRL,  BAR_ALIGN_RIGHT,        size_powerline,           draw_powerline,          NULL,                     NULL,                     "powerline join" },
-	{  0,       0,     0,       5,   5,   2,     BAR_ALIGN_RIGHT,        size_status,              draw_status,             click_status,             NULL,                     "status2" },
-	{  0,       0,     0,       0,   0,   PWRL,  BAR_ALIGN_RIGHT,        size_powerline,           draw_powerline,          NULL,                     NULL,                     "powerline join" },
-	{  0,       0,     0,       5,   5,   3,     BAR_ALIGN_RIGHT,        size_status,              draw_status,             click_status,             NULL,                     "status3" },
-	{  0,       0,     0,       0,   0,   PWRL,  BAR_ALIGN_RIGHT,        size_powerline,           draw_powerline,          NULL,                     NULL,                     "powerline join" },
-	{  0,       0,     0,       5,   5,   4,     BAR_ALIGN_RIGHT,        size_status,              draw_status,             click_status,             NULL,                     "status4" },
-	{  0,       0,     0,       0,   0,   PWRL,  BAR_ALIGN_RIGHT,        size_powerline,           draw_powerline,          NULL,                     NULL,                     "powerline join" },
-	{  0,       0,     0,       5,   5,   5,     BAR_ALIGN_RIGHT,        size_status,              draw_status,             click_status,             NULL,                     "status5" },
-	{  0,       0,     0,       0,   0,   PWRL,  BAR_ALIGN_RIGHT,        size_powerline,           draw_powerline,          NULL,                     NULL,                     "powerline join" },
-	{  0,       0,     0,       5,   5,   6,     BAR_ALIGN_RIGHT,        size_status,              draw_status,             click_status,             NULL,                     "status6" },
-	{  0,       0,     0,       0,   0,   PWRL,  BAR_ALIGN_RIGHT,        size_powerline,           draw_powerline,          NULL,                     NULL,                     "powerline join" },
-	{  0,       0,     0,       5,   5,   8,     BAR_ALIGN_RIGHT,        size_status,              draw_status,             click_status,             NULL,                     "status8" },
-	{  0,       0,     0,       0,   0,   PWRL,  BAR_ALIGN_RIGHT,        size_powerline,           draw_powerline,          NULL,                     NULL,                     "powerline join" },
-	{  0,       0,     0,       5,   5,   9,     BAR_ALIGN_RIGHT,        size_status,              draw_status,             click_status,             NULL,                     "status9" },
-	{ -1,       0,     0,       0,   0,   PWRL,  BAR_ALIGN_RIGHT,        size_powerline,           draw_powerline,          NULL,                     NULL,                     "powerline join" },
-	{ -1,       0,     0,       0,   0,   PWRL,  BAR_ALIGN_NONE,         size_wintitle_sticky,     draw_wintitle_sticky,    click_wintitle_sticky,    NULL,                     "wintitle_sticky" },
-	{ -1,       0,     0,       0,   0,   PWRL,  BAR_ALIGN_NONE,         size_flexwintitle,        draw_flexwintitle,       click_flexwintitle,       NULL,                     "flexwintitle" },
+	/* monitor  bar  scheme  lpad  rpad  value  alignment  sizefunc        drawfunc                clickfunc                hoverfunc         name */
+	{ -1, 0, 0, 0, 0, PWRL, BAR_ALIGN_LEFT,        size_powerline,         draw_powerline,         NULL,                    NULL,             "powerline join" },
+	{  0, 0, 0, 5, 5, 7,    BAR_ALIGN_LEFT,        size_status,            draw_status,            click_status,            NULL,             "status7" },
+	{  0, 0, 0, 0, 0, PWRL, BAR_ALIGN_LEFT,        size_powerline,         draw_powerline,         NULL,                    NULL,             "powerline join" },
+	{ -1, 0, 0, 0, 0, PWRL, BAR_ALIGN_LEFT,        size_workspaces,        draw_workspaces,        click_workspaces,        hover_workspaces, "workspaces" },
+	{  0, 0, 6, 5, 5, 0,    BAR_ALIGN_RIGHT,       size_systray,           draw_systray,           click_systray,           NULL,             "systray" },
+	{  0, 0, 0, 0, 0, PWRL, BAR_ALIGN_RIGHT,       size_powerline,         draw_powerline,         NULL,                    NULL,             "powerline join" },
+	{ -1, 0, 0, 0, 0, PWRL, BAR_ALIGN_LEFT,        size_powerline,         draw_powerline,         NULL,                    NULL,             "powerline join" },
+	{ -1, 0, 5, 0, 0, 0,    BAR_ALIGN_LEFT,        size_ltsymbol,          draw_ltsymbol,          click_ltsymbol,          NULL,             "layout" },
+	{ -1, 0, 0, 0, 0, PWRL, BAR_ALIGN_LEFT,        size_powerline,         draw_powerline,         NULL,                    NULL,             "powerline join" },
+	{  0, 0, 0, 5, 5, 0,    BAR_ALIGN_RIGHT,       size_status,            draw_status,            click_status,            NULL,             "status0" },
+	{  0, 0, 0, 0, 0, PWRL, BAR_ALIGN_RIGHT,       size_powerline,         draw_powerline,         NULL,                    NULL,             "powerline join" },
+	{  0, 0, 0, 5, 5, 1,    BAR_ALIGN_RIGHT,       size_status,            draw_status,            click_status,            NULL,             "status1" },
+	{  0, 0, 0, 0, 0, PWRL, BAR_ALIGN_RIGHT,       size_powerline,         draw_powerline,         NULL,                    NULL,             "powerline join" },
+	{  0, 0, 0, 5, 5, 2,    BAR_ALIGN_RIGHT,       size_status,            draw_status,            click_status,            NULL,             "status2" },
+	{  0, 0, 0, 0, 0, PWRL, BAR_ALIGN_RIGHT,       size_powerline,         draw_powerline,         NULL,                    NULL,             "powerline join" },
+	{  0, 0, 0, 5, 5, 3,    BAR_ALIGN_RIGHT,       size_status,            draw_status,            click_status,            NULL,             "status3" },
+	{  0, 0, 0, 0, 0, PWRL, BAR_ALIGN_RIGHT,       size_powerline,         draw_powerline,         NULL,                    NULL,             "powerline join" },
+	{  0, 0, 0, 5, 5, 4,    BAR_ALIGN_RIGHT,       size_status,            draw_status,            click_status,            NULL,             "status4" },
+	{  0, 0, 0, 0, 0, PWRL, BAR_ALIGN_RIGHT,       size_powerline,         draw_powerline,         NULL,                    NULL,             "powerline join" },
+	{  0, 0, 0, 5, 5, 5,    BAR_ALIGN_RIGHT,       size_status,            draw_status,            click_status,            NULL,             "status5" },
+	{  0, 0, 0, 0, 0, PWRL, BAR_ALIGN_RIGHT,       size_powerline,         draw_powerline,         NULL,                    NULL,             "powerline join" },
+	{  0, 0, 0, 5, 5, 6,    BAR_ALIGN_RIGHT,       size_status,            draw_status,            click_status,            NULL,             "status6" },
+	{  0, 0, 0, 0, 0, PWRL, BAR_ALIGN_RIGHT,       size_powerline,         draw_powerline,         NULL,                    NULL,             "powerline join" },
+	{  0, 0, 0, 5, 5, 8,    BAR_ALIGN_RIGHT,       size_status,            draw_status,            click_status,            NULL,             "status8" },
+	{  0, 0, 0, 0, 0, PWRL, BAR_ALIGN_RIGHT,       size_powerline,         draw_powerline,         NULL,                    NULL,             "powerline join" },
+	{  0, 0, 0, 5, 5, 9,    BAR_ALIGN_RIGHT,       size_status,            draw_status,            click_status,            NULL,             "status9" },
+	{ -1, 0, 0, 0, 0, PWRL, BAR_ALIGN_RIGHT,       size_powerline,         draw_powerline,         NULL,                    NULL,             "powerline join" },
+	{ -1, 0, 0, 0, 0, PWRL, BAR_ALIGN_NONE,        size_wintitle_sticky,   draw_wintitle_sticky,   click_wintitle_sticky,   NULL,             "wintitle_sticky" },
+	{ -1, 0, 0, 0, 0, PWRL, BAR_ALIGN_NONE,        size_flexwintitle,      draw_flexwintitle,      click_flexwintitle,      NULL,             "flexwintitle" },
 
-	{ -1,       1,     0,       0,   0,   PWRL,  BAR_ALIGN_CENTER,       size_pwrl_ifhidfloat,     draw_powerline,          NULL,                     NULL,                     "powerline join" },
-	{ -1,       1,     0,       0,   0,   PWRL,  BAR_ALIGN_RIGHT_RIGHT,  size_wintitle_hidden,     draw_wintitle_hidden,    click_wintitle_hidden,    NULL,                     "wintitle_hidden" },
-	{ -1,       1,     0,       0,   0,   PWRL,  BAR_ALIGN_LEFT_LEFT,    size_wintitle_floating,   draw_wintitle_floating,  click_wintitle_floating,  NULL,                     "wintitle_floating" },
+	{ -1, 1, 0, 0, 0, PWRL, BAR_ALIGN_CENTER,      size_pwrl_ifhidfloat,   draw_powerline,         NULL,                    NULL,             "powerline join" },
+	{ -1, 1, 0, 0, 0, PWRL, BAR_ALIGN_RIGHT_RIGHT, size_wintitle_hidden,   draw_wintitle_hidden,   click_wintitle_hidden,   NULL,             "wintitle_hidden" },
+	{ -1, 1, 0, 0, 0, PWRL, BAR_ALIGN_LEFT_LEFT,   size_wintitle_floating, draw_wintitle_floating, click_wintitle_floating, NULL,             "wintitle_floating" },
 };
 
 /* Workspace rules define what workspaces are available and their properties.
@@ -485,8 +485,6 @@ static const char *statusclickcmd[] = { "~/bin/statusbar/statusclick.sh", NULL }
 
 static Key keys[] = {
 	/* type    modifier    key    function    argument */
-    /*{ KeyPress, MODKEY|Shift,                 XK_Return,       riospawn,               {.v = termcmd } }, // draw/spawn a terminal*/
-
 	{ KeyPress, MODKEY|Ctrl, XK_r, restart, {0} }, // restart dusk
 	{ KeyPress, MODKEY|Ctrl, XK_q, quit,    {0} }, // exit dusk
 
@@ -559,7 +557,7 @@ static Key keys[] = {
 	{ KeyPress, MODKEY|Ctrl, XK_g, floatpos,       {.v = "50% 50% 80% 80%" } }, // center client and take up 80% of the screen
 	{ KeyPress, MODKEY,      XK_g, togglefloating, {0} }, // toggles between tiled and floating arrangement for the currently focused client
                                                           //
-	{ KeyPress, MODKEY,       XK_f, togglefullscreen,     {0} }, // toggles fullscreen for the currently selected client
+	{ KeyPress, MODKEY, XK_f, togglefullscreen, {0} }, // toggles fullscreen for the currently selected client
 	/*{ KeyPress, MODKEY|Shift, XK_f, togglefakefullscreen, {0} }, // toggles "fake" fullscreen for the selected window*/
 	/*{ KeyPress, Ctrl|Alt, XK_Tab, togglenomodbuttons, {0} }, // disables / enables keybindings that are not accompanied by any modifier buttons for a client*/
 
@@ -581,10 +579,13 @@ static Key keys[] = {
 
 	{ KeyPress, MODKEY|Ctrl,     XK_comma,  viewwsdir, {.i = -1 } }, // view the workspace on the immediate left of current workspace (on the current monitor)
 	{ KeyPress, MODKEY|Ctrl,     XK_period, viewwsdir, {.i = +1 } }, // view the workspace on the immediate right of current workspace (on the current monitor)
+
 	{ KeyPress, MODKEY,          XK_comma,  viewwsdir, {.i = -2 } }, // view the next workspace left of current workspace that has clients (on the current monitor)
 	{ KeyPress, MODKEY,          XK_period, viewwsdir, {.i = +2 } }, // view the next workspace right of current workspace that has clients (on the current monitor)
+
 	{ KeyPress, MODKEY|Shift,    XK_Tab,    viewwsdir, {.i = -2 } }, // view the next workspace left of current workspace that has clients (on the current monitor)
 	{ KeyPress, MODKEY,          XK_Tab,    viewwsdir, {.i = +2 } }, // view the next workspace right of current workspace that has clients (on the current monitor)
+
 	{ KeyPress, MODKEY|Ctrl|Alt, XK_comma,  movewsdir, {.i = -1 } }, // move client to workspace on the immediate left of current workspace (on the current monitor)
 	{ KeyPress, MODKEY|Ctrl|Alt, XK_period, movewsdir, {.i = +1 } }, // move client to workspace on the immediate right of current workspace (on the current monitor)
 
@@ -607,6 +608,7 @@ static Key keys[] = {
 	WSKEYS(MODKEY, XK_9, "9")
 
 	/* Unassigned key bindings (available externally via the duskc command) */
+    /*{ KeyPress, MODKEY|Shift,                 XK_Return,       riospawn,               {.v = termcmd } }, // draw/spawn a terminal*/
 //	{ KeyPress,   MODKEY,                       XK_Control_R,    showbar,                {0} },
 //	{ KeyRelease, MODKEY|AltGr,                 XK_Control_R,    hidebar,                {0} },
 //	{ KeyPress,   MODKEY,                       XK_,             incrgaps,               {.i = +1 } }, // increase all gaps (outer, inner, horizontal and vertical)
@@ -652,48 +654,48 @@ static Key keys[] = {
 /* button definitions */
 /* click can be ClkWorkspaceBar, ClkLtSymbol, ClkStatusText, ClkWinTitle, ClkClientWin, or ClkRootWin */
 static Button buttons[] = {
-	/* click                     event mask               button          function          argument */
-	{ ClkLtSymbol,               0,                       Button1,        setlayout,        {-1} }, // toggles between current and previous layout
-	{ ClkLtSymbol,               0,                       Button4,        cyclelayout,      {.i = +1 } }, // cycle through the available layouts
-	{ ClkLtSymbol,               0,                       Button5,        cyclelayout,      {.i = -1 } }, // cycle through the available layouts (in reverse)
-	{ ClkWinTitle,               0,                       Button1,        focuswin,         {0} }, // focus on the given client
-	{ ClkWinTitle,               0,                       Button3,        showhideclient,   {0} }, // hide the currently selected client (or show if hidden)
-	{ ClkWinTitle,               0,                       Button2,        zoom,             {0} }, // moves the currently focused window to/from the master area (for tiled layouts)
-	{ ClkStatusText,             0,                       Button1,        statusclick,      {.i = 1 } }, // sends mouse button presses to statusclick script when clicking on status modules
-	{ ClkStatusText,             0,                       Button2,        statusclick,      {.i = 2 } },
-	{ ClkStatusText,             0,                       Button3,        statusclick,      {.i = 3 } },
-	{ ClkStatusText,             0,                       Button4,        statusclick,      {.i = 4 } },
-	{ ClkStatusText,             0,                       Button5,        statusclick,      {.i = 5 } },
-	{ ClkStatusText,             0,                       Button6,        statusclick,      {.i = 6 } },
-	{ ClkStatusText,             0,                       Button7,        statusclick,      {.i = 7 } },
-	{ ClkStatusText,             0,                       Button8,        statusclick,      {.i = 8 } },
-	{ ClkStatusText,             0,                       Button9,        statusclick,      {.i = 9 } },
-	{ ClkStatusText,             Shift,                   Button1,        statusclick,      {.i = 10 } },
-	{ ClkStatusText,             Shift,                   Button2,        statusclick,      {.i = 11 } },
-	{ ClkStatusText,             Shift,                   Button3,        statusclick,      {.i = 12 } },
-	{ ClkClientWin,              MODKEY,                  Button8,        markmouse,        {1} }, // toggles marking of clients under the mouse cursor for group action
-	{ ClkClientWin,              MODKEY,                  Button9,        markmouse,        {0} }, // unmarks clients under the mouse cursor
-	{ ClkClientWin,              MODKEY,                  Button1,        moveorplace,      {1} }, // moves a client window into a floating or tiled position depending on floating state
-	{ ClkClientWin,              MODKEY|Shift,            Button1,        togglemoveorplace,{0} }, // as above, but forces a tiled client to become floating and vice versa
-	{ ClkClientWin,              MODKEY|Alt,              Button2,        togglefloating,   {0} }, // toggles between tiled and floating arrangement for given client
-	{ ClkClientWin,              MODKEY,                  Button3,        resizeorfacts,    {0} }, // change the size of a floating client window or adjust cfacts and mfacts when tiled
-	{ ClkClientWin,              MODKEY|Shift,            Button3,        resizemouse,      {0} }, // change the size of a floating client window
-	{ ClkClientWin,              0,                       Button8,        movemouse,        {0} }, // move a client window using extra mouse buttons (previous)
-	{ ClkClientWin,              0,                       Button9,        resizemouse,      {0} }, // resize a client window using extra mouse buttons (next)
-	{ ClkClientWin,              MODKEY,                  Button2,        zoom,             {0} }, // moves the currently focused window to/from the master area (for tiled layouts)
-	{ ClkClientWin,              MODKEY|Ctrl,             Button1,        dragmfact,        {0} }, // dynamically change the size of the master area compared to the stack area(s)
-	{ ClkRootWin,                MODKEY|Ctrl,             Button1,        dragmfact,        {0} }, // dynamically change the size of the master area compared to the stack area(s)
-	{ ClkClientWin,              MODKEY|Ctrl,             Button3,        dragwfact,        {0} }, // dynamically change the size of a workspace relative to other workspaces
-	{ ClkRootWin,                MODKEY|Ctrl,             Button3,        dragwfact,        {0} }, // dynamically change the size of a workspace relative to other workspaces
-	{ ClkClientWin,              MODKEY,                  Button4,        inplacerotate,    {.i = +1 } }, // rotate clients within the respective area (master, primary stack, secondary stack) clockwise
-	{ ClkClientWin,              MODKEY,                  Button5,        inplacerotate,    {.i = -1 } }, // rotate clients within the respective area (master, primary stack, secondary stack) counter-clockwise
-	{ ClkClientWin,              MODKEY|Shift,            Button4,        rotatestack,      {.i = +1 } }, // rotate all clients (clockwise)
-	{ ClkClientWin,              MODKEY|Shift,            Button5,        rotatestack,      {.i = -1 } }, // rotate all clients (counter-clockwise)
-	{ ClkWorkspaceBar,           0,                       Button1,        viewws,           {0} }, // view the workspace by clicking on workspace icon
-	{ ClkWorkspaceBar,           MODKEY,                  Button1,        movews,           {0} }, // sends (moves) the currently focused client to given workspace
-	{ ClkWorkspaceBar,           MODKEY|Shift|Ctrl,       Button1,        swapws,           {0} }, // swaps all clients on current workspace with that of the given workspace
-	{ ClkWorkspaceBar,           0,                       Button3,        enablews,         {0} }, // enables the workspace in addition to other workspaces
-	{ ClkWorkspaceBar,           0,                       Button4,        viewwsdir,        {.i = +2 } }, // view the next workspace right of current workspace that has clients (on the current monitor)
-	{ ClkWorkspaceBar,           0,                       Button5,        viewwsdir,        {.i = -2 } }, // view the next workspace left of current workspace that has clients (on the current monitor)
-	{ ClkWorkspaceBar,           MODKEY,                  Button2,        togglepinnedws,   {0} }, // toggles the pinning of a workspace to the current monitor
+	/* click           event mask         button      function           argument */
+	{ ClkLtSymbol,     0,                 Button1,    setlayout,         {-1} }, // toggles between current and previous layout
+	{ ClkLtSymbol,     0,                 Button4,    cyclelayout,       {.i = +1 } }, // cycle through the available layouts
+	{ ClkLtSymbol,     0,                 Button5,    cyclelayout,       {.i = -1 } }, // cycle through the available layouts (in reverse)
+	{ ClkWinTitle,     0,                 Button1,    focuswin,          {0} }, // focus on the given client
+	{ ClkWinTitle,     0,                 Button3,    showhideclient,    {0} }, // hide the currently selected client (or show if hidden)
+	{ ClkWinTitle,     0,                 Button2,    zoom,              {0} }, // moves the currently focused window to/from the master area (for tiled layouts)
+	{ ClkStatusText,   0,                 Button1,    statusclick,       {.i = 1 } }, // sends mouse button presses to statusclick script when clicking on status modules
+	{ ClkStatusText,   0,                 Button2,    statusclick,       {.i = 2 } },
+	{ ClkStatusText,   0,                 Button3,    statusclick,       {.i = 3 } },
+	{ ClkStatusText,   0,                 Button4,    statusclick,       {.i = 4 } },
+	{ ClkStatusText,   0,                 Button5,    statusclick,       {.i = 5 } },
+	{ ClkStatusText,   0,                 Button6,    statusclick,       {.i = 6 } },
+	{ ClkStatusText,   0,                 Button7,    statusclick,       {.i = 7 } },
+	{ ClkStatusText,   0,                 Button8,    statusclick,       {.i = 8 } },
+	{ ClkStatusText,   0,                 Button9,    statusclick,       {.i = 9 } },
+	{ ClkStatusText,   Shift,             Button1,    statusclick,       {.i = 10 } },
+	{ ClkStatusText,   Shift,             Button2,    statusclick,       {.i = 11 } },
+	{ ClkStatusText,   Shift,             Button3,    statusclick,       {.i = 12 } },
+	{ ClkClientWin,    MODKEY,            Button8,    markmouse,         {1} }, // toggles marking of clients under the mouse cursor for group action
+	{ ClkClientWin,    MODKEY,            Button9,    markmouse,         {0} }, // unmarks clients under the mouse cursor
+	{ ClkClientWin,    MODKEY,            Button1,    moveorplace,       {1} }, // moves a client window into a floating or tiled position depending on floating state
+	{ ClkClientWin,    MODKEY|Shift,      Button1,    togglemoveorplace, {0} }, // as above, but forces a tiled client to become floating and vice versa
+	{ ClkClientWin,    MODKEY|Alt,        Button2,    togglefloating,    {0} }, // toggles between tiled and floating arrangement for given client
+	{ ClkClientWin,    MODKEY,            Button3,    resizeorfacts,     {0} }, // change the size of a floating client window or adjust cfacts and mfacts when tiled
+	{ ClkClientWin,    MODKEY|Shift,      Button3,    resizemouse,       {0} }, // change the size of a floating client window
+	{ ClkClientWin,    0,                 Button8,    movemouse,         {0} }, // move a client window using extra mouse buttons (previous)
+	{ ClkClientWin,    0,                 Button9,    resizemouse,       {0} }, // resize a client window using extra mouse buttons (next)
+	{ ClkClientWin,    MODKEY,            Button2,    zoom,              {0} }, // moves the currently focused window to/from the master area (for tiled layouts)
+	{ ClkClientWin,    MODKEY|Ctrl,       Button1,    dragmfact,         {0} }, // dynamically change the size of the master area compared to the stack area(s)
+	{ ClkRootWin,      MODKEY|Ctrl,       Button1,    dragmfact,         {0} }, // dynamically change the size of the master area compared to the stack area(s)
+	{ ClkClientWin,    MODKEY|Ctrl,       Button3,    dragwfact,         {0} }, // dynamically change the size of a workspace relative to other workspaces
+	{ ClkRootWin,      MODKEY|Ctrl,       Button3,    dragwfact,         {0} }, // dynamically change the size of a workspace relative to other workspaces
+	{ ClkClientWin,    MODKEY,            Button4,    inplacerotate,     {.i = +1 } }, // rotate clients within the respective area (master, primary stack, secondary stack) clockwise
+	{ ClkClientWin,    MODKEY,            Button5,    inplacerotate,     {.i = -1 } }, // rotate clients within the respective area (master, primary stack, secondary stack) counter-clockwise
+	{ ClkClientWin,    MODKEY|Shift,      Button4,    rotatestack,       {.i = +1 } }, // rotate all clients (clockwise)
+	{ ClkClientWin,    MODKEY|Shift,      Button5,    rotatestack,       {.i = -1 } }, // rotate all clients (counter-clockwise)
+	{ ClkWorkspaceBar, 0,                 Button1,    viewws,            {0} }, // view the workspace by clicking on workspace icon
+	{ ClkWorkspaceBar, MODKEY,            Button1,    movews,            {0} }, // sends (moves) the currently focused client to given workspace
+	{ ClkWorkspaceBar, MODKEY|Shift|Ctrl, Button1,    swapws,            {0} }, // swaps all clients on current workspace with that of the given workspace
+	{ ClkWorkspaceBar, 0,                 Button3,    enablews,          {0} }, // enables the workspace in addition to other workspaces
+	{ ClkWorkspaceBar, 0,                 Button4,    viewwsdir,         {.i = +2 } }, // view the next workspace right of current workspace that has clients (on the current monitor)
+	{ ClkWorkspaceBar, 0,                 Button5,    viewwsdir,         {.i = -2 } }, // view the next workspace left of current workspace that has clients (on the current monitor)
+	{ ClkWorkspaceBar, MODKEY,            Button2,    togglepinnedws,    {0} }, // toggles the pinning of a workspace to the current monitor
 };
