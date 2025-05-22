@@ -1,0 +1,50 @@
+/* extension icons size inside popup list */
+.unified-extensions-item-icon,
+.unified-extensions-item .webextension-browser-action.subviewbutton>.toolbarbutton-badge-stack>.toolbarbutton-icon {
+    height: 24px !important;
+    width: 24px !important;
+}
+
+/* fix rounded corners for extension button */
+.unified-extensions-item-action-button:not(.subviewbutton) {
+    border-radius: 50% !important;
+    overflow: visible !important;
+}
+
+/* move extension icon badge to the right bottom corner */
+.toolbarbutton-1 {
+    position: relative !important;
+}
+
+.toolbarbutton-badge {
+    margin: 0 !important;
+    position: absolute !important;
+    bottom: 0 !important;
+    right: 0 !important;
+}
+
+/* some styles for badge */
+.toolbarbutton-badge {
+    border: 1px solid transparent !important;
+    border-color: get-var("background-color-100") !important;
+    border-radius: 4px !important;
+    min-width: 14px !important;
+    padding: 1px !important;
+    font-weight: 400 !important;
+    box-shadow: none !important;
+}
+
+.unified-extensions-item-name {
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    text-align: left !important;
+
+    max-width: 250px !important;
+
+    padding-right: 0px !important;
+    padding-inline-end: 0px !important;
+
+    word-break: unset !important;
+    word-wrap: unset !important;
+}

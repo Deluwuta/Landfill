@@ -1,0 +1,108 @@
+/* Variables */
+@import url("../global-variables.css");
+@import url("../themes/dracula.css");
+
+/* Main URL bar wrapper with paddings */
+#urlbar-container {
+    --urlbar-container-height: 42px !important;
+}
+
+/* The URL bar itself without the paddings */
+#urlbar {
+    --urlbar-height: 34px !important;
+    --urlbar-toolbar-height: 40px !important;
+}
+
+html,
+body {
+    --urlbar-min-height: 32px !important;            /* Minimum Height */
+    --toolbarbutton-height: 32px !important;         /* Button Height */
+    --toolbarbutton-inner-padding: 6px !important;   /* Button Inner Padding */
+    --urlbar-icon-border-radius: 100px !important;   /* Icon Border Radius */
+    --toolbarbutton-border-radius: 100px !important; /* Button Border Radius */
+    --urlbar-container-padding: 1px !important;      /* Container Padding */
+}
+
+/* Fix icon sizes after Urlbar height change */
+.identity-box-button,
+#notification-popup-box,
+#tracking-protection-icon-container,
+.urlbar-page-action,
+#urlbar-go-button,
+.search-go-button {
+    width: auto !important;
+    height: calc(var(--urlbar-height) - var(--urlbar-container-padding) * 2) !important;
+    border-radius: var(--urlbar-icon-border-radius) !important;
+    padding: 0 8px !important;
+    -moz-box-pack: center !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+#notification-popup-box {
+    padding: 0 !important;
+}
+
+.notification-anchor-icon {
+    padding: 0 !important;
+}
+
+#urlbar {
+    &[open] {
+
+        #urlbar-background,
+        #searchbar {
+            border-radius: 16px !important;
+            border: none !important;
+        }
+    }
+
+    &:not([open])[focused] {
+        #urlbar-background,
+        #searchbar {
+            box-shadow: none !important;
+        }
+    }
+}
+
+/* Fix URL Input Font Size */
+#urlbar-input,
+#urlbar,
+#searchbar {
+    font: unset !important;
+    font-size: 14px !important;
+}
+
+/* hide url bar search input placeholder if focused */
+#urlbar:is([open], [focused]) {
+  #urlbar-input::placeholder {
+    color: transparent !important;
+  }
+}
+
+.searchbar-textbox:focus::placeholder {
+  color: transparent !important;
+}
+
+/* remove theme navbar top border */
+#nav-bar {
+  box-shadow: none !important;
+  border-top: none !important;
+}
+
+/* Url bar bg color change on hover, feat: https://github.com/edelvarden/material-fox-updated/issues/69 */
+#urlbar-background,
+#searchbar {
+  transition-property: background-color !important;
+  transition-duration: var(--short-duration) !important;
+  transition-timing-function: var(--point-to-point) !important;
+}
+
+#urlbar:not([focused]):hover #urlbar-background,
+#searchbar:hover {
+  background-color: #6e768166 !important;
+}
+
+#urlbar:is([open], [focused]) #urlbar-background {
+  transition-duration: 0s !important;
+}

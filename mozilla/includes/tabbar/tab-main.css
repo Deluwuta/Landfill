@@ -1,0 +1,61 @@
+/* Cascade Style */
+
+:root {
+    /*  Enable this to always show the Tab Close button
+   *  possible values:
+   *  show: -moz-inline-block
+   *  hide: none
+   */
+    --show-tab-close-button: none;
+
+    /*  Enable this to only show the Tab Close button on tab hover
+   *  possible values:
+   *  show: -moz-inline-block
+   *  hide: none
+   */
+    --show-tab-close-button-hover: -moz-inline-block;
+
+    /*  Left and Right "dip" of the container indicator
+   *  0px equals tab width
+   *  higer values make the indicator smaller
+   */
+    --container-tabs-indicator-margin: 2px;
+
+    /*  Amount of Glow to add to the container indicator
+   *  Setting it to 0 disables the Glow
+   */
+    --uc-identity-glow: 0 1px 10px 1px;
+}
+
+/* remove gap after pinned tabs */
+#tabbrowser-tabs[haspinnedtabs]:not([positionpinnedtabs])>#tabbrowser-arrowscrollbox>.tabbrowser-tab:nth-child(1 of :not([pinned], [hidden])) {
+    margin-inline-start: 1px !important;
+}
+
+/* Hides the list-all-tabs button*/
+#alltabs-button {
+    display: none !important;
+}
+
+/* remove tab shadow */
+.tabbrowser-tab>.tab-stack>.tab-background {
+    box-shadow: none !important;
+}
+
+/* multi tab selection */
+#tabbrowser-tabs:not([noshadowfortests]) .tabbrowser-tab:is([multiselected])>.tab-stack>.tab-background:-moz-lwtheme {
+    outline-color: var(--toolbarseparator-color) !important;
+}
+
+/* container tabs indicator */
+.tabbrowser-tab[usercontextid]>.tab-stack>.tab-background>.tab-context-line {
+    margin: -1px var(--container-tabs-indicator-margin) 0 var(--container-tabs-indicator-margin) !important;
+    height: 1.2px !important;
+
+    box-shadow: var(--uc-identity-glow) var(--identity-tab-color) !important;
+}
+
+/* show favicon when media is playing but tab is hovered */
+.tab-icon-image:not([pinned]) {
+    opacity: 1 !important;
+}

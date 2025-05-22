@@ -1,0 +1,5 @@
+/* Change the scrollbar to make it look like the one in Chrome */
+* {
+    scrollbar-width: thin;
+    /* scrollbar-color: rgba(171, 171, 171, 0.8) transparent; */
+}

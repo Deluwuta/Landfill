@@ -1,0 +1,90 @@
+@import url("../global-variables.css");
+
+:root {
+    --tab-min-width: 40px !important;
+    --tab-max-width: 40px !important;
+}
+
+/* Center all tabs icon */
+#alltabs-button {
+    display: flex !important;
+
+    &>stack {
+        display: flex !important;
+        align-content: center !important;
+    }
+}
+
+/* new tab button & all tabs button */
+#tabs-newtab-button,
+#new-tab-button,
+#alltabs-button {
+    min-width: 40px !important;
+    min-height: var(--tab-min-height) !important;
+    max-width: 40px !important;
+    max-height: var(--tab-min-height) !important;
+    margin: 0 !important;
+    margin-top: auto !important;
+
+    &> :is(.toolbarbutton-icon, .toolbarbutton-badge-stack) {
+        padding: 4px !important;
+        margin: 0 !important;
+        width: auto !important;
+        height: auto !important;
+        border-radius: 100px !important;
+    }
+}
+
+#tabs-newtab-button {
+    margin-inline-start: 6px !important;
+    margin-inline-end: 2px !important;
+
+    /* Center the new tab button */
+    margin: auto !important;
+}
+
+.tab-close-button,
+.messageCloseButton>.toolbarbutton-icon {
+    width: auto !important;
+    height: 20px !important;
+    padding: 4px !important;
+
+    /* color: red !important; */
+
+    transition-property: background-color !important;
+    transition-duration: var(--short-duration) !important;
+    transition-timing-function: var(--point-to-point) !important;
+}
+
+@media (-moz-platform: windows) {
+
+    /* hide spacer between tabs & window nav */
+    .titlebar-spacer[type="post-tabs"] {
+        display: none !important;
+    }
+
+    #alltabs-button {
+        max-height: 100% !important;
+        min-height: 100% !important;
+        padding: 0 !important;
+
+        --margin-left: 48px;
+        margin: 0 0 0 var(--margin-left) !important;
+
+        &>stack {
+            padding: 0 !important;
+            margin: 0 !important;
+            border-radius: 0 !important;
+            max-height: 100% !important;
+            min-height: 100% !important;
+        }
+    }
+
+    #tabbrowser-tab {
+        order: 990 !important;
+    }
+
+    #alltabs-button {
+        order: 99
+    }
+}

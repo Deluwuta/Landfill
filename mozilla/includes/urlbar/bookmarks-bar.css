@@ -1,0 +1,78 @@
+/* Bookmark folder style */
+#PlacesToolbarItems>.bookmark-item {
+    --toolbarbutton-border-radius: 65px !important;
+    padding: var(--bookmark-block-padding) 8px !important;
+}
+
+/* Bookmarks bar height */
+:root,
+#PersonalToolbar {
+    --bookmarks-toolbar-overlapping-browser-height: max(36px, 2em) !important;
+}
+
+:root[BookmarksToolbarOverlapsBrowser] #PersonalToolbar {
+    height: var(--bookmarks-toolbar-overlapping-browser-height) !important;
+}
+
+/* Bookmarks item height */
+/* Makes the bookmarks items (icon and label) bigger. Without this, the bookmarks bar looks leaner
+#PersonalToolbar toolbarbutton {
+    height: 28px !important;
+    max-height: 28px !important;
+
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+
+    align-items: center !important;
+}
+
+#PersonalToolbar {
+    align-items: center !important;
+}
+*/
+
+/* Bookmarks bar left/right padding */
+#PersonalToolbar {
+    padding-inline: 4px !important;
+}
+
+/* fix margin for bookmark item in menu */
+.toolbar-menupopup :is(menu, menuitem).bookmark-item {
+    margin: 0 !important;
+}
+
+[dir="ltr"] {
+    .toolbar-menupopup :is(menu, menuitem).bookmark-item {
+        padding-left: 16px !important;
+    }
+}
+
+[dir="rtl"] {
+    .toolbar-menupopup :is(menu, menuitem).bookmark-item {
+        padding-right: 16px !important;
+    }
+}
+
+/* Bookmark label font border */
+.bookmark-item {
+    label {
+        @media (-moz-platform: windows) {
+            font-weight: 500 !important;
+        }
+
+        @media (-moz-platform: macos) {
+            font-size: 1.02rem !important;
+        }
+    }
+}
+
+/* make folder icon size bigger like in chrome */
+#PlacesToolbarItems>.bookmark-item[container="true"]>image {
+    transform: scale(1.15) !important;
+    margin-inline-end: 8px !important;
+}
+
+/* smaller "Show more bookmarks" icon */
+#PlacesChevron:not([collapsed]) .toolbarbutton-icon {
+    width: calc(2 * var(--toolbarbutton-inner-padding) + 12px) !important;
+}

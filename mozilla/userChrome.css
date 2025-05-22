@@ -1,0 +1,46 @@
+/* Firefox (version 138) CSS customization */
+@import url("includes/index.css");
+
+/* Context menu top left button padding */
+menugroup > menuitem:first-child {
+    border-radius: 8px 8px 0 0 !important;
+    padding-left: 8px !important;
+}
+
+/* Context menu top right button padding */
+menugroup > menuitem:last-child {
+    border-radius: 0 0 8px 8px !important;
+    padding-right: 8px !important;
+}
+
+/* Context menu top buttons radius */
+menugroup > menuitem {
+    border-radius: 8px !important;
+}
+menugroup > menuitem > hbox > image {
+    border-radius: 8px !important;
+}
+
+/* Menu item with submenu */
+.panel-header > .subviewbutton {
+    border-radius: 8px !important;
+}
+
+/* Context menu padding */
+menupopup > menuitem,
+menupopup > menu {
+    padding-block: 0.15em !important;
+}
+
+/* Menu item padding */
+toolbarbutton {
+    --arrowpanel-menuitem-padding: 2px 8px;
+}
+
+/* Show all tabs, always */
+.tabbrowser-tab {
+    min-width: initial !important;
+}
+.tab-content {
+    overflow: hidden !important;
+}

@@ -1,0 +1,9 @@
+:root {
+    --tab-max-height: 30px !important;
+    --tab-min-height: 30px !important;
+
+    --short-duration: 210ms !important;
+    --medium-short-duration: 190ms !important;
+    --point-to-point: cubic-bezier(0.55, 0.55, 0, 1) !important;
+    --fade-in-out: linear !important;
+}

@@ -1,0 +1,12 @@
+/* Tab bar */
+@Import url("./tabbar/tab-main.css");
+@import url("./tabbar/tab-buttons.css");
+@import url("./tabbar/tab-removing.css");
+
+/* URL bar */
+@import url("./urlbar/bookmarks-bar.css");
+@import url("./urlbar/suggestions.css");
+@import url("./urlbar/urlbar-main.css");
+
+/* Toolbar */
+@import url("./toolbar/extension-icons.css");

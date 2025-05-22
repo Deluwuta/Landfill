@@ -1,0 +1,124 @@
+@import url("../themes/dracula.css");
+
+/* Urlbar suggestions */
+.urlbarView {
+    margin: 0 !important;
+    width: 100% !important;
+    border-inline: none !important;
+    /* display: none !important; */
+}
+
+/* Urlbar suggestions item */
+.urlbarView-row {
+    border-radius: 0px !important;
+    border: none !important;
+    border-left: solid 5px transparent !important;
+    border-top-right-radius: 4px !important;
+    border-bottom-right-radius: 4px !important;
+}
+
+/* urlbar suggestions item */
+.urlbarView-row {
+    border-radius: 0px !important;
+    border: none !important;
+    border-left: solid 5px transparent !important;
+    border-top-right-radius: 4px !important;
+    border-bottom-right-radius: 4px !important;
+}
+
+[dir="rtl"] {
+    .urlbarView-row {
+        border-left-width: 0px !important;
+        /* hide left border */
+
+        border-right: solid 5px transparent !important;
+        border-top-left-radius: 4px !important;
+        border-bottom-left-radius: 4px !important;
+    }
+}
+
+/* Urlbar suggestions does not wrap when the window is resized */
+/* Place title and URL inline like Chrome */
+.urlbarView-row-inner {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    flex-wrap: nowrap !important;
+    overflow: hidden !important;
+    gap: 6px !important;
+    /* max-width: 100% !important; */
+}
+
+/* Make title and URL truncate with ellipsis */
+.urlbarView-title,
+.urlbarView-url {
+    white-space: nowrap !important;
+    overflow: clip !important;
+    text-overflow: ellipsis !important;
+    display: block !important;
+    /* max-width: 100% !important; /* Each gets up to half the width */
+    flex-shrink: 1 !important;
+    flex-grow: 1 !important;
+    min-width: 0 !important;
+}
+
+
+/* urlbar suggestions item left/right padding */
+.urlbarView-row {
+    padding: 0 4px !important;
+}
+
+/* urlbar suggestions item top/bottom padding */
+.urlbarView-row-inner {
+    padding-block: 6px !important;
+}
+
+/* hide "This time, search with" bottom panel */
+.search-one-offs {
+  display: none !important;
+}
+
+/* added url bar suggestions container padding */
+.urlbarView-results {
+    padding-block: 0 24px !important;
+}
+
+/* remove unnecessary border upper url bar suggestions */
+#urlbar[open]>.urlbarView>.urlbarView-body-outer>.urlbarView-body-inner {
+  border-color: transparent !important;
+}
+
+/* Urlbar suggentions item height */
+.urlbarView-row-inner {
+    min-height: 20px; /* Default */
+}
+
+/* Hides group titles (bookmarks, history, etc.) */
+.urlbarView-row[label] {
+    &::before {
+        display: none !important;
+    }
+
+    /* and remove reserved padding for group titles */
+    margin-block-start: 0 !important;
+}
+
+/* Hides the 'go' button in the urlbar */
+#urlbar-go-button,
+.search-go-button {
+    display: none !important;
+}
+
+/* crop the background of item which out of the results block on hover */
+.urlbarView-body-outer,
+.urlbarView-body-inner {
+    border-bottom-left-radius: 16px !important;
+    border-bottom-right-radius: 16px !important;
+    overflow: hidden !important;
+}
+
+/* fix urlbar search tag height */
+#urlbar-search-mode-indicator {
+    height: 100% !important;
+}
