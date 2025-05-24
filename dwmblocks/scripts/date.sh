@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 
-timer="$(date +"%A %d/%m, %H:%M:%S")"
-echo -e "$timer"
+VAL=$(date '+%a %d/%m')
+echo "󰸗 $VAL"

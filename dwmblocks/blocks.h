@@ -4,9 +4,12 @@
 
 static const Block blocks[] = {
 	/*Icon*/	/*Command*/		/*Update Interval*/	/*Update Signal*/
-	{"Mem:", "free -h | awk '/^Mem/ { print $3\"/\"$2 }' | sed s/i//g",	30,		0},
-
-	{"", SCRIPTS_PATH "date.sh", 1, 0},
+    { " ", SCRIPTS_PATH "kernel.sh",  0,   0 },
+	{ "",  SCRIPTS_PATH "memory.sh",  30,  0 },
+	{ "",  SCRIPTS_PATH "battery.sh", 120, 0 },
+    { "",  SCRIPTS_PATH "date.sh",    0,   0 }, 
+    { "",  SCRIPTS_PATH "clock.sh",   1,   0 },
+    { "",  "echo ''", 0, 0}, /* To show a separator between the last script and the systray */
 };
 
 //sets delimiter between status commands. NULL character ('\0') means no delimiter.

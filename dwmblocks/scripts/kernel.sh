@@ -1,7 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env sh
 
-. ~/.config/suckless/dwmblocks/scripts/colors
-
-ker="$(uname -r | cut -d- -f1)"
-echo -e "^c$kernelcol^ $ker"
-#echo -e "^c#A60300^$ker"
+VAL=$(uname -r | cut -d "-" -f 1)
+echo "  $VAL"
