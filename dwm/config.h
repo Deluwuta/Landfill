@@ -24,15 +24,6 @@ static const int topbar = 1;  /* 0 means bottom bar */
 static const char *fonts[] = { "TerminessNerdFont:size=14:style=bold" };
 static const char dmenufont[] = "monospace:size=10";
 
-// static const char col_urgborder[]   = "#ff0000";
-
-// static const char *colors[][3] = {
-// 	/*               fg            bg          border */
-// 	[SchemeNorm] = { soft_white,   black,      black },
-// 	[SchemeSel]  = { darker_black, light_blue, pink },
-// 	[SchemeUrg]  = { darker_black, light_blue, col_urgborder },
-// };
-
 #define wal "/home/delta/.cache/wal/colors-wal-dwm.h"
 
 #if __has_include(wal)
@@ -112,6 +103,18 @@ static const Key keys[] = {
 	{ MODKEY, XK_p,      spawn, {.v = launchercmd } },
 	{ MODKEY, XK_Return, spawn, {.v = termcmd } },
 
+    // Multimedia keys
+    { 0, XF86XK_AudioLowerVolume, spawn, SHCMD("amixer -D pulse set Master 5%- unmute > /dev/null") },
+    { 0, XF86XK_AudioRaiseVolume, spawn, SHCMD("amixer -D pulse set Master 5%+ unmute > /dev/null") },
+
+    { 0, XF86XK_AudioMute,        spawn, SHCMD("") },
+
+    { 0, XF86XK_MonBrightnessDown, spawn, SHCMD("") },
+    { 0, XF86XK_MonBrightnessUp,   spawn, SHCMD("") },
+
+    { 0, XF86XK_KbdBrightnessDown, spawn, SHCMD("") },
+    { 0, XF86XK_KbdBrightnessUp,   spawn, SHCMD("") },
+
 	{ MODKEY, XK_b, togglebar, {0} },
 
 	{ MODKEY, XK_j, focusstack, {.i = +1 } },
@@ -122,6 +125,9 @@ static const Key keys[] = {
 	{ MODKEY, XK_h, setmfact, {.f = -0.05} },
 	{ MODKEY, XK_l, setmfact, {.f = +0.05} },
 
+	{ MODKEY, XK_t, togglefloating, {0} },
+	{ MODKEY|ShiftMask, XK_f, togglefullscr,  {0} },
+
 	{ MODKEY|ShiftMask, XK_Return, zoom, {0} },
 
 	{ MODKEY, XK_Tab, view, {0} },
@@ -131,9 +137,6 @@ static const Key keys[] = {
 	/*{ MODKEY, XK_m, setlayout, {.v = &layouts[2]} },*/
 
 	{ MODKEY, XK_space, setlayout, {0} },
-
-	{ MODKEY|ShiftMask, XK_space, togglefloating, {0} },
-	{ MODKEY|ShiftMask, XK_f, togglefullscr,  {0} },
 
 	{ MODKEY, XK_0, view, {.ui = ~0 } },
 	{ MODKEY|ShiftMask, XK_0, tag, {.ui = ~0 } },
