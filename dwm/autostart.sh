@@ -13,8 +13,8 @@ setxbkmap us intl altGr
 redshift -P -O 3000 &
 nm-applet &
 
-# feh --bg-fill $HOME/Pictures/irene_arknights.jpg
-wal -R
+feh --bg-fill $HOME/Pictures/irene_arknights.jpg
+# wal -R
 
 # Launch dwmblocks
 killall -q dwmblocks

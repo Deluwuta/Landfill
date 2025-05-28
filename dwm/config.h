@@ -24,21 +24,19 @@ static const int topbar = 1;  /* 0 means bottom bar */
 static const char *fonts[] = { "TerminessNerdFont:size=14:style=bold" };
 static const char dmenufont[] = "monospace:size=10";
 
-#define wal "/home/delta/.cache/wal/colors-wal-dwm.h"
+static const char col_bg[] = "#f8f9fa";
+static const char col_fg[] = "#212529";
 
-#if __has_include(wal)
-#include wal
-#else
-static const char col_gray3[]       = "#bbbbbb";
-static const char col_gray4[]       = "#eeeeee";
-static const char col_cyan[]        = "#005577";
-static const char col_urgborder[]   = "#ff0000";
+static const char col_norm_border[] = "#212529";
+static const char col_sel_border[] = "#e9ecef";
+static const char col_urg_border[] = "#ff8fab";
+
 static const char *colors[][3]      = {
-   /*               fg         bg         border   */
-   [SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
-   [SchemeSel]  = { col_gray4, col_cyan,  col_cyan  },
-   [SchemeUrg]  = { col_gray4, col_cyan,  col_urgborder  },
-#endif
+    /*               fg         bg         border   */
+    [SchemeNorm] = { col_fg, col_bg, col_norm_border },
+    [SchemeSel]  = { col_bg, col_fg,  col_sel_border },
+    [SchemeUrg]  = { col_bg, col_fg,  col_urg_border },
+};
 
 /* tagging */
 // static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
@@ -126,7 +124,7 @@ static const Key keys[] = {
 	{ MODKEY, XK_l, setmfact, {.f = +0.05} },
 
 	{ MODKEY, XK_t, togglefloating, {0} },
-	{ MODKEY|ShiftMask, XK_f, togglefullscr,  {0} },
+	{ MODKEY, XK_m, togglefullscr,  {0} },
 
 	{ MODKEY|ShiftMask, XK_Return, zoom, {0} },
 
